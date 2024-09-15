@@ -3,6 +3,10 @@ from scheduler import Scheduler
 
 
 class Drawable(Component):
+
+    def init(self):
+        Camera.instance.to_draw.append(self)
+
     def draw(self, cam_x: float, cam_y: float, scale: float):
         pass
 
@@ -20,9 +24,8 @@ class Camera(Component):
         Camera.instance = self
         self.scale_with = scale_with
         self.to_draw: list[Drawable] = []
-        Scheduler.instance.add(0, self.reset_scale)
 
-    def reset_scale(self):
+    def init(self):
         self.size = self.game.screen.get_size()
 
     def loop(self):

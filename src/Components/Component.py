@@ -182,7 +182,7 @@ class Transform(Component):
         return Transform(
             new_x + Transform.Global.x,
             new_y + Transform.Global.y,
-            self.z,
+            self.z + Transform.Global.z,
             self.angle + Transform.Global.angle,
             self.scale * Transform.Global.scale
         )

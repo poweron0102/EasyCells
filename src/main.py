@@ -22,16 +22,16 @@ def check_events():
 class Game:
     level: ModuleType
 
-    def __init__(self, screen=None):
+    def __init__(self, screen: pg.Surface | None = None):
         # imports: -=-=-=-=-
         from scheduler import Scheduler
         # imports: -=-=-=-=-
 
         if screen is None:
-            self.screen = pg.display.set_mode((1280, 720), pg.RESIZABLE)
+            self.screen: pg.Surface = pg.display.set_mode((1280, 720), pg.RESIZABLE)
 
         else:
-            self.screen = screen
+            self.screen: pg.Surface = screen
 
         self.clock = pg.time.Clock()
         self.time = pg.time.get_ticks()

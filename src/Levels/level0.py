@@ -4,21 +4,24 @@ from Components.Animator import Animator, Animation
 from Components.Camera import Camera
 from Components.Component import Item
 from Components.Sprite import Sprite
+from Components.TileMap import TileMapRenderer, TileMap
 from main import Game
 
 player: Item
 caixa: Item
 camera: Camera
+tile_map: Item
 
 
 def init(game: Game):
     global player
     global caixa
     global camera
+    global tile_map
 
     player = game.CreateItem()
-    #camera = player.AddComponent(Camera())
-    camera = game.CreateItem().AddComponent(Camera())
+    camera = player.AddComponent(Camera())
+    #camera = game.CreateItem().AddComponent(Camera())
     player.AddComponent(Sprite("player32.png", (32, 32)))
     player.AddComponent(
         Animator(
@@ -43,6 +46,16 @@ def init(game: Game):
     caixa_filho.transform.x = 50
 
     game.CreateItem().AddComponent(Sprite("player24.png", (24, 24))).index = 1
+
+    tile_map = game.CreateItem()
+    tile_map.AddComponent(TileMap([
+        [ 5,  4,  4,  4,  3],
+        [11,  1,  1,  1,  9],
+        [12, 12, 12, 12, 12],
+        [12, 12, 12, 12, 12],
+        [17,  7,  7,  7, 15]
+    ]))
+    tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
 
 
 def loop(game: Game):
@@ -87,4 +100,4 @@ def loop(game: Game):
     if pg.key.get_pressed()[pg.K_x]:
         camera.size = (camera.size[0] - 400 * game.delta_time, camera.size[1] - 100 * game.delta_time)
     if pg.key.get_pressed()[pg.K_r]:
-        camera.reset_scale()
+        camera.init()
