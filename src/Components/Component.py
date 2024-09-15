@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Type, Tuple
 import math
 from typing import TYPE_CHECKING
 
@@ -193,6 +193,17 @@ class Transform(Component):
             self.angle + Transform.Global.angle,
             self.scale * Transform.Global.scale
         )
+
+    def apply_transform(self, point: Tuple[float, float]) -> Tuple[float, float]:
+        # Rotate point by self.angle
+        new_x = point[0] * math.cos(self.angle) - point[1] * math.sin(self.angle)
+        new_y = point[0] * math.sin(self.angle) + point[1] * math.cos(self.angle)
+
+        # Scale point
+        new_x *= self.scale
+        new_y *= self.scale
+
+        return new_x + self.x, new_y + self.y
 
     def SetGlobal(self):
         Transform.Global = self.ToGlobal()

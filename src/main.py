@@ -6,6 +6,14 @@ import pygame as pg
 
 from Components.Component import Item, Transform
 
+"""
+Dependencies:
+    - pygame
+    - numpy
+    - numba
+    - scipy
+"""
+
 
 class NewGame(Exception):
     """Exception raised for handle new games."""
