@@ -27,8 +27,8 @@ class Sprite(Drawable):
         self.word_position = Transform.Global
 
     def draw(self, cam_x: float, cam_y: float, scale: float):
-        position = self.word_position
-        scale *= position.scale
+        position = self.word_position * scale
+        position.scale *= scale
 
         # Crop image without lose alpha channel
         image = pg.Surface(self.size, pg.SRCALPHA)
@@ -47,7 +47,7 @@ class Sprite(Drawable):
 
         # Get size and apply nearest neighbor scaling
         original_size = image.get_size()
-        new_size = (int(original_size[0] * scale), int(original_size[1] * scale))
+        new_size = (int(original_size[0] * position.scale), int(original_size[1] * position.scale))
         image = pg.transform.scale(image, new_size)
 
         # Draw image

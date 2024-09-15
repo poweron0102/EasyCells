@@ -17,7 +17,7 @@ def init(game: Game):
     global camera
 
     player = game.CreateItem()
-    # player.AddComponent(Camera())
+    #camera = player.AddComponent(Camera())
     camera = game.CreateItem().AddComponent(Camera())
     player.AddComponent(Sprite("player32.png", (32, 32)))
     player.AddComponent(
@@ -67,6 +67,8 @@ def loop(game: Game):
         player.GetComponent(Animator).current_animation = "death"
     if pg.key.get_pressed()[pg.K_4]:
         player.GetComponent(Animator).current_animation = "rising"
+    if pg.key.get_pressed()[pg.K_5]:
+        player.GetComponent(Animator).current_animation = None
 
     to_rotate = caixa
     if pg.key.get_pressed()[pg.K_q]:

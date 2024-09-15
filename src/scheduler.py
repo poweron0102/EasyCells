@@ -98,8 +98,11 @@ class Scheduler:
         self._generators_dict_times[key] = self.game.run_time + time
 
     def remove_dict_generator(self, key):
-        self._generators_dict.pop(key)
-        self._generators_dict_times.pop(key)
+        try:
+            self._generators_dict.pop(key)
+            self._generators_dict_times.pop(key)
+        except KeyError:
+            return KeyError
 
     def change_time_dict_generator(self, key, time: float):
         self._generators_dict_times[key] = self.game.run_time + time

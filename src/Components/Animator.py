@@ -36,7 +36,16 @@ class Animator(Component):
 
     @current_animation.setter
     def current_animation(self, value):
+
+        if self._current_animation is None and value is not None:
+            self._current_animation = value
+            self.game.scheduler.add_dict_generator(self, self.run_animation())
+            return
         self._current_animation = value
+        if value is None:
+            self.stop_animation()
+            return
+
         self.dict_animations[self.current_animation].current_frame = 0
         self.game.scheduler.change_time_dict_generator(self, 0)
 

@@ -114,6 +114,9 @@ class Component:
 
 
 class Transform(Component):
+    """
+    Class that represents a transform with position, rotation and scale.
+    """
     Global: 'Transform'
 
     x: float
@@ -156,13 +159,16 @@ class Transform(Component):
         self.scale = scale
 
     def __add__(self, other):
-        return Transform(self.x + other.x, self.y + other.y, self.z + other.z, self.angle + other.angle)
+        return Transform(self.x + other.x, self.y + other.y, self.z + other.z, self.angle + other.angle, self.scale)
 
     def __sub__(self, other):
-        return Transform(self.x - other.x, self.y - other.y, self.z - other.z, self.angle - other.angle)
+        return Transform(self.x - other.x, self.y - other.y, self.z - other.z, self.angle - other.angle, self.scale)
 
     def __mul__(self, other: float):
-        return Transform(self.x * other, self.y * other, self.z, self.angle)
+        return Transform(self.x * other, self.y * other, self.z, self.angle, self.scale)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.z == other.z and self.angle == other.angle and self.scale == other.scale
 
     def ToGlobal(self) -> 'Transform':
         # Rotate point by Global.angle

@@ -1,4 +1,4 @@
-from Components.Component import Component
+from Components.Component import Component, Transform
 from scheduler import Scheduler
 
 
@@ -15,6 +15,8 @@ class Camera(Component):
     size: tuple[float, float]
 
     def __init__(self, scale_with: int = 0):
+        """scale_with[0: width, 1: height]"""
+
         Camera.instance = self
         self.scale_with = scale_with
         self.to_draw: list[Drawable] = []
@@ -26,7 +28,7 @@ class Camera(Component):
     def loop(self):
         self.to_draw.sort(key=lambda drawable: -drawable.transform.z)
 
-        position = self.transform.ToGlobal()
+        position = Transform.Global
         cam_x = position.x - self.game.screen.get_width() / 2
         cam_y = position.y - self.game.screen.get_height() / 2
 
