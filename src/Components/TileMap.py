@@ -1,3 +1,5 @@
+import math
+
 import pygame as pg
 
 from Components.Camera import Drawable, Camera
@@ -42,15 +44,31 @@ class TileMapRenderer(Drawable):
         position = self.word_position * scale
         position.scale *= scale
 
+        # Create a new surface to draw the tile map
+        image = pg.Surface(
+            (self.tile_size * self.tile_map.size[0], self.tile_size * self.tile_map.size[1]),
+            pg.SRCALPHA
+        )
+
+        # Draw the tile map
         for y, row in enumerate(self.tile_map.matrix):
             for x, tile in enumerate(row):
-                self.game.screen.blit(
-                    pg.transform.scale(
-                        self.get_tile(*self.int2coord(tile)),
-                        (self.tile_size * position.scale, self.tile_size * position.scale)
-                    ),
-                    (
-                        position.x - cam_x + (x - len(row) / 2) * self.tile_size * position.scale,
-                        position.y - cam_y + (y - len(self.tile_map.matrix) / 2) * self.tile_size * position.scale
-                    )
-                )
+                image.blit(self.get_tile(*self.int2coord(tile)), (x * self.tile_size, y * self.tile_size))
+
+        # Rotate image
+        image = pg.transform.rotate(image, -math.degrees(position.angle))
+
+        # Get size and apply nearest neighbor scaling
+        original_size = image.get_size()
+        new_size = (int(original_size[0] * position.scale), int(original_size[1] * position.scale))
+        image = pg.transform.scale(image, new_size)
+
+        # Draw image
+        size = image.get_size()
+        self.game.screen.blit(
+            image,
+            (
+                position.x - cam_x - size[0] // 2,
+                position.y - cam_y - size[1] // 2
+            )
+        )

@@ -11,7 +11,7 @@ class Item:
     Class that represents an item that can have components and children.
     """
     transform: 'Transform'
-    parent: 'Item'
+    parent: 'Item | None'
 
     game: 'Game'
 
@@ -32,6 +32,11 @@ class Item:
 
     def AddChild(self, item: 'Item') -> None:
         self.children.add(item)
+        item.parent = self
+        try:
+            self.game.item_list.remove(item)
+        except ValueError:
+            pass
 
     def AddComponent[T: 'Component'](self, component: T) -> T:
         self.components[component.__class__] = component
@@ -47,6 +52,8 @@ class Item:
         del self
 
     def update(self):
+        if not self.parent:
+            Transform.Global = Transform()
         self.transform.SetGlobal()
         for component in list(self.components.keys()):
             try:

@@ -57,6 +57,8 @@ def init(game: Game):
     ]))
     tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
 
+    caixa.AddChild(tile_map)
+
 
 def loop(game: Game):
     # player controls

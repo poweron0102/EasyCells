@@ -72,7 +72,6 @@ class Game:
         self.scheduler.update()
 
         for item in self.item_list:
-            Transform.Global = Transform()
             item.update()
 
         pg.display.set_caption(f'Game Name   FPS: {self.clock.get_fps():.0f}')
