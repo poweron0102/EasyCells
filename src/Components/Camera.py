@@ -31,12 +31,12 @@ class Camera(Component):
     def loop(self):
         self.to_draw.sort(key=lambda drawable: -drawable.transform.z)
 
-        position = Transform.Global
-        cam_x = position.x - self.game.screen.get_width() / 2
-        cam_y = position.y - self.game.screen.get_height() / 2
-
         # Correct to camera size
         scale = self.game.screen.get_size()[self.scale_with] / self.size[self.scale_with]
+
+        position = Transform.Global
+        cam_x = position.x * scale - self.game.screen.get_width() / 2
+        cam_y = position.y * scale - self.game.screen.get_height() / 2
 
         for drawable in self.to_draw:
             drawable.draw(cam_x, cam_y, scale)
