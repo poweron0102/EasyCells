@@ -2,15 +2,20 @@ import pygame as pg
 
 from Components.Animator import Animator, Animation
 from Components.Camera import Camera
+from Components.Collider import Collider
 from Components.Component import Item
+from Components.RectCollider import RectCollider
 from Components.Sprite import Sprite
 from Components.TileMap import TileMapRenderer, TileMap
+from Components.TileMapCollider import TileMapCollider
 from main import Game
 
 player: Item
 caixa: Item
 camera: Camera
 tile_map: Item
+player_collider: Collider
+tile_map_collider: Collider
 
 
 def init(game: Game):
@@ -18,6 +23,8 @@ def init(game: Game):
     global caixa
     global camera
     global tile_map
+    global player_collider
+    global tile_map_collider
 
     player = game.CreateItem()
     camera = player.AddComponent(Camera())
@@ -35,6 +42,7 @@ def init(game: Game):
             "run"
         )
     )
+    player_collider = player.AddComponent(RectCollider(pg.Rect(-16, -16, 32, 32)))
     player.transform.z = -1
 
     caixa = game.CreateItem()
@@ -56,11 +64,15 @@ def init(game: Game):
         [17,  7,  7,  7, 15]
     ]))
     tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
+    tile_map_collider = tile_map.AddComponent(TileMapCollider({1, 3, 4, 5, 7, 9, 11, 15, 17}, 32))
 
     caixa.AddChild(tile_map)
 
 
 def loop(game: Game):
+
+    print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
+
     # player controls
     if pg.key.get_pressed()[pg.K_w]:
         player.transform.y -= 100 * game.delta_time

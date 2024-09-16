@@ -11,16 +11,20 @@ class TileMapCollider(Collider):
 
     def init(self):
         polygons = []
-        matrix = self.GetComponent(TileMap).matrix
+        tile_map = self.GetComponent(TileMap)
+        matrix = tile_map.matrix
+
+        size2 = self.tile_size * tile_map.size[0] / 2, self.tile_size * tile_map.size[1] / 2
+        print(size2)
 
         for y, row in enumerate(matrix):
             for x, tile in enumerate(row):
                 if tile in self.solids:
                     vertices = [
-                        (x * self.tile_size, y * self.tile_size),
-                        ((x + 1) * self.tile_size, y * self.tile_size),
-                        ((x + 1) * self.tile_size, (y + 1) * self.tile_size),
-                        (x * self.tile_size, (y + 1) * self.tile_size)
+                        (x * self.tile_size - size2[0], y * self.tile_size - size2[1]),
+                        ((x + 1) * self.tile_size - size2[0], y * self.tile_size - size2[1]),
+                        ((x + 1) * self.tile_size - size2[0], (y + 1) * self.tile_size - size2[1]),
+                        (x * self.tile_size - size2[0], (y + 1) * self.tile_size - size2[1])
                     ]
                     polygons.append(Polygon(vertices))
 

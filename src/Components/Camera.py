@@ -1,3 +1,5 @@
+from typing import Callable
+
 from Components.Component import Component, Transform
 from scheduler import Scheduler
 
@@ -24,6 +26,7 @@ class Camera(Component):
         Camera.instance = self
         self.scale_with = scale_with
         self.to_draw: list[Drawable] = []
+        self.debug_draws: list[Callable] = []
 
     def init(self):
         self.size = self.game.screen.get_size()
@@ -40,3 +43,8 @@ class Camera(Component):
 
         for drawable in self.to_draw:
             drawable.draw(cam_x, cam_y, scale)
+
+        for function in self.debug_draws:
+            function(cam_x, cam_y, scale)
+
+        self.debug_draws.clear()

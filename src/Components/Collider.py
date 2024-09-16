@@ -2,7 +2,9 @@ from typing import Tuple, List
 
 import numpy as np
 from numba import njit
+import pygame as pg
 
+from Components.Camera import Camera
 from Components.Component import Component, Transform
 
 
@@ -57,26 +59,59 @@ class Collider(Component):
 
     Colliders: set['Collider'] = set()
 
+    #debug = False
+
     def __init__(self, polygons: List[Polygon], mask: int = 1):
         """
         Polygons: lista de objetos Polygon
         mask: máscara de colisão (bitwise)
         """
+        self.word_position = Transform()
         self.polygons: List[Polygon] = polygons
         self.compile_numba_functions()
         Collider.Colliders.add(self)
         self.mask = mask
 
+    def loop(self):
+        self.word_position = Transform.Global
+        #if self.debug:
+        #    Camera.instance.debug_draws.append(self.draw)
+
+    def draw(self, cam_x: float, cam_y: float, scale: float):
+        """
+        for debug only
+        """
+        position = self.word_position * scale
+        position.scale *= scale
+
+        for polygon in self.polygons:
+            vertices = polygon.apply_transform(position).vertices
+            pg.draw.polygon(
+                self.game.screen,
+                (255, 0, 0),
+                vertices - np.array([cam_x, cam_y]),
+                3
+            )
+
     def on_destroy(self):
         Collider.Colliders.remove(self)
+
+    def check_collision_global(self, other):
+        if self.mask & other.mask == 0:
+            return False
+
+        for polygon in self.polygons:
+            polygon = polygon.apply_transform(self.word_position)
+            for other_polygon in other.polygons:
+                other_polygon = other_polygon.apply_transform(other.word_position)
+                if _sat_collision(polygon.vertices, other_polygon.vertices):
+                    return True
+        return False
 
     def check_collision(self, other):
         """
         Verifica colisão entre este Collider e outro Collider usando o SAT
         """
-        if self.mask & other.mask == 0:
-            return False
-
         for polygon in self.polygons:
             for other_polygon in other.polygons:
                 if not _sat_collision(polygon.vertices, other_polygon.vertices):
@@ -90,7 +125,7 @@ class Collider(Component):
         if Collider.compiled:
             return
         _sat_collision(self.polygons[0].vertices, self.polygons[0].vertices)
-        print("Funções numba compiladas com sucesso!")
+        print("Collider functions compiled")
         Collider.compiled = True
 
 
@@ -144,12 +179,12 @@ def _sat_collision(vertices_a, vertices_b):
     return True  # Colisão detectada
 
 
-# Testes
+# Teste
 if __name__ == "__main__":
     # Definindo polígonos
     poly1 = Polygon([(0, 0), (2, 0), (2, 2), (0, 2)])  # Quadrado 1
     poly2 = Polygon([(1, 1), (3, 1), (3, 3), (1, 3)])  # Quadrado 2
-    poly3 = Polygon([(4, 4), (6, 4), (5, 6)])  # Triângulo
+    poly3 = Polygon([(4, 4), (6, 4), (5, 6)])          # Triângulo
     poly4 = Polygon([(2, 0), (2, 2), (4, 2), (4, 0)])  # Quadrado 3
 
     # Criando Colliders
@@ -168,6 +203,7 @@ if __name__ == "__main__":
     print("Colisão entre triângulo e quadrado 1:", collider3.check_collision(collider1))
     print("Colisão entre triângulo e quadrado 2:", collider3.check_collision(collider2))
     print("Colisão entre quadrado 4 e triângulo:", collider4.check_collision(collider3))
+    print("Colisão entre quadrado 4 e quadrado 1:", collider4.check_collision(collider1))
 
     # Saída esperada:
     """
@@ -179,4 +215,6 @@ if __name__ == "__main__":
     Colisão entre quadrado 2 e quadrado 2: True
     Colisão entre triângulo e quadrado 1: False
     Colisão entre triângulo e quadrado 2: False
+    Colisão entre quadrado 4 e triângulo: False
+    Colisão entre quadrado 4 e quadrado 1: True
     """
