@@ -55,15 +55,16 @@ class Polygon:
 class Collider(Component):
     compiled: bool = False
 
-    Colliders: List['Collider'] = []
+    Colliders: set['Collider'] = set()
 
-    def __init__(self, polygons: List[Polygon], mask: int = 0):
+    def __init__(self, polygons: List[Polygon], mask: int = 1):
         """
-        polygons: lista de objetos Polygon
+        Polygons: lista de objetos Polygon
+        mask: máscara de colisão (bitwise)
         """
-        self.polygons = polygons
+        self.polygons: List[Polygon] = polygons
         self.compile_numba_functions()
-        Collider.Colliders.append(self)
+        Collider.Colliders.add(self)
         self.mask = mask
 
     def on_destroy(self):
@@ -73,6 +74,9 @@ class Collider(Component):
         """
         Verifica colisão entre este Collider e outro Collider usando o SAT
         """
+        if self.mask & other.mask == 0:
+            return False
+
         for polygon in self.polygons:
             for other_polygon in other.polygons:
                 if not _sat_collision(polygon.vertices, other_polygon.vertices):
@@ -146,11 +150,13 @@ if __name__ == "__main__":
     poly1 = Polygon([(0, 0), (2, 0), (2, 2), (0, 2)])  # Quadrado 1
     poly2 = Polygon([(1, 1), (3, 1), (3, 3), (1, 3)])  # Quadrado 2
     poly3 = Polygon([(4, 4), (6, 4), (5, 6)])  # Triângulo
+    poly4 = Polygon([(2, 0), (2, 2), (4, 2), (4, 0)])  # Quadrado 3
 
     # Criando Colliders
     collider1 = Collider([poly1])
     collider2 = Collider([poly2])
     collider3 = Collider([poly3])
+    collider4 = Collider([poly4, poly1])
 
     # Testando colisões
     print("Colisão entre quadrado 1 e quadrado 2:", collider1.check_collision(collider2))
@@ -161,6 +167,7 @@ if __name__ == "__main__":
     print("Colisão entre quadrado 2 e quadrado 2:", collider2.check_collision(collider2))
     print("Colisão entre triângulo e quadrado 1:", collider3.check_collision(collider1))
     print("Colisão entre triângulo e quadrado 2:", collider3.check_collision(collider2))
+    print("Colisão entre quadrado 4 e triângulo:", collider4.check_collision(collider3))
 
     # Saída esperada:
     """

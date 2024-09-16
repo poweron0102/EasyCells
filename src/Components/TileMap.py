@@ -6,15 +6,15 @@ from Components.Camera import Drawable, Camera
 from Components.Component import Component, Transform
 
 
-class TileMap[T](Component):
+class TileMap(Component):
 
-    def __init__(self, matrix: list[list[T]]):
+    def __init__(self, matrix: list[list[int]]):
         self.matrix = matrix
         self.size = (len(matrix[0]), len(matrix))
 
 
 class TileMapRenderer(Drawable):
-    tile_map: TileMap[int]
+    tile_map: TileMap
 
     def __init__(self, tile_set: str, tile_size: int):
         self.tile_set = pg.image.load(f"Assets/{tile_set}").convert_alpha()
