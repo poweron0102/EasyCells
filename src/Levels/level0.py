@@ -71,7 +71,7 @@ def init(game: Game):
 
 def loop(game: Game):
 
-    print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
+    #print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
 
     # player controls
     if pg.key.get_pressed()[pg.K_w]:

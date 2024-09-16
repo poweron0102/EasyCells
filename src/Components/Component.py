@@ -1,9 +1,10 @@
+import traceback
 from typing import Type, Tuple
 import math
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from main import Game
+    from main import Game, NewGame
 
 
 class Item:
@@ -58,16 +59,11 @@ class Item:
         for component in list(self.components.keys()):
             try:
                 self.components[component].loop()
+            except (KeyboardInterrupt, SystemExit, NewGame) as e:
+                raise e
             except Exception as e:
-                from main import NewGame
-                if e == KeyboardInterrupt:
-                    raise KeyboardInterrupt
-                if e == SystemExit:
-                    raise SystemExit
-                if e == NewGame:
-                    raise NewGame
                 print(f"Error in {self.components[component]}:\n    {e}")
-
+                traceback.print_exc()
         for child in self.children:
             child.update()
 

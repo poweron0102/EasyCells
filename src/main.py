@@ -4,7 +4,7 @@ from types import ModuleType
 
 import pygame as pg
 
-from Components.Component import Item, Transform
+from Components.Component import Item
 
 """
 Dependencies:
@@ -37,7 +37,6 @@ class Game:
 
         if screen is None:
             self.screen: pg.Surface = pg.display.set_mode((1280, 720), pg.RESIZABLE)
-
         else:
             self.screen: pg.Surface = screen
 
@@ -77,9 +76,6 @@ class Game:
         self.delta_time = (self.time - self.lest_time) / 1000.0
         self.run_time += self.delta_time
 
-        for item in self.item_list:
-            item.update()
-
         pg.display.set_caption(f'Game Name   FPS: {self.clock.get_fps():.0f}')
 
     def run(self):
@@ -87,6 +83,8 @@ class Game:
             check_events()
             self.update()
             try:
+                for item in self.item_list:
+                    item.update()
                 self.level.loop(self)
                 self.scheduler.update()
             except NewGame:

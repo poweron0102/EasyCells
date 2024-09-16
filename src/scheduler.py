@@ -1,6 +1,7 @@
+import traceback
 from typing import Generator, Callable
 
-from main import Game
+from main import Game, NewGame
 
 
 class Scheduler:
@@ -27,7 +28,13 @@ class Scheduler:
         # functions
         for index, function in enumerate(self._functions):
             if self._times[index] < self.game.run_time:
-                function()
+                try:
+                    function()
+                except (KeyboardInterrupt, SystemExit, NewGame) as e:
+                    raise e
+                except Exception as e:
+                    print(f"Error in {function}:\n    {e}")
+                    traceback.print_exc()
                 try:
                     self._times.pop(index)
                     self._functions.pop(index)
@@ -36,7 +43,13 @@ class Scheduler:
 
         for key in list(self._times_dict.keys()):
             if self._times_dict[key] < self.game.run_time:
-                self._functions_dict[key]()
+                try:
+                    self._functions_dict[key]()
+                except (KeyboardInterrupt, SystemExit, NewGame) as e:
+                    raise e
+                except Exception as e:
+                    print(f"Error in {self._functions_dict[key]}:\n    {e}")
+                    traceback.print_exc()
                 try:
                     self._times_dict.pop(key)
                     self._functions_dict.pop(key)
@@ -54,6 +67,11 @@ class Scheduler:
             except StopIteration:
                 self._generators.remove(generator)
                 self._generators_times.pop(index)
+            except (KeyboardInterrupt, SystemExit, NewGame) as e:
+                raise e
+            except Exception as e:
+                print(f"Error in {generator}:\n    {e}")
+                traceback.print_exc()
 
         for key in list(self._generators_dict.keys()):
             generator = self._generators_dict[key]
@@ -66,6 +84,11 @@ class Scheduler:
             except StopIteration:
                 self._generators_dict.pop(key)
                 self._generators_dict_times.pop(key)
+            except (KeyboardInterrupt, SystemExit, NewGame) as e:
+                raise e
+            except Exception as e:
+                print(f"Error in {generator}:\n    {e}")
+                traceback.print_exc()
 
     def add(self, time: float, function: Callable):
         self._times.append(self.game.run_time + time)
