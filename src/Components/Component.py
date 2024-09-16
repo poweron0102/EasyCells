@@ -39,11 +39,6 @@ class Item:
         except ValueError:
             pass
 
-    def AddComponent[T: 'Component'](self, component: T) -> T:
-        self.components[component.__class__] = component
-        component._inicialize_(self)
-        return component
-
     def Destroy(self):
         self.parent.children.remove(self)
         for child in self.children:
@@ -66,6 +61,16 @@ class Item:
                 traceback.print_exc()
         for child in self.children:
             child.update()
+
+    def AddComponent[T: 'Component'](self, component: T) -> T:
+        cls = component.__class__
+        self.components[cls] = component
+        while cls != Component:
+            cls = cls.__bases__[0]
+            self.components[cls] = component
+
+        component._inicialize_(self)
+        return component
 
     def GetComponent[T: Component](self, component: Type[T]) -> T | None:
         try:

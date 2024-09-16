@@ -35,8 +35,7 @@ class Animator(Component):
         return self._current_animation
 
     @current_animation.setter
-    def current_animation(self, value):
-
+    def current_animation(self, value: str | None):
         if self._current_animation is None and value is not None:
             self._current_animation = value
             self.game.scheduler.add_dict_generator(self, self.run_animation())
