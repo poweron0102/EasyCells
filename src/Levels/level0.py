@@ -42,7 +42,7 @@ def init(game: Game):
             "run"
         )
     )
-    player_collider = player.AddComponent(RectCollider(pg.Rect(-16, -16, 32, 32)))
+    player_collider = player.AddComponent(RectCollider(pg.Rect(0, 0, 32, 32), debug=True))
     player.transform.z = -1
 
     caixa = game.CreateItem()
@@ -64,7 +64,7 @@ def init(game: Game):
         [17,  7,  7,  7, 15]
     ]))
     tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
-    tile_map_collider = tile_map.AddComponent(TileMapCollider({1, 3, 4, 5, 7, 9, 11, 15, 17}, 32))
+    tile_map_collider = tile_map.AddComponent(TileMapCollider({1, 3, 4, 5, 7, 9, 11, 15, 17}, 32, debug=True))
 
     caixa.AddChild(tile_map)
 

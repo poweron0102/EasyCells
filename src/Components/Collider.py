@@ -57,11 +57,19 @@ class Polygon:
 class Collider(Component):
     compiled: bool = False
 
-    Colliders: set['Collider'] = set()
+    @property
+    def debug(self):
+        return self._debug
 
-    #debug = False
+    @debug.setter
+    def debug(self, value):
+        self._debug = value
+        if value:
+            self.loop = self.loop_debug
+        else:
+            self.loop = self.loop_no_debug
 
-    def __init__(self, polygons: List[Polygon], mask: int = 1):
+    def __init__(self, polygons: List[Polygon], mask: int = 1, debug: bool = False):
         """
         Polygons: lista de objetos Polygon
         mask: máscara de colisão (bitwise)
@@ -69,13 +77,16 @@ class Collider(Component):
         self.word_position = Transform()
         self.polygons: List[Polygon] = polygons
         self.compile_numba_functions()
-        Collider.Colliders.add(self)
         self.mask = mask
+        self.debug = debug
 
-    def loop(self):
+    def loop_debug(self):
         self.word_position = Transform.Global
-        #if self.debug:
-        #    Camera.instance.debug_draws.append(self.draw)
+        if self.debug:
+            Camera.instance.debug_draws.append(self.draw)
+
+    def loop_no_debug(self):
+        self.word_position = Transform.Global
 
     def draw(self, cam_x: float, cam_y: float, scale: float):
         """
@@ -93,9 +104,6 @@ class Collider(Component):
                 3
             )
 
-    def on_destroy(self):
-        Collider.Colliders.remove(self)
-
     def check_collision_global(self, other):
         if self.mask & other.mask == 0:
             return False
@@ -112,11 +120,14 @@ class Collider(Component):
         """
         Verifica colisão entre este Collider e outro Collider usando o SAT
         """
+        if self.mask & other.mask == 0:
+            return False
+
         for polygon in self.polygons:
             for other_polygon in other.polygons:
-                if not _sat_collision(polygon.vertices, other_polygon.vertices):
-                    return False
-        return True
+                if _sat_collision(polygon.vertices, other_polygon.vertices):
+                    return True
+        return False
 
     def compile_numba_functions(self):
         """

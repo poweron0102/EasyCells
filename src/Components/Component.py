@@ -177,6 +177,9 @@ class Transform(Component):
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z and self.angle == other.angle and self.scale == other.scale
 
+    def clone(self):
+        return Transform(self.x, self.y, self.z, self.angle, self.scale)
+
     def ToGlobal(self) -> 'Transform':
         # Rotate point by Global.angle
         new_x = self.x * math.cos(Transform.Global.angle) - self.y * math.sin(Transform.Global.angle)

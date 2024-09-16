@@ -3,11 +3,11 @@ from Components.TileMap import TileMap
 
 
 class TileMapCollider(Collider):
-    def __init__(self, solids: set[int], tile_size: int, mask: int = 1):
-        Collider.Colliders.add(self)
+    def __init__(self, solids: set[int], tile_size: int, mask: int = 1, debug: bool = False):
         self.mask = mask
         self.solids = solids
         self.tile_size = tile_size
+        self.debug = debug
 
     def init(self):
         polygons = []

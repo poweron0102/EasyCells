@@ -77,8 +77,6 @@ class Game:
         self.delta_time = (self.time - self.lest_time) / 1000.0
         self.run_time += self.delta_time
 
-        self.scheduler.update()
-
         for item in self.item_list:
             item.update()
 
@@ -90,6 +88,7 @@ class Game:
             self.update()
             try:
                 self.level.loop(self)
+                self.scheduler.update()
             except NewGame:
                 pass
 
