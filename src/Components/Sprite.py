@@ -13,7 +13,7 @@ class Sprite(Drawable):
     size: tuple[int, int] = (0, 0)
 
     def __init__(self, image_path: str, size: tuple[int, int] = None):
-        self.image = pg.image.load(f"src/Assets/{image_path}").convert_alpha()
+        self.image = pg.image.load(f"Assets/{image_path}").convert_alpha()
         self.size = size if size else self.image.get_size()
 
         self.horizontal_flip = False

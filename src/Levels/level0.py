@@ -8,7 +8,6 @@ from Components.RectCollider import RectCollider
 from Components.Sprite import Sprite
 from Components.TileMap import TileMapRenderer, TileMap
 from Components.TileMapCollider import TileMapCollider
-from Components.FMODAudioManager import FMODAudioManager
 from main import Game
 
 player: Item
@@ -26,8 +25,6 @@ def init(game: Game):
     global tile_map
     global player_collider
     global tile_map_collider
-
-    game.CreateItem().AddComponent(FMODAudioManager())
 
     player = game.CreateItem()
     camera = player.AddComponent(Camera())

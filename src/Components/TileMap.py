@@ -17,7 +17,7 @@ class TileMapRenderer(Drawable):
     tile_map: TileMap
 
     def __init__(self, tile_set: str, tile_size: int):
-        self.tile_set = pg.image.load(f"src/Assets/{tile_set}").convert_alpha()
+        self.tile_set = pg.image.load(f"Assets/{tile_set}").convert_alpha()
         self.tile_size = tile_size
 
         size = self.tile_set.get_size()
