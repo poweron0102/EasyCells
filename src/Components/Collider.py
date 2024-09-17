@@ -56,6 +56,7 @@ class Polygon:
 
 class Collider(Component):
     compiled: bool = False
+    colliders: List['Collider'] = []
 
     @property
     def debug(self):
@@ -82,8 +83,7 @@ class Collider(Component):
 
     def loop_debug(self):
         self.word_position = Transform.Global
-        if self.debug:
-            Camera.instance.debug_draws.append(self.draw)
+        Camera.instance.debug_draws.append(self.draw)
 
     def loop_no_debug(self):
         self.word_position = Transform.Global
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     # Definindo polígonos
     poly1 = Polygon([(0, 0), (2, 0), (2, 2), (0, 2)])  # Quadrado 1
     poly2 = Polygon([(1, 1), (3, 1), (3, 3), (1, 3)])  # Quadrado 2
-    poly3 = Polygon([(4, 4), (6, 4), (5, 6)])          # Triângulo
+    poly3 = Polygon([(4, 4), (6, 4), (5, 6)])  # Triângulo
     poly4 = Polygon([(2, 0), (2, 2), (4, 2), (4, 0)])  # Quadrado 3
 
     # Criando Colliders
@@ -215,6 +215,10 @@ if __name__ == "__main__":
     print("Colisão entre triângulo e quadrado 2:", collider3.check_collision(collider2))
     print("Colisão entre quadrado 4 e triângulo:", collider4.check_collision(collider3))
     print("Colisão entre quadrado 4 e quadrado 1:", collider4.check_collision(collider1))
+
+    print("Arrestas de colisão entre quadrado 1 e quadrado 2:")
+    for arr in collider1.collision(collider2):
+        print("Arresta: ", arr)
 
     # Saída esperada:
     """
