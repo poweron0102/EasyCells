@@ -4,6 +4,7 @@ from Components.Animator import Animator, Animation
 from Components.Camera import Camera
 from Components.Collider import Collider
 from Components.Component import Item
+from Components.FMODAudioManager import FMODAudioManager
 from Components.RectCollider import RectCollider
 from Components.Sprite import Sprite
 from Components.TileMap import TileMapRenderer, TileMap
@@ -26,9 +27,11 @@ def init(game: Game):
     global player_collider
     global tile_map_collider
 
+    #game.CreateItem().AddComponent(FMODAudioManager(["Master.bank", "Master.strings.bank"], "Music"))
+
     player = game.CreateItem()
     camera = player.AddComponent(Camera())
-    #camera = game.CreateItem().AddComponent(Camera())
+    # camera = game.CreateItem().AddComponent(Camera())
     player.AddComponent(Sprite("player32.png", (32, 32)))
     player.AddComponent(
         Animator(
@@ -57,11 +60,11 @@ def init(game: Game):
 
     tile_map = game.CreateItem()
     tile_map.AddComponent(TileMap([
-        [ 5,  4,  4,  4,  3],
-        [11,  1,  1,  1,  9],
+        [5, 4, 4, 4, 3],
+        [11, 1, 1, 1, 9],
         [12, 12, 12, 12, 12],
         [12, 12, 12, 12, 12],
-        [17,  7,  7,  7, 15]
+        [17, 7, 7, 7, 15]
     ]))
     tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
     tile_map_collider = tile_map.AddComponent(TileMapCollider({1, 3, 4, 5, 7, 9, 11, 15, 17}, 32, debug=True))
@@ -70,8 +73,7 @@ def init(game: Game):
 
 
 def loop(game: Game):
-
-    print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
+    # print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
 
     # player controls
     if pg.key.get_pressed()[pg.K_w]:
@@ -94,8 +96,9 @@ def loop(game: Game):
         player.GetComponent(Animator).current_animation = "death"
     if pg.key.get_pressed()[pg.K_4]:
         player.GetComponent(Animator).current_animation = "rising"
+
     if pg.key.get_pressed()[pg.K_5]:
-        player.GetComponent(Animator).current_animation = None
+        FMODAudioManager.instance.is_playing = not FMODAudioManager.instance.is_playing
 
     to_rotate = caixa
     if pg.key.get_pressed()[pg.K_q]:

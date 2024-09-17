@@ -17,6 +17,7 @@ class Item:
     game: 'Game'
 
     def __init__(self, game: 'Game', parent=None):
+        from main import NewGame
         self.components: dict[Type, Component] = {}
         self.children: set[Item] = set()
         self.transform = Transform()
