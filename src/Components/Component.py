@@ -17,7 +17,6 @@ class Item:
     game: 'Game'
 
     def __init__(self, game: 'Game', parent=None):
-        from main import NewGame
         self.components: dict[Type, Component] = {}
         self.children: set[Item] = set()
         self.transform = Transform()
@@ -55,9 +54,12 @@ class Item:
         for component in list(self.components.keys()):
             try:
                 self.components[component].loop()
-            except (KeyboardInterrupt, SystemExit, NewGame) as e:
+            except (KeyboardInterrupt, SystemExit) as e:
                 raise e
             except Exception as e:
+                from main import NewGame
+                if isinstance(e, NewGame):
+                    raise e
                 print(f"Error in {self.components[component]}:\n    {e}")
                 traceback.print_exc()
         for child in self.children:

@@ -8,6 +8,10 @@ class TileMapCollider(Collider):
         self.solids = solids
         self.tile_size = tile_size
         self.debug = debug
+        Collider.colliders.append(self)
+
+    def on_destroy(self):
+        Collider.colliders.remove(self)
 
     def init(self):
         polygons = []
@@ -50,10 +54,10 @@ class TileMapCollider(Collider):
 
                     # Criar o polígono para o retângulo
                     vertices = [
-                        (x * self.tile_size - size2[0], y * self.tile_size - size2[1]),
-                        ((x + width) * self.tile_size - size2[0], y * self.tile_size - size2[1]),
-                        ((x + width) * self.tile_size - size2[0], (y + height) * self.tile_size - size2[1]),
-                        (x * self.tile_size - size2[0], (y + height) * self.tile_size - size2[1])
+                        [x * self.tile_size - size2[0], y * self.tile_size - size2[1]],
+                        [(x + width) * self.tile_size - size2[0], y * self.tile_size - size2[1]],
+                        [(x + width) * self.tile_size - size2[0], (y + height) * self.tile_size - size2[1]],
+                        [x * self.tile_size - size2[0], (y + height) * self.tile_size - size2[1]]
                     ]
                     polygons.append(Polygon(vertices))
 

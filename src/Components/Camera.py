@@ -4,6 +4,7 @@ from typing import Callable
 import pygame as pg
 
 from Components.Component import Component, Transform
+from Geometry import Vec2
 
 
 class Drawable(Component):
@@ -52,7 +53,7 @@ class Camera(Component):
         self.debug_draws.clear()
 
     @staticmethod
-    def draw_debug_line(start: tuple[float, float], end: tuple[float, float], color: pg.Color, width: int = 1):
+    def draw_debug_line(start: Vec2[float], end: Vec2[float], color: pg.Color, width: int = 1):
         """
         This function needs be called on the loop method of a component to work
         It uses locale coordinates from the current loop function of the component
@@ -60,8 +61,8 @@ class Camera(Component):
         misc = [start, end, Transform.Global.clone()]
 
         def draw(cam_x: float, cam_y: float, scale: float):
-            start = misc[0]
-            end = misc[1]
+            start = misc[0].to_tuple
+            end = misc[1].to_tuple
             position = misc[2] * scale
             position.scale *= scale
 
@@ -79,14 +80,14 @@ class Camera(Component):
         Camera.instance.debug_draws.append(draw)
 
     @staticmethod
-    def draw_debug_ray(start: tuple[float, float], angle: float, length: float, color: pg.Color, width: int = 1):
+    def draw_debug_ray(start: Vec2[float], angle: float, length: float, color: pg.Color, width: int = 1):
         """
         This function needs be called on the loop method of a component to work
         It uses locale coordinates from the current loop function of the component
         """
         Camera.draw_debug_line(
             start,
-            (start[0] + length * math.cos(angle), start[1] + length * math.sin(angle)),
+            Vec2(start.x + length * math.cos(angle), start.y + length * math.sin(angle)),
             color,
             width
         )

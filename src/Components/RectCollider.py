@@ -12,9 +12,9 @@ class RectCollider(Collider):
         )
         self.rect = rect
         polygon = Polygon([
-            (rect.left, rect.top),
-            (rect.right, rect.top),
-            (rect.right, rect.bottom),
-            (rect.left, rect.bottom)
+            [rect.left, rect.top],
+            [rect.right, rect.top],
+            [rect.right, rect.bottom],
+            [rect.left, rect.bottom]
         ])
         super().__init__([polygon], mask, debug)

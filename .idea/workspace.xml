@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="New TileMapCollider.py generate algorith.">
-      <change afterPath="$PROJECT_DIR$/src/Assets/RockSet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Assets/fmod_studio/Master.bank" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Assets/fmod_studio/Master.strings.bank" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Assets/fmod_studio/lib/fmod.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Assets/fmod_studio/lib/fmodstudio.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Components/FMODAudioManager.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="rotating Sprite.py fix">
+      <change afterPath="$PROJECT_DIR$/src/Components/Rigidbody.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Geometry.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Camera.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Collider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Collider.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Component.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/RectCollider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/RectCollider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/TileMapCollider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TileMapCollider.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Levels/level0.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/level0.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,21 +39,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Collider.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Component.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.TileMapCollider.executor&quot;: &quot;Run&quot;,
-    &quot;Python.builder.executor&quot;: &quot;Run&quot;,
-    &quot;Python.level0.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/OneDrive/Imagens/Capturas de tela&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Component.executor": "Run",
+    "Python.Main.executor": "Run",
+    "Python.builder.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells/src",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\src" />
@@ -122,117 +117,12 @@
       <option name="project" value="LOCAL" />
       <updated>1726368498961</updated>
     </task>
-    <task id="LOCAL-00003" summary="Scale fix">
-      <option name="closed" value="true" />
-      <created>1726421411191</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1726421411191</updated>
-    </task>
-    <task id="LOCAL-00004" summary="TileMap Inicial">
-      <option name="closed" value="true" />
-      <created>1726424191862</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1726424191862</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Added rotation and scaling to TileMap.py">
-      <option name="closed" value="true" />
-      <created>1726424870147</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1726424870147</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Camera scale fix and cor de fundo cinza">
-      <option name="closed" value="true" />
-      <created>1726432943478</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1726432943478</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Add Collider.py">
-      <option name="closed" value="true" />
-      <created>1726443915075</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1726443915075</updated>
-    </task>
-    <task id="LOCAL-00008" summary="TileMapCollider.py added still not tested">
-      <option name="closed" value="true" />
-      <created>1726447060162</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1726447060162</updated>
-    </task>
-    <task id="LOCAL-00009" summary="TileMapCollider.py added still">
-      <option name="closed" value="true" />
-      <created>1726457345120</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1726457345120</updated>
-    </task>
-    <task id="LOCAL-00010" summary="somethings">
-      <option name="closed" value="true" />
-      <created>1726460750056</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1726460750056</updated>
-    </task>
-    <task id="LOCAL-00011" summary="somethings">
-      <option name="closed" value="true" />
-      <created>1726510811757</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1726510811757</updated>
-    </task>
-    <task id="LOCAL-00012" summary="New TileMapCollider.py generate algorith.">
-      <option name="closed" value="true" />
-      <created>1726522150664</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1726522150664</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="base0" />
     <MESSAGE value="rotating Sprite.py fix" />
-    <MESSAGE value="Scale fix" />
-    <MESSAGE value="TileMap Inicial" />
-    <MESSAGE value="Added rotation and scaling to TileMap.py" />
-    <MESSAGE value="Camera scale fix and cor de fundo cinza" />
-    <MESSAGE value="Add Collider.py" />
-    <MESSAGE value="TileMapCollider.py added still not tested" />
-    <MESSAGE value="TileMapCollider.py added still" />
-    <MESSAGE value="somethings" />
-    <MESSAGE value="New TileMapCollider.py generate algorith." />
-    <option name="LAST_COMMIT_MESSAGE" value="New TileMapCollider.py generate algorith." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/main.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="self.item_list" />
-      </configuration>
-    </watches-manager>
+    <option name="LAST_COMMIT_MESSAGE" value="rotating Sprite.py fix" />
   </component>
 </project>
