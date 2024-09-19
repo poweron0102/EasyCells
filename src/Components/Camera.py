@@ -24,6 +24,10 @@ class Camera(Component):
     instance: 'Camera'
     size: tuple[float, float]
 
+    @property
+    def scale(self):
+        return self.game.screen.get_size()[self.scale_with] / self.size[self.scale_with]
+
     def __init__(self, scale_with: int = 0):
         """scale_with[0: width, 1: height]"""
 
@@ -31,15 +35,17 @@ class Camera(Component):
         self.scale_with = scale_with
         self.to_draw: list[Drawable] = []
         self.debug_draws: list[Callable] = []
+        self.word_position = Transform()
 
     def init(self):
         self.size = self.game.screen.get_size()
 
     def loop(self):
+        self.word_position = Transform.Global
         self.to_draw.sort(key=lambda drawable: -drawable.transform.z)
 
         # Correct to camera size
-        scale = self.game.screen.get_size()[self.scale_with] / self.size[self.scale_with]
+        scale = self.scale
 
         position = Transform.Global
         cam_x = position.x * scale - self.game.screen.get_width() / 2
@@ -92,4 +98,16 @@ class Camera(Component):
             color,
             width
         )
+
+    @staticmethod
+    def get_global_mouse_position() -> Vec2[float]:
+        mouse = pg.mouse.get_pos()
+        position = Camera.instance.word_position
+        scale = Camera.instance.scale
+        return Vec2(
+            (mouse[0] + position.x * scale - Camera.instance.game.screen.get_width() / 2) / scale,
+            (mouse[1] + position.y * scale - Camera.instance.game.screen.get_height() / 2) / scale
+        )
+
+
 

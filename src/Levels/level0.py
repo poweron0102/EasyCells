@@ -33,7 +33,7 @@ def init(game: Game):
     # game.CreateItem().AddComponent(FMODAudioManager(["Master.bank", "Master.strings.bank"], "Music"))
 
     player = game.CreateItem()
-    if True:
+    if False:
         camera = player.AddComponent(Camera())
     else:
         camera = game.CreateItem().AddComponent(Camera())
@@ -93,6 +93,10 @@ def loop(game: Game):
         col, point, normal = inf
         print("Ray cast:", col, point, normal)
         Camera.instance.draw_debug_line(point, point + normal * 50, pg.Color("blue"))
+
+    if pg.mouse.get_pressed()[0]:
+        Camera.instance.draw_debug_line(origem, Camera.get_global_mouse_position(), pg.Color("green"), 4)
+
 
     # player controls
     player_velocity: Vec2[float] = Vec2(0, 0)
