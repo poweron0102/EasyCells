@@ -20,11 +20,11 @@ class Item:
         self.components: dict[Type, Component] = {}
         self.children: set[Item] = set()
         self.transform = Transform()
-        self.parent = parent
+        self.parent: 'Item | None' = parent
         self.game = game
         self.destroy_on_load = True
         if parent:
-            parent.AddChild(self)
+            parent.children.add(self)
         else:
             game.item_list.append(self)
 
@@ -33,24 +33,30 @@ class Item:
 
     def AddChild(self, item: 'Item') -> None:
         self.children.add(item)
-        item.parent = self
-        try:
+        if item.parent:
+            item.parent.children.remove(item)
+        else:
             self.game.item_list.remove(item)
-        except ValueError:
-            pass
+        item.parent = self
 
     def Destroy(self):
-        self.parent.children.remove(self)
-        for child in self.children:
+        if self.parent:
+            self.parent.children.remove(self)
+        else:
+            self.game.item_list.remove(self)
+
+        for child in list(self.children):
             child.Destroy()
+
         for component in list(self.components.keys()):
             self.components[component].on_destroy()
-        del self
 
     def update(self):
         if not self.parent:
             Transform.Global = Transform()
         self.transform.SetGlobal()
+        current_global = Transform.Global
+
         for component in list(self.components.keys()):
             try:
                 self.components[component].loop()
@@ -58,11 +64,13 @@ class Item:
                 raise e
             except Exception as e:
                 from main import NewGame
-                if isinstance(e, NewGame):
+                if e is NewGame:
                     raise e
                 print(f"Error in {self.components[component]}:\n    {e}")
                 traceback.print_exc()
-        for child in self.children:
+
+        for child in list(self.children):
+            Transform.Global = current_global
             child.update()
 
     def AddComponent[T: 'Component'](self, component: T) -> T:
@@ -79,11 +87,10 @@ class Item:
         try:
             return self.components[component]
         except KeyError:
-            if len(self.children) > 0:
-                for child in self.children:
-                    resp = child.GetComponent(component)
-                    if resp:
-                        return resp
+            for child in self.children:
+                resp = child.GetComponent(component)
+                if resp:
+                    return resp
             return None
 
 
@@ -118,13 +125,19 @@ class Component:
 
     # abstract method
     def on_destroy(self):
+        """
+        This can be called multiple times if the Component has multiple Inheritances.
+        you can use:
+        self.on_destroy = lambda: None
+        to avoid this
+        """
         pass
 
     def GetComponent[T: Component](self, component: Type[T]) -> T | None:
         return self.item.GetComponent(component)
 
 
-class Transform(Component):
+class Transform:
     """
     Class that represents a transform with position, rotation and scale.
     """
@@ -180,6 +193,9 @@ class Transform(Component):
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z and self.angle == other.angle and self.scale == other.scale
+
+    def __str__(self):
+        return f"Transform(x={self.x}, y={self.y}, z={self.z}, angle={self.angle}, scale={self.scale})"
 
     def clone(self):
         return Transform(self.x, self.y, self.z, self.angle, self.scale)

@@ -85,9 +85,11 @@ class Collider(Component):
 
     def on_destroy(self):
         Collider.colliders.remove(self)
+        self.on_destroy = lambda: None
 
     def loop_debug(self):
         self.word_position = Transform.Global
+        # print(f"collider: {self.__class__}\n   \033[92m    Word position: {self.word_position} \033[0m")
         Camera.instance.debug_draws.append(self.draw)
 
     def loop_no_debug(self):
@@ -131,7 +133,20 @@ class Collider(Component):
         """
         if Collider.compiled:
             return
+
         _sat_collision(self.polygons[0].vertices, self.polygons[0].vertices)
+        _ray_polygon_intersection_numba(
+            np.array([0, 0], dtype=np.float64),
+            np.array([1, 1], dtype=np.float64),
+            np.array([
+                [0, 0],
+                [1, 1],
+                [2, 2],
+                [4, 4]
+            ], dtype=np.float64),
+            10
+        )
+
         print("Collider functions compiled")
         Collider.compiled = True
 
@@ -158,12 +173,13 @@ class Collider(Component):
 
         # Itera sobre todos os colliders
         for collider in Collider.colliders:
-            if collider.mask & mask == 0:  # Verifica a máscara de colisão
+            if collider.mask & mask == 0:
                 continue
 
             for polygon in collider.polygons:
                 polygon = polygon.apply_transform(collider.word_position)
-                intersection, normal, distance = _ray_polygon_intersection_numba(origin_array, direction_array, polygon.vertices, max_distance)
+                intersection, normal, distance = _ray_polygon_intersection_numba(origin_array, direction_array,
+                                                                                 polygon.vertices, max_distance)
 
                 if intersection is not None and distance < closest_distance:
                     closest_collider = collider
@@ -172,13 +188,16 @@ class Collider(Component):
                     closest_distance = distance
 
         if closest_collider:
+            if np.dot(closest_normal.to_tuple, direction_array) > 0:
+                closest_normal *= -1
             return closest_collider, closest_point, closest_normal
 
         return None
 
 
 @njit
-def _ray_polygon_intersection_numba(origin: np.ndarray, direction: np.ndarray, vertices: np.ndarray, max_distance: float):
+def _ray_polygon_intersection_numba(origin: np.ndarray, direction: np.ndarray, vertices: np.ndarray,
+                                    max_distance: float):
     closest_intersection = None
     closest_normal = None
     closest_distance = max_distance
@@ -265,6 +284,5 @@ def _sat_collision(vertices_a, vertices_b):
             return False  # Separação detectada
 
     return True  # Colisão detectada
-
 
 # Teste

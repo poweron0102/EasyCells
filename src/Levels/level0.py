@@ -30,11 +30,14 @@ def init(game: Game):
     global player_collider
     global tile_map_collider
 
-    #game.CreateItem().AddComponent(FMODAudioManager(["Master.bank", "Master.strings.bank"], "Music"))
+    # game.CreateItem().AddComponent(FMODAudioManager(["Master.bank", "Master.strings.bank"], "Music"))
 
     player = game.CreateItem()
-    camera = player.AddComponent(Camera())
-    # camera = game.CreateItem().AddComponent(Camera())
+    if True:
+        camera = player.AddComponent(Camera())
+    else:
+        camera = game.CreateItem().AddComponent(Camera())
+
     player.AddComponent(Sprite("player32.png", (32, 32)))
     player.AddComponent(
         Animator(
@@ -55,7 +58,7 @@ def init(game: Game):
 
     caixa = game.CreateItem()
     caixa.AddComponent(Sprite("player24.png", (24, 24))).index = 1
-    caixa.transform.x = 100
+    caixa.transform.x = 150
     caixa.transform.y = 100
     caixa_filho = caixa.CreateChild()
     caixa_filho.AddComponent(Sprite("player24.png", (24, 24))).index = 1
@@ -78,7 +81,7 @@ def init(game: Game):
 
 
 def loop(game: Game):
-    #print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
+    # print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
 
     # test ray_cast
     player_word = player.GetComponent(Collider).word_position
@@ -108,8 +111,6 @@ def loop(game: Game):
     else:
         player_rg.velocity = player_velocity
 
-
-
     # player animations
     if pg.key.get_pressed()[pg.K_1]:
         player.GetComponent(Animator).current_animation = "idle"
@@ -122,6 +123,8 @@ def loop(game: Game):
 
     if pg.key.get_pressed()[pg.K_5]:
         FMODAudioManager.instance.is_playing = not FMODAudioManager.instance.is_playing
+    if pg.key.get_pressed()[pg.K_6]:
+        game.new_game("level1")
 
     to_rotate = caixa
     if pg.key.get_pressed()[pg.K_q]:

@@ -17,6 +17,7 @@ class Drawable(Component):
 
     def on_destroy(self):
         Camera.instance.to_draw.remove(self)
+        self.on_destroy = lambda: None
 
 
 class Camera(Component):

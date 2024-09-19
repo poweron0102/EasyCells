@@ -7,5 +7,5 @@ def init(game: Game):
 
 def loop(game: Game):
     print("loop1: ")
-    if game.run_time > 0.05:
-        exit(0)
+    if game.run_time > 2:
+        game.new_game("level0")

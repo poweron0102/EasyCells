@@ -1,17 +1,16 @@
 from Components.Collider import Collider, Polygon
+from Components.Component import Transform
 from Components.TileMap import TileMap
 
 
 class TileMapCollider(Collider):
     def __init__(self, solids: set[int], tile_size: int, mask: int = 1, debug: bool = False):
+        self.word_position = Transform()
         self.mask = mask
         self.solids = solids
         self.tile_size = tile_size
         self.debug = debug
         Collider.colliders.append(self)
-
-    def on_destroy(self):
-        Collider.colliders.remove(self)
 
     def init(self):
         polygons = []

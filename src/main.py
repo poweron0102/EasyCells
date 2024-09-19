@@ -54,10 +54,9 @@ class Game:
         self.level = import_module(f".{level}", "Levels")
         self.run_time = 0
 
-        for item in self.item_list:
+        for item in list(self.item_list):
             if item.destroy_on_load:
                 item.Destroy()
-                self.item_list.remove(item)
 
         self.level.init(self)
 
@@ -83,9 +82,11 @@ class Game:
             check_events()
             self.update()
             try:
-                for item in self.item_list:
+                for item in list(self.item_list):
                     item.update()
+
                 self.level.loop(self)
+
                 self.scheduler.update()
             except NewGame:
                 pass
