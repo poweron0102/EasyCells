@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Fix load new level problem.&#10;collision (Not working yet)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Camera.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)">
+      <change beforePath="$PROJECT_DIR$/src/Components/Sprite.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Sprite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/TileMap.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TileMap.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Levels/level0.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/level0.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726715222698</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)">
+      <option name="closed" value="true" />
+      <created>1726716005143</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726716005143</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -135,6 +143,7 @@
     <MESSAGE value="rotating Sprite.py fix" />
     <MESSAGE value="Add ray_cast 2d &#10;Add collision (Not working yet)&#10;Add debug camera functions" />
     <MESSAGE value="Fix load new level problem.&#10;collision (Not working yet)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix load new level problem.&#10;collision (Not working yet)" />
+    <MESSAGE value="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)" />
   </component>
 </project>

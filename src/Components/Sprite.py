@@ -42,13 +42,13 @@ class Sprite(Drawable):
         if self.horizontal_flip or self.vertical_flip:
             image = pg.transform.flip(image, self.horizontal_flip, self.vertical_flip)
 
-        # Rotate image
-        image = pg.transform.rotate(image, -math.degrees(position.angle))
-
         # Get size and apply nearest neighbor scaling
         original_size = image.get_size()
         new_size = (int(original_size[0] * position.scale), int(original_size[1] * position.scale))
         image = pg.transform.scale(image, new_size)
+
+        # Rotate image
+        image = pg.transform.rotate(image, -math.degrees(position.angle))
 
         # Draw image
         size = image.get_size()

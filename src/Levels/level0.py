@@ -33,7 +33,7 @@ def init(game: Game):
     # game.CreateItem().AddComponent(FMODAudioManager(["Master.bank", "Master.strings.bank"], "Music"))
 
     player = game.CreateItem()
-    if False:
+    if True:
         camera = player.AddComponent(Camera())
     else:
         camera = game.CreateItem().AddComponent(Camera())
