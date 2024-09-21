@@ -1,6 +1,7 @@
 import sys
 from importlib import import_module
 from types import ModuleType
+from typing import Callable
 
 import pygame as pg
 
@@ -47,6 +48,7 @@ class Game:
         self.run_time = 0
         self.scheduler = Scheduler(self)
         self.item_list: list[Item] = []
+        self.to_init: list[Callable] = []
         self.new_game("level0", supress=True)
         # pg.mouse.set_visible
 
@@ -59,6 +61,8 @@ class Game:
                 item.Destroy()
 
         self.level.init(self)
+
+        self.update()
 
         if not supress:
             raise NewGame
@@ -82,6 +86,10 @@ class Game:
             check_events()
             self.update()
             try:
+                for function in self.to_init:
+                    function()
+                self.to_init.clear()
+
                 for item in list(self.item_list):
                     item.update()
 

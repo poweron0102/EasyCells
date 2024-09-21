@@ -6,10 +6,11 @@ from Components.Collider import Collider
 from Components.Component import Item
 from Components.FMODAudioManager import FMODAudioManager
 from Components.RectCollider import RectCollider
-from Components.Rigidbody import Rigidbody, Vec2
+from Components.Rigidbody import Rigidbody
 from Components.Sprite import Sprite
 from Components.TileMap import TileMapRenderer, TileMap
 from Components.TileMapCollider import TileMapCollider
+from Geometry import Vec2
 from main import Game
 
 player: Item
@@ -59,7 +60,7 @@ def init(game: Game):
     caixa = game.CreateItem()
     caixa.AddComponent(Sprite("player24.png", (24, 24))).index = 1
     caixa.transform.x = 150
-    caixa.transform.y = 100
+    caixa.transform.y = 128
     caixa_filho = caixa.CreateChild()
     caixa_filho.AddComponent(Sprite("player24.png", (24, 24))).index = 1
     caixa_filho.transform.x = 50
@@ -68,11 +69,11 @@ def init(game: Game):
 
     tile_map = game.CreateItem()
     tile_map.AddComponent(TileMap([
-        [5, 4, 4, 4, 3],
-        [11, 1, 1, 1, 9],
-        [12, 12, 12, 12, 12],
-        [12, 12, 12, 12, 12],
-        [17, 7, 7, 7, 15]
+        [5,  4,  4,  4,  4,  4,  4,  4,  4,  4,  3],
+        [11,  1,  1,  1,  1,  1,  1,  1,  1,  1,  9],
+        [12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
+        [12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
+        [17,  7,  7,  7,  7,  7,  7,  7,  7,  7, 15]
     ]))
     tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
     tile_map_collider = tile_map.AddComponent(TileMapCollider({1, 3, 4, 5, 7, 9, 11, 15, 17}, 32, debug=True))
@@ -82,6 +83,7 @@ def init(game: Game):
 
 def loop(game: Game):
     # print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
+    # print(player.transform)
 
     # test ray_cast
     player_word = player.GetComponent(Collider).word_position

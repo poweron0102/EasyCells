@@ -13,6 +13,7 @@ class TileMapCollider(Collider):
         Collider.colliders.append(self)
 
     def init(self):
+        self.word_position = self.CalculateGlobalTransform()
         polygons = []
         tile_map = self.GetComponent(TileMap)
         matrix: list[list[int]] = tile_map.matrix

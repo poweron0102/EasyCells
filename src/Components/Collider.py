@@ -83,6 +83,9 @@ class Collider(Component):
         self.debug = debug
         Collider.colliders.append(self)
 
+    def init(self):
+        self.word_position = self.CalculateGlobalTransform()
+
     def on_destroy(self):
         Collider.colliders.remove(self)
         self.on_destroy = lambda: None
@@ -111,7 +114,7 @@ class Collider(Component):
                 3
             )
 
-    def check_collision_global(self, other):
+    def check_collision_global(self, other) -> bool:
         for polygon in self.polygons:
             polygon = polygon.apply_transform(self.word_position)
             for other_polygon in other.polygons:
@@ -120,7 +123,7 @@ class Collider(Component):
                     return True
         return False
 
-    def check_collision(self, other):
+    def check_collision(self, other) -> bool:
         for polygon in self.polygons:
             for other_polygon in other.polygons:
                 if _sat_collision(polygon.vertices, other_polygon.vertices):

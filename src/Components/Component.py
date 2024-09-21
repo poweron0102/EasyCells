@@ -113,7 +113,7 @@ class Component:
 
     def _inicialize_(self, item: Item):
         self.item = item
-        self.init()
+        self.game.to_init.append(self.init)
 
     # abstract method
     def init(self):
@@ -135,6 +135,24 @@ class Component:
 
     def GetComponent[T: Component](self, component: Type[T]) -> T | None:
         return self.item.GetComponent(component)
+
+    def CalculateGlobalTransform(self) -> 'Transform':
+        """
+        Calculate the global transform of the item.
+        Expensive operation.
+        Use Transform.Global on `Component.loop` instead.
+        """
+        result = Transform()
+        parents: list[Item] = []
+        current = self.item
+        while current:
+            parents.append(current)
+            current = current.parent
+
+        for i in range(len(parents) - 1, -1, -1):
+            result = parents[i].transform.ToGlobal(result)
+
+        return result
 
 
 class Transform:
@@ -200,21 +218,22 @@ class Transform:
     def clone(self):
         return Transform(self.x, self.y, self.z, self.angle, self.scale)
 
-    def ToGlobal(self) -> 'Transform':
+    def ToGlobal(self, global_transform: 'Transform | None' = None) -> 'Transform':
+        global_transform = global_transform if global_transform else Transform.Global
         # Rotate point by Global.angle
-        new_x = self.x * math.cos(Transform.Global.angle) - self.y * math.sin(Transform.Global.angle)
-        new_y = self.x * math.sin(Transform.Global.angle) + self.y * math.cos(Transform.Global.angle)
+        new_x = self.x * math.cos(global_transform.angle) - self.y * math.sin(global_transform.angle)
+        new_y = self.x * math.sin(global_transform.angle) + self.y * math.cos(global_transform.angle)
 
         # Scale point
-        new_x *= Transform.Global.scale
-        new_y *= Transform.Global.scale
+        new_x *= global_transform.scale
+        new_y *= global_transform.scale
 
         return Transform(
-            new_x + Transform.Global.x,
-            new_y + Transform.Global.y,
-            self.z + Transform.Global.z,
-            self.angle + Transform.Global.angle,
-            self.scale * Transform.Global.scale
+            new_x + global_transform.x,
+            new_y + global_transform.y,
+            self.z + global_transform.z,
+            self.angle + global_transform.angle,
+            self.scale * global_transform.scale
         )
 
     def apply_transform(self, point: Tuple[float, float]) -> Tuple[float, float]:

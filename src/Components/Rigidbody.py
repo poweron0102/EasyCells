@@ -27,9 +27,6 @@ class Rigidbody(Component):
         self.last_position.y = self.transform.y
 
     def loop(self):
-        self.last_position.x = self.transform.x
-        self.last_position.y = self.transform.y
-
         self.acceleration.y += self.gravity * self.game.delta_time
 
         self.velocity.x += self.acceleration.x * self.game.delta_time
@@ -40,6 +37,7 @@ class Rigidbody(Component):
 
         collided = set()
 
+        self.collider.word_position.x += self.velocity.x * self.game.delta_time
         self.transform.x += self.velocity.x * self.game.delta_time
         if self.collider is not None:
             for other_collider in Collider.colliders:
@@ -47,7 +45,7 @@ class Rigidbody(Component):
                     continue
 
                 if self.collider.check_collision_global(other_collider):
-                    self.transform.x = self.last_position.x - self.velocity.x * self.game.delta_time
+                    self.transform.x = self.last_position.x
                     self.velocity.x = 0
 
                     if len(self.on_collision) == 0:
@@ -57,6 +55,7 @@ class Rigidbody(Component):
                         for callback in self.on_collision:
                             callback(other_collider)
 
+        self.collider.word_position.y += self.velocity.y * self.game.delta_time
         self.transform.y += self.velocity.y * self.game.delta_time
         if self.collider is not None:
             for other_collider in Collider.colliders:
@@ -64,7 +63,7 @@ class Rigidbody(Component):
                     continue
 
                 if self.collider.check_collision_global(other_collider):
-                    self.transform.y = self.last_position.y - self.velocity.y * self.game.delta_time
+                    self.transform.y = self.last_position.y
                     self.velocity.y = 0
 
                     if len(self.on_collision) == 0:
@@ -73,3 +72,6 @@ class Rigidbody(Component):
                         collided.add(other_collider)
                         for callback in self.on_collision:
                             callback(other_collider)
+
+        self.last_position.x = self.transform.x
+        self.last_position.y = self.transform.y
