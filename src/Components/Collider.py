@@ -179,6 +179,7 @@ class Collider(Component):
             max_distance: float,
     ) -> 'tuple[Vec2[float], Vec2[float]] | None':
         """
+        Usa coordenadas globais
         Retorna:
         Vec2: Ponto de interseção
         Vec2: Normal da superfície atingida
