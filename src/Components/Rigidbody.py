@@ -1,3 +1,4 @@
+import math
 from typing import Callable
 
 from Components.Collider import Collider
@@ -14,64 +15,64 @@ class Rigidbody(Component):
         """
         self.gravity = gravity
         self.velocity: Vec2[float] = Vec2(0, 0)
-        self.acceleration: Vec2[float] = Vec2(0, 0)
+        self.size: Vec2[float] = Vec2(0, 0)
 
-        self.last_position: Vec2[float] = Vec2(0, 0)
         self.on_collision: list[Callable[[Collider], None]] = []
         self.mask = mask
+        self.is_ground = False
 
     def init(self):
         self.collider = self.GetComponent(Collider)
-
-        self.last_position.x = self.transform.x
-        self.last_position.y = self.transform.y
+        self.size = Vec2.from_tuple(self.collider.bounding_box().size)
 
     def loop(self):
-        self.acceleration.y += self.gravity * self.game.delta_time
+        # Apply gravity
+        print(self.velocity)
+        self.velocity.y += self.gravity * self.item.game.delta_time
 
-        self.velocity.x += self.acceleration.x * self.game.delta_time
-        self.velocity.y += self.acceleration.y * self.game.delta_time
+        # Apply velocity by transform.angle
+        self.velocity = self.velocity.rotate(self.transform.angle)
 
-        self.acceleration.x = 0
-        self.acceleration.y = 0
+        self.collider.word_position.x += self.velocity.x * self.item.game.delta_time
+        self.collider.word_position.y += self.velocity.y * self.item.game.delta_time
 
-        collided = set()
+        # Check collision
+        for other in Collider.colliders:
+            if other.mask & self.mask == 0:
+                continue
 
-        self.collider.word_position.x += self.velocity.x * self.game.delta_time
-        self.transform.x += self.velocity.x * self.game.delta_time
-        if self.collider is not None:
-            for other_collider in Collider.colliders:
-                if self.mask & other_collider.mask == 0:
-                    continue
+            if self.collider.check_collision_global(other):
+                for callback in self.on_collision:
+                    callback(other)
 
-                if self.collider.check_collision_global(other_collider):
-                    self.transform.x = self.last_position.x
-                    self.velocity.x = 0
+                result = other.ray_cast(
+                    self.item.transform.position,
+                    self.velocity.normalize(),
+                    self.size.y * 0.8
+                )
 
-                    if len(self.on_collision) == 0:
-                        break
-                    if other_collider not in collided:
-                        collided.add(other_collider)
-                        for callback in self.on_collision:
-                            callback(other_collider)
+                if result:
+                    point, normal = result
+                    self.velocity = self.velocity.reflect(normal)
+                    self.transform.angle = normal.to_angle + math.pi / 2
+                    print(f"Position: {self.transform.position}, Velocity: {self.velocity}")
+                    print(f"---> Position: {self.transform.position}")
+                    self.is_ground = True
+                    self.transform.position += self.velocity
+                else:
+                    self.is_ground = False
 
-        self.collider.word_position.y += self.velocity.y * self.game.delta_time
-        self.transform.y += self.velocity.y * self.game.delta_time
-        if self.collider is not None:
-            for other_collider in Collider.colliders:
-                if other_collider == self.collider:
-                    continue
+                self.velocity = Vec2(0, 0)
+                return  # Exit on collision
 
-                if self.collider.check_collision_global(other_collider):
-                    self.transform.y = self.last_position.y
-                    self.velocity.y = 0
+        # Don't find any collision
+        self.is_ground = False
+        self.transform.position += self.velocity
+        self.velocity = Vec2(0, 0)
 
-                    if len(self.on_collision) == 0:
-                        break
-                    if other_collider not in collided:
-                        collided.add(other_collider)
-                        for callback in self.on_collision:
-                            callback(other_collider)
 
-        self.last_position.x = self.transform.x
-        self.last_position.y = self.transform.y
+
+
+
+
+

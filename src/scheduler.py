@@ -1,7 +1,8 @@
 import traceback
 from typing import Generator, Callable
 
-from main import Game, NewGame
+from NewGame import NewGame
+from main import Game
 
 
 class Scheduler:

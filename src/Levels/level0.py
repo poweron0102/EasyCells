@@ -53,8 +53,8 @@ def init(game: Game):
         )
     )
     player_collider = player.AddComponent(RectCollider(pg.Rect(0, 0, 32, 32), debug=True, mask=0))
-    player_rg = player.AddComponent(Rigidbody(gravity=0, mask=1))
-    player_rg.on_collision.append(lambda c: print("Collided with", c))
+    player_rg = player.AddComponent(Rigidbody(gravity=1, mask=1))
+    # player_rg.on_collision.append(lambda c: print("Collided with", c))
     player.transform.z = -1
 
     caixa = game.CreateItem()
@@ -69,11 +69,11 @@ def init(game: Game):
 
     tile_map = game.CreateItem()
     tile_map.AddComponent(TileMap([
-        [5,  4,  4,  4,  4,  4,  4,  4,  4,  4,  3],
-        [11,  1,  1,  1,  1,  1,  1,  1,  1,  1,  9],
+        [5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3],
+        [11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9],
         [12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
         [12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
-        [17,  7,  7,  7,  7,  7,  7,  7,  7,  7, 15]
+        [17, 7, 7, 7, 7, 7, 7, 7, 7, 7, 15]
     ]))
     tile_map.AddComponent(TileMapRenderer("RockSet.png", 32))
     tile_map_collider = tile_map.AddComponent(TileMapCollider({1, 3, 4, 5, 7, 9, 11, 15, 17}, 32, debug=True))
@@ -83,22 +83,21 @@ def init(game: Game):
 
 def loop(game: Game):
     # print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
-    # print(player.transform)
+    print(player.transform)
 
     # test ray_cast
     player_word = player.GetComponent(Collider).word_position
     origem = Vec2(player_word.x, player_word.y)
     direction = Vec2(1, 1)
-    inf = Collider.ray_cast(origem, direction, 64, 1)
+    inf = Collider.ray_cast_static(origem, direction, 64, 1)
     Camera.instance.draw_debug_ray(origem, direction.to_angle, 64, pg.Color("red"))
     if inf:
         col, point, normal = inf
-        print("Ray cast:", col, point, normal)
+        # print("Ray cast:", col, point, normal)
         Camera.instance.draw_debug_line(point, point + normal * 50, pg.Color("blue"))
 
     if pg.mouse.get_pressed()[0]:
         Camera.instance.draw_debug_line(origem, Camera.get_global_mouse_position(), pg.Color("green"), 4)
-
 
     # player controls
     player_velocity: Vec2[float] = Vec2(0, 0)

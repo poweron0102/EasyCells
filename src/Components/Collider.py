@@ -153,8 +153,62 @@ class Collider(Component):
         print("Collider functions compiled")
         Collider.compiled = True
 
-    @staticmethod
+    def bounding_box(self) -> pg.Rect:
+        """
+        Retorna o menor retângulo que contém o collider
+        """
+        min_x = np.inf
+        min_y = np.inf
+        max_x = -np.inf
+        max_y = -np.inf
+
+        for polygon in self.polygons:
+            polygon = polygon.apply_transform(self.word_position)
+            for vertex in polygon.vertices:
+                min_x = min(min_x, vertex[0])
+                min_y = min(min_y, vertex[1])
+                max_x = max(max_x, vertex[0])
+                max_y = max(max_y, vertex[1])
+
+        return pg.Rect(min_x, min_y, max_x - min_x, max_y - min_y)
+
     def ray_cast(
+            self,
+            origin: Vec2[float],
+            direction: Vec2[float],
+            max_distance: float,
+    ) -> 'tuple[Vec2[float], Vec2[float]] | None':
+        """
+        Retorna:
+        Vec2: Ponto de interseção
+        Vec2: Normal da superfície atingida
+        """
+        origin_array = np.array([origin.x, origin.y], dtype=np.float64)
+        direction_array = np.array([direction.x, direction.y], dtype=np.float64)
+
+        closest_point = None
+        closest_normal = None
+        closest_distance = max_distance
+
+        for polygon in self.polygons:
+            polygon = polygon.apply_transform(self.word_position)
+            intersection, normal, distance = _ray_polygon_intersection_numba(origin_array, direction_array,
+                                                                             polygon.vertices, max_distance)
+
+            if intersection is not None and distance < closest_distance:
+                closest_point = Vec2(intersection[0], intersection[1])
+                closest_normal = Vec2(normal[0], normal[1])
+                closest_distance = distance
+
+        if closest_point:
+            if np.dot(closest_normal.to_tuple, direction_array) > 0:
+                closest_normal *= -1
+            return closest_point, closest_normal
+
+        return None
+
+    @staticmethod
+    def ray_cast_static(
             origin: Vec2[float],
             direction: Vec2[float],
             max_distance: float,

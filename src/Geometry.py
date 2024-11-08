@@ -10,6 +10,12 @@ class Vec2[T]:
     def normalize(self) -> 'Vec2[T]':
         return Vec2(self.x / (self.x ** 2 + self.y ** 2) ** 0.5, self.y / (self.x ** 2 + self.y ** 2) ** 0.5)
 
+    def reflect(self, normal: 'Vec2[T]') -> 'Vec2[T]':
+        return self - normal * 2 * self.dot(normal)
+
+    def dot(self, other: 'Vec2[T]') -> T:
+        return self.x * other.x + self.y * other.y
+
     def __add__(self, other):
         return Vec2(self.x + other.x, self.y + other.y)
 
@@ -44,3 +50,9 @@ class Vec2[T]:
     @staticmethod
     def from_angle(angle: float) -> 'Vec2[float]':
         return Vec2(math.cos(angle), math.sin(angle))
+
+    def rotate(self, angle: T) -> 'Vec2[T]':
+        return Vec2(
+            self.x * math.cos(angle) - self.y * math.sin(angle),
+            self.x * math.sin(angle) + self.y * math.cos(angle)
+        )

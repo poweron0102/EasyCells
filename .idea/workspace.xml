@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Fix low resolution with rotated images&#10;collision (Not working yet)">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="collision (working but really bad)">
+      <change afterPath="$PROJECT_DIR$/src/NewGame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Collider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Collider.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Component.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Component.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Rigidbody.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Rigidbody.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/TileMapCollider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TileMapCollider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Geometry.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Levels/level0.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/level0.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/builder.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scheduler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +48,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells/src&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/minecraft-narrator&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
@@ -147,8 +150,27 @@
       <option name="project" value="LOCAL" />
       <updated>1726716313605</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="collision (working but really bad)">
+      <option name="closed" value="true" />
+      <created>1726884396281</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1726884396281</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="base0" />
@@ -157,17 +179,7 @@
     <MESSAGE value="Fix load new level problem.&#10;collision (Not working yet)" />
     <MESSAGE value="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)" />
     <MESSAGE value="Fix low resolution with rotated images&#10;collision (Not working yet)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix low resolution with rotated images&#10;collision (Not working yet)" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/Components/Rigidbody.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="collision (working but really bad)" />
+    <option name="LAST_COMMIT_MESSAGE" value="collision (working but really bad)" />
   </component>
 </project>

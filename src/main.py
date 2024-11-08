@@ -6,6 +6,7 @@ from typing import Callable
 import pygame as pg
 
 from Components.Component import Item
+from NewGame import NewGame
 
 """
 Dependencies:
@@ -14,11 +15,6 @@ Dependencies:
     - numba
     - scipy
 """
-
-
-class NewGame(Exception):
-    """Exception raised for handle new games."""
-    pass
 
 
 def check_events():

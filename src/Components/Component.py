@@ -3,8 +3,11 @@ from typing import Type, Tuple
 import math
 from typing import TYPE_CHECKING
 
+from Geometry import Vec2
+from NewGame import NewGame
+
 if TYPE_CHECKING:
-    from main import Game, NewGame
+    from main import Game
 
 
 class Item:
@@ -60,12 +63,9 @@ class Item:
         for component in list(self.components.keys()):
             try:
                 self.components[component].loop()
-            except (KeyboardInterrupt, SystemExit) as e:
+            except (KeyboardInterrupt, SystemExit, NewGame) as e:
                 raise e
             except Exception as e:
-                from main import NewGame
-                if e is NewGame:
-                    raise e
                 print(f"Error in {self.components[component]}:\n    {e}")
                 traceback.print_exc()
 
@@ -192,6 +192,16 @@ class Transform:
     @angle_deg.setter
     def angle_deg(self, value):
         self.angle = math.radians(value)
+
+    @property
+    def position(self) -> Vec2[float]:
+        return Vec2(self.x, self.y)
+
+    @position.setter
+    def position(self, value: Vec2[float]):
+        self.x = value.x
+        self.y = value.y
+
 
     def __init__(self, x: float = 0, y: float = 0, z: float = 0, angle: float = 0, scale: float = 1):
         self.x = x
