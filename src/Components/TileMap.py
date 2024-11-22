@@ -4,6 +4,7 @@ import pygame as pg
 
 from Components.Camera import Drawable, Camera
 from Components.Component import Component, Transform
+from Geometry import Vec2
 
 
 class TileMap(Component):
@@ -37,6 +38,15 @@ class TileMapRenderer(Drawable):
     def get_tile(self, x: int, y: int) -> pg.Surface:
         return self.tile_set.subsurface((x * self.tile_size, y * self.tile_size, self.tile_size, self.tile_size))
 
+    def get_tile_word_position(self, x: int, y: int) -> Vec2[float]:
+        x_new = self.word_position.x + self.tile_size * (x - self.tile_map.size[0] // 2)
+        y_new = self.word_position.y + self.tile_size * (y - self.tile_map.size[1] // 2)
+
+        if self.tile_map.size[0] % 2 == 0: x_new += self.tile_size // 2
+        if self.tile_map.size[1] % 2 == 0: y_new += self.tile_size // 2
+
+        return Vec2(x_new, y_new)
+
     def loop(self):
         self.word_position = Transform.Global
 
@@ -60,10 +70,10 @@ class TileMapRenderer(Drawable):
         new_size = (int(original_size[0] * position.scale), int(original_size[1] * position.scale))
         image = pg.transform.scale(image, new_size)
 
-        # Rotate image
+        # Rotate base_image
         image = pg.transform.rotate(image, -math.degrees(position.angle))
 
-        # Draw image
+        # Draw base_image
         size = image.get_size()
         self.game.screen.blit(
             image,

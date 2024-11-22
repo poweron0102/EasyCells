@@ -41,6 +41,9 @@ class FMODAudioManager(Component):
         if start_event:
             self.play(start_event)
 
+    def loop(self):
+        self.studio_system.update()
+
     def on_destroy(self):
         self.studio_system.release()
         self.music_instance.release()

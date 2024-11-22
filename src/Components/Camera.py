@@ -22,13 +22,12 @@ class Drawable(Component):
 
 class Camera(Component):
     instance: 'Camera'
-    size: tuple[float, float]
 
     @property
     def scale(self):
         return self.game.screen.get_size()[self.scale_with] / self.size[self.scale_with]
 
-    def __init__(self, scale_with: int = 0):
+    def __init__(self, size: None | tuple[float, float] = None, scale_with: int = 0):
         """scale_with[0: width, 1: height]"""
 
         Camera.instance = self
@@ -36,9 +35,11 @@ class Camera(Component):
         self.to_draw: list[Drawable] = []
         self.debug_draws: list[Callable] = []
         self.word_position = Transform()
+        self.size = size
 
     def init(self):
-        self.size = self.game.screen.get_size()
+        if self.size is None:
+            self.size = self.game.screen.get_size()
 
     def loop(self):
         self.word_position = Transform.Global

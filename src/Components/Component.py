@@ -123,6 +123,14 @@ class Component:
     def loop(self):
         pass
 
+    def Destroy(self):
+        self.on_destroy()
+        self.item.components.pop(self.__class__)
+        cls = self.__class__
+        while cls != Component:
+            cls = cls.__bases__[0]
+            self.item.components.pop(cls)
+
     # abstract method
     def on_destroy(self):
         """
@@ -201,7 +209,6 @@ class Transform:
     def position(self, value: Vec2[float]):
         self.x = value.x
         self.y = value.y
-
 
     def __init__(self, x: float = 0, y: float = 0, z: float = 0, angle: float = 0, scale: float = 1):
         self.x = x

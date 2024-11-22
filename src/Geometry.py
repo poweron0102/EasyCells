@@ -56,3 +56,7 @@ class Vec2[T]:
             self.x * math.cos(angle) - self.y * math.sin(angle),
             self.x * math.sin(angle) + self.y * math.cos(angle)
         )
+
+    def distance(self, param: 'Vec2[T]') -> float:
+        return math.sqrt((self.x - param.x) ** 2 + (self.y - param.y) ** 2)
+
