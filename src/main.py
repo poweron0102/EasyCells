@@ -14,6 +14,7 @@ Dependencies:
     - numpy
     - numba
     - scipy
+    - pyfmodex
 """
 
 
@@ -39,7 +40,7 @@ class Game:
 
         self.clock = pg.time.Clock()
         self.time = pg.time.get_ticks()
-        self.lest_time = pg.time.get_ticks()
+        self.last_time = pg.time.get_ticks()
         self.delta_time = 0
         self.run_time = 0
         self.scheduler = Scheduler(self)
@@ -70,9 +71,9 @@ class Game:
         pg.display.flip()
         self.screen.fill((30, 30, 30))  # Cinza
         self.clock.tick(1000)
-        self.lest_time = self.time
+        self.last_time = self.time
         self.time = pg.time.get_ticks()
-        self.delta_time = (self.time - self.lest_time) / 1000.0
+        self.delta_time = (self.time - self.last_time) / 1000.0
         self.run_time += self.delta_time
 
         pg.display.set_caption(f'Game Name   FPS: {self.clock.get_fps():.0f}')

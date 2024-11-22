@@ -112,7 +112,7 @@ def loop(game: Game):
 
     player.GetComponent(Sprite).horizontal_flip = player_velocity.x < 0
     if player_velocity != Vec2(0, 0):
-        player_rg.velocity = player_velocity.normalize() * 100
+        player_rg.velocity = player_velocity.normalize() * 4
     else:
         player_rg.velocity = player_velocity
 
