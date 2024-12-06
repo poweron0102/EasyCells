@@ -1,6 +1,6 @@
 import pygame as pg
 
-from Components.Button import Button
+from UiComponents.Button import Button
 from Components.Sprite import Sprite, convert_to_grayscale
 from Geometry import Vec2
 from UserComponents.Door import Door

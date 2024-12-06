@@ -1,12 +1,9 @@
-from typing import Callable
-
 import pygame as pg
+from enum import Enum
 
-from Components.Camera import Drawable, Camera
+from Components.Camera import Drawable
 from Components.Component import Transform
 from Geometry import Vec2
-
-pg.font.init()
 
 
 def panel_maker(size: Vec2[int], base_panel: pg.Surface) -> pg.Surface:
@@ -51,7 +48,16 @@ def panel_maker(size: Vec2[int], base_panel: pg.Surface) -> pg.Surface:
     return panel
 
 
-class Button(Drawable):
+class UiAlignment(Enum):
+    TOP_LEFT = 0
+    TOP_RIGHT = 1
+    CENTER = 2
+    BOTTOM_LEFT = 3
+    BOTTOM_RIGHT = 4
+    GAME_SPACE = 5
+
+
+class UiComponent(Drawable):
     _draw_on_screen_space = True
 
     @property
@@ -66,57 +72,16 @@ class Button(Drawable):
     def __init__(
             self,
             position: Vec2[float],
-            text: str,
-            base_panel: pg.Surface,
-            font_size: int = 32,
-            font_color: pg.Color = pg.Color("Black"),
+            image: pg.Surface,
             z: int = -101,
-            hover_panel: pg.Surface = None,
-            on_click: Callable = None,
-            on_hover: Callable = None,
-            font: str = None,
-            screen_space: bool = True
+            alignment: UiAlignment = UiAlignment.TOP_LEFT,
     ):
         self.word_position = Transform()
-        self.is_clicked = False
-
-        font = pg.font.Font(f"Assets/{font}", font_size) if font is not None else pg.font.Font(None, font_size)
-        text_surface = font.render(text, True, font_color)
-
-        self.base_image = panel_maker(
-            Vec2(text_surface.get_width() + font_size, text_surface.get_height() + font_size), base_panel
-        )
-
-        self.base_image.blit(
-            text_surface,
-            (
-                self.base_image.get_width() / 2 - text_surface.get_width() / 2,
-                self.base_image.get_height() / 2 - text_surface.get_height() / 2
-            )
-        )
-        if hover_panel is None:
-            self.hover_image = self.base_image
-        else:
-            self.hover_image = panel_maker(
-                Vec2(text_surface.get_width() + font_size, text_surface.get_height() + font_size), hover_panel
-            )
-            self.hover_image.blit(
-                text_surface,
-                (
-                    self.hover_image.get_width() / 2 - text_surface.get_width() / 2,
-                    self.hover_image.get_height() / 2 - text_surface.get_height() / 2
-                )
-            )
-
-        self.image = self.base_image
-
+        self.image = image
         self.position = position
         self.z = z
-
-        self.on_click = on_click if on_click is not None else lambda: None
-        self.on_hover = on_hover if on_hover is not None else lambda: None
-
-        self.draw_on_screen_space = screen_space
+        self.draw_on_screen_space = False if alignment == UiAlignment.GAME_SPACE else True
+        self.alignment = alignment
 
     def init(self):
         super().init()
@@ -125,12 +90,27 @@ class Button(Drawable):
         del self.position
         del self.z
 
+    def calculate_screen_offset(self) -> Vec2:
+        if self.alignment == UiAlignment.TOP_LEFT:
+            return Vec2(0, 0)
+        elif self.alignment == UiAlignment.TOP_RIGHT:
+            return Vec2(self.game.screen.get_width(), 0)
+        elif self.alignment == UiAlignment.CENTER:
+            return Vec2(self.game.screen.get_width() // 2, self.game.screen.get_height() // 2)
+        elif self.alignment == UiAlignment.BOTTOM_LEFT:
+            return Vec2(0, self.game.screen.get_height())
+        elif self.alignment == UiAlignment.BOTTOM_RIGHT:
+            return Vec2(self.game.screen.get_width(), self.game.screen.get_height())
+        elif self.alignment == UiAlignment.GAME_SPACE:
+            return Vec2(0, 0)
+
     def draw_screen_space(self, cam_x: float, cam_y: float, scale: float):
+        position = self.transform.position + self.calculate_screen_offset()
         self.game.screen.blit(
             self.image,
             (
-                self.transform.position.x - self.image.get_width() // 2,
-                self.transform.position.y - self.image.get_height() // 2
+                position.x - self.image.get_width() // 2,
+                position.y - self.image.get_height() // 2
             )
         )
 
@@ -155,30 +135,3 @@ class Button(Drawable):
 
     def loop(self):
         self.word_position = Transform.Global
-
-        if not pg.mouse.get_pressed()[0]:
-            self.is_clicked = False
-
-        if self.is_mouse_over():
-            self.on_hover()
-            self.image = self.hover_image
-            if pg.mouse.get_pressed()[0] and not self.is_clicked:
-                self.is_clicked = True
-                self.on_click()
-        else:
-            self.image = self.base_image
-
-    def is_mouse_over(self) -> bool:
-        if self.draw_on_screen_space:
-            return self.base_image.get_rect(
-                topleft=(
-                    self.transform.position.x - self.base_image.get_width() // 2,
-                    self.transform.position.y - self.base_image.get_height() // 2
-                )
-            ).collidepoint(pg.mouse.get_pos())
-        else:
-            mouse = Camera.get_global_mouse_position()
-            size = Vec2(*self.image.get_size()) * self.transform.scale
-            top_left = Transform.Global.position - Vec2(size.x // 2, size.y // 2)
-
-            return pg.Rect(top_left.to_tuple, size.to_tuple).collidepoint(mouse.to_tuple)

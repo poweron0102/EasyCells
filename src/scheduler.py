@@ -153,3 +153,24 @@ class Scheduler:
         self._generators_dict_times.clear()
 
 
+class Tick:
+    def __init__(self, time: float):
+        self.time = time
+        self.on = True
+
+    def turn_off(self):
+        self.on = False
+
+    def turn_on(self):
+        self.on = True
+
+    def reset(self):
+        self.on = False
+        Scheduler.instance.add(self.time, self.turn_on)
+
+    def __call__(self) -> bool:
+        if self.on:
+            self.on = False
+            Scheduler.instance.add(self.time, self.turn_on)
+            return True
+        return False
