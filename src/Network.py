@@ -1,4 +1,5 @@
 import socket
+import select
 import pickle
 import threading
 
@@ -17,6 +18,8 @@ class NetworkServer:
         print(f"Server running on {(self.ip, self.port)}")
 
         self.accept_thread = threading.Thread(target=self.accept_clients)
+        # ends the thread when the main program ends
+        self.accept_thread.daemon = True
         self.accept_thread.start()
 
     def accept_clients(self):
@@ -40,6 +43,11 @@ class NetworkServer:
     def read(self, client_id: int) -> None | object:
         client_socket: socket.socket = self.clients[client_id]
 
+        # Use select to check if data is available
+        ready_to_read, _, _ = select.select([client_socket], [], [], 0)
+        if not ready_to_read:
+            return None  # No data available yet
+
         # Peek into the buffer to check the available data
         available_data = client_socket.recv(SIZE_SIZE, socket.MSG_PEEK)
         if len(available_data) < SIZE_SIZE:
@@ -54,6 +62,16 @@ class NetworkServer:
 
         # Read the full message from the buffer
         client_socket.recv(SIZE_SIZE)  # Consume the size header
+        data = client_socket.recv(size)
+        return pickle.loads(data)
+
+    def block_read(self, client_id: int) -> object:
+        client_socket: socket.socket = self.clients[client_id]
+
+        # Read the size from the available data
+        size = int.from_bytes(client_socket.recv(SIZE_SIZE), "big")
+
+        # Read the full message from the buffer
         data = client_socket.recv(size)
         return pickle.loads(data)
 
@@ -84,7 +102,7 @@ class NetworkClient:
         self.server_socket.connect((self.ip, self.port))
 
         # Get the client ID from the server
-        self.id = self.read()
+        self.id = self.block_read()
         print(f"Connected to server with id {self.id}")
 
     def send(self, data: object):
@@ -96,6 +114,12 @@ class NetworkClient:
 
     def read(self) -> None | object:
         # Peek into the buffer to check the available data
+
+        # Use select to check if data is available
+        ready_to_read, _, _ = select.select([self.server_socket], [], [], 0)
+        if not ready_to_read:
+            return None  # No data available yet
+
         available_data = self.server_socket.recv(SIZE_SIZE, socket.MSG_PEEK)
         if len(available_data) < SIZE_SIZE:
             return None  # Header size not fully available
@@ -109,6 +133,14 @@ class NetworkClient:
 
         # Read the full message from the buffer
         self.server_socket.recv(SIZE_SIZE)  # Consume the size header
+        data = self.server_socket.recv(size)
+        return pickle.loads(data)
+
+    def block_read(self) -> object:
+        # Read the size from the available data
+        size = int.from_bytes(self.server_socket.recv(SIZE_SIZE), "big")
+
+        # Read the full message from the buffer
         data = self.server_socket.recv(size)
         return pickle.loads(data)
 
