@@ -5,14 +5,15 @@ import threading
 SIZE_SIZE = 4
 
 
-class NetworkManagerServer:
+class NetworkServer:
     def __init__(self, ip: str, port: int, on_connect: callable = lambda: None):
         self.ip = ip
         self.port = port
-        self.clients: list[socket] = [None]
+        self.clients: list[socket.socket | None] = [None]
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.ip, self.port))
         self.server_socket.listen()
+        self.on_connect = on_connect
         print(f"Server running on {(self.ip, self.port)}")
 
         self.accept_thread = threading.Thread(target=self.accept_clients)
@@ -27,6 +28,8 @@ class NetworkManagerServer:
             # Send the client their ID
             self.send(len(self.clients) - 1, len(self.clients) - 1)
 
+            self.on_connect()
+
     def send(self, data: object, client_id: int):
         data = pickle.dumps(data)
         size = len(data).to_bytes(SIZE_SIZE, "big")
@@ -34,9 +37,23 @@ class NetworkManagerServer:
         self.clients[client_id].sendall(size)
         self.clients[client_id].sendall(data)
 
-    def read(self, client_id: int):
-        client_socket = self.clients[client_id]
-        size = int.from_bytes(client_socket.recv(SIZE_SIZE), "big")
+    def read(self, client_id: int) -> None | object:
+        client_socket: socket.socket = self.clients[client_id]
+
+        # Peek into the buffer to check the available data
+        available_data = client_socket.recv(SIZE_SIZE, socket.MSG_PEEK)
+        if len(available_data) < SIZE_SIZE:
+            return None  # Header size not fully available
+
+        # Read the size from the available data
+        size = int.from_bytes(available_data[:SIZE_SIZE], "big")
+
+        # Check if the full data is available
+        if len(client_socket.recv(size + SIZE_SIZE, socket.MSG_PEEK)) < size + SIZE_SIZE:
+            return None  # Data not fully available yet
+
+        # Read the full message from the buffer
+        client_socket.recv(SIZE_SIZE)  # Consume the size header
         data = client_socket.recv(size)
         return pickle.loads(data)
 
@@ -59,12 +76,12 @@ class NetworkManagerServer:
             self.clients.pop(client_id)
 
 
-class NetworkManagerClient:
+class NetworkClient:
     def __init__(self, ip: str, port: int):
         self.ip = ip
         self.port = port
-        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect((self.ip, self.port))
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.connect((self.ip, self.port))
 
         # Get the client ID from the server
         self.id = self.read()
@@ -74,18 +91,30 @@ class NetworkManagerClient:
         data = pickle.dumps(data)
         size = len(data).to_bytes(SIZE_SIZE, "big")
 
-        self.client_socket.sendall(size)
-        self.client_socket.sendall(data)
+        self.server_socket.sendall(size)
+        self.server_socket.sendall(data)
 
-    def read(self):
-        size = int.from_bytes(self.client_socket.recv(SIZE_SIZE), "big")
-        data = self.client_socket.recv(size)
+    def read(self) -> None | object:
+        # Peek into the buffer to check the available data
+        available_data = self.server_socket.recv(SIZE_SIZE, socket.MSG_PEEK)
+        if len(available_data) < SIZE_SIZE:
+            return None  # Header size not fully available
+
+        # Read the size from the available data
+        size = int.from_bytes(available_data[:SIZE_SIZE], "big")
+
+        # Check if the full data is available
+        if len(self.server_socket.recv(size + SIZE_SIZE, socket.MSG_PEEK)) < size + SIZE_SIZE:
+            return None  # Data not fully available yet
+
+        # Read the full message from the buffer
+        self.server_socket.recv(SIZE_SIZE)  # Consume the size header
+        data = self.server_socket.recv(size)
         return pickle.loads(data)
 
     def close(self):
         self.send("close")
-        self.client_socket.close()
-
+        self.server_socket.close()
 
 # Test
 # IP = "localhost"
@@ -94,7 +123,7 @@ class NetworkManagerClient:
 # is_server = bool(int(input("Server(1) or Client(0): ")))
 #
 # if is_server:
-#     server = NetworkManagerServer(IP, PORT)
+#     server = NetworkServer(IP, PORT)
 #
 #     while len(server.clients) == 1:
 #         pass
@@ -106,11 +135,10 @@ class NetworkManagerClient:
 #         server.send(response, 1)
 #
 # else:
-#     client = NetworkManagerClient(IP, PORT)
+#     client = NetworkClient(IP, PORT)
 #
 #     while True:
 #         response = input("Data: ")
 #         client.send(response)
 #         data = client.read()
 #         print(data)
-
