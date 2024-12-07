@@ -29,7 +29,7 @@ class Game:
         # imports: -=-=-=-=-
 
         if screen is None:
-            self.screen: pg.Surface = pg.display.set_mode((300, 100), pg.RESIZABLE) # (1280, 720)
+            self.screen: pg.Surface = pg.display.set_mode((1280, 720), pg.RESIZABLE) # (1280, 720)
         else:
             self.screen: pg.Surface = screen
 
@@ -43,7 +43,7 @@ class Game:
         self.scheduler = Scheduler(self)
         self.item_list: list[Item] = []
         self.to_init: list[Callable] = []
-        self.current_level = "tests_network"  # "test_ui"
+        self.current_level = "net_1"  # "test_ui"
         self.new_game(self.current_level, supress=True)
         # pg.mouse.set_visible
 

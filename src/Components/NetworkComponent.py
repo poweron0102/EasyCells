@@ -11,6 +11,7 @@ class SendTo(Enum):
     SERVER = 1
     CLIENTS = 2
     OWNER = 3
+    NOT_ME = 4
 
 
 def Rpc(send_to: SendTo = SendTo.ALL, require_owner: bool = True):
@@ -66,7 +67,7 @@ class NetworkComponent(Component):
             send_to = metadata.get("send_to", SendTo.ALL)
             require_owner = metadata.get("require_owner", True)
 
-            if require_owner and not NetworkManager.instance.is_server and self.owner != NetworkManager.instance.network_client.id:
+            if require_owner and not NetworkManager.instance.is_server and self.owner != NetworkManager.instance.id:
                 raise PermissionError("This RPC requires ownership.")
 
             # Determine where to send the RPC
@@ -78,6 +79,8 @@ class NetworkComponent(Component):
                 self.send_rpc_to_clients(func_name, *args)
             elif send_to == SendTo.OWNER and self.owner:
                 self.send_rpc_to_client(self.owner, func_name, *args)
+            elif send_to == SendTo.NOT_ME:
+                self.send_rpc_to_not_me(func_name, *args)
         else:
             raise ValueError(f"RPC function '{func_name}:{self.identifier}' not registered.")
 
@@ -105,6 +108,15 @@ class NetworkComponent(Component):
 
     def send_rpc_to_all(self, func_name: str, *args):
         self.send_rpc_to_clients(func_name, *args)
+        if NetworkManager.instance.is_server:
+            NetworkComponent.Rpcs[f"{func_name}:{self.identifier}"](*args)
+
+    def send_rpc_to_not_me(self, func_name: str, *args):
+        if NetworkManager.instance.is_server:
+            self.send_rpc_to_clients(func_name, *args)
+        else:
+            data = ("RpcT", (func_name, self.identifier, args))
+            NetworkManager.instance.network_client.send(data)
 
 
 class NetworkManager(Component):
@@ -118,10 +130,15 @@ class NetworkManager(Component):
 
         if is_server:
             self.network_server = NetworkServer(ip, port)
+            self.id = 0
             self.loop = self.server_loop
         else:
             self.network_client = NetworkClient(ip, port)
+            self.id = self.network_client.id
             self.loop = self.client_loop
+
+    def init(self):
+        self.item.destroy_on_load = False
 
     def server_loop(self):
         for i in range(1, len(self.network_server.clients)):
@@ -171,6 +188,11 @@ class NetworkManager(Component):
                         ("Rpc", (func_name, obj_identifier, args)),
                         NetworkComponent.NetworkComponents[obj_identifier].owner
                     )
+                elif send_to == SendTo.NOT_ME:
+                    for i in range(1, len(NetworkManager.instance.network_server.clients)):
+                        if i != client_id:
+                            NetworkManager.instance.network_server.send(("Rpc", (func_name, obj_identifier, args)), i)
+                    func(*args)
 
     @staticmethod
     def handle_client(data: object):
