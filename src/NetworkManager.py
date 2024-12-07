@@ -1,47 +1,44 @@
-import asyncio
+import socket
 import pickle
-from asyncio import StreamReader, StreamWriter, AbstractEventLoop
+import threading
 
 SIZE_SIZE = 4
 
 
 class NetworkManagerServer:
-    def __init__(self, ip: str, port: int):
+    def __init__(self, ip: str, port: int, on_connect: callable = lambda: None):
         self.ip = ip
         self.port = port
+        self.clients: list[socket] = [None]
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((self.ip, self.port))
+        self.server_socket.listen()
+        print(f"Server running on {(self.ip, self.port)}")
 
-        self.clients: list[tuple[StreamReader, StreamWriter] | None] = [None]
-        asyncio.run(self.start())
+        self.accept_thread = threading.Thread(target=self.accept_clients)
+        self.accept_thread.start()
 
-    async def start(self):
-        async def handle_client(reader: StreamReader, writer: StreamWriter):
-            addr = writer.get_extra_info('peername')
+    def accept_clients(self):
+        while True:
+            client_socket, addr = self.server_socket.accept()
             print(f"Connection established with {addr}, id: {len(self.clients)}")
-            self.clients.append((reader, writer))
+            self.clients.append(client_socket)
 
-            # sent the client their id
+            # Send the client their ID
             self.send(len(self.clients) - 1, len(self.clients) - 1)
-            response = await self.read(len(self.clients) - 1)
-            print(f"Response from client {len(self.clients) - 1}: {response}")
-
-        server = await asyncio.start_server(handle_client, self.ip, self.port)
-        address = server.sockets[0].getsockname()
-        print(f"Server running on {address}")
-
-        async with server:
-            await server.serve_forever()
 
     def send(self, data: object, client_id: int):
         data = pickle.dumps(data)
-        self.clients[client_id][1].write(len(data).to_bytes(SIZE_SIZE, "big"))
-        self.clients[client_id][1].write(data)
+        size = len(data).to_bytes(SIZE_SIZE, "big")
 
-    async def read(self, client_id: int):
-        client = self.clients[client_id][0]
-        if client.at_eof():
-            return None
-        size = int.from_bytes(await client.read(SIZE_SIZE), "big")
-        return pickle.loads(await client.read(size))
+        self.clients[client_id].sendall(size)
+        self.clients[client_id].sendall(data)
+
+    def read(self, client_id: int):
+        client_socket = self.clients[client_id]
+        size = int.from_bytes(client_socket.recv(SIZE_SIZE), "big")
+        data = client_socket.recv(size)
+        return pickle.loads(data)
 
     def broadcast(self, data: object):
         for i in range(1, len(self.clients)):
@@ -50,84 +47,70 @@ class NetworkManagerServer:
     def close(self):
         for i in range(1, len(self.clients)):
             self.send("close", i)
-
-        for i in range(1, len(self.clients)):
-            self.clients[i][1].close()
-
+            self.clients[i].close()
         self.clients = [None]
+        self.server_socket.close()
         print("Server closed")
 
     def close_client(self, client_id: int):
-        client = self.clients[client_id][1]
-        self.send("close", client_id)
-        self.clients.pop(client_id)
-        client.close()
+        if self.clients[client_id]:
+            self.send("close", client_id)
+            self.clients[client_id].close()
+            self.clients.pop(client_id)
 
 
 class NetworkManagerClient:
     def __init__(self, ip: str, port: int):
         self.ip = ip
         self.port = port
-        self.id: int | None = None
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.connect((self.ip, self.port))
 
-        self.server: tuple[StreamReader, StreamWriter] | None = None
-        asyncio.run(self.connect())
-
-    async def connect(self):
-        reader, writer = await asyncio.open_connection(self.ip, self.port)
-        self.server = (reader, writer)
-
-        # get the id from the server
-        self.id = await self.read()
-
+        # Get the client ID from the server
+        self.id = self.read()
         print(f"Connected to server with id {self.id}")
-        while True:
-            await asyncio.sleep(1000)
 
     def send(self, data: object):
         data = pickle.dumps(data)
-        print(f"Sending data: {data}")
-        self.server[1].write(len(data).to_bytes(SIZE_SIZE, "big"))
-        self.server[1].write(data)
+        size = len(data).to_bytes(SIZE_SIZE, "big")
 
-    async def read(self):
-        if self.server[0].at_eof():
-            return None
-        size = int.from_bytes(await self.server[0].read(SIZE_SIZE), "big")
-        return pickle.loads(await self.server[0].read(size))
+        self.client_socket.sendall(size)
+        self.client_socket.sendall(data)
 
+    def read(self):
+        size = int.from_bytes(self.client_socket.recv(SIZE_SIZE), "big")
+        data = self.client_socket.recv(size)
+        return pickle.loads(data)
 
-# test
-
-IP = "localhost"
-PORT = 25765
-
-is_server = bool(int(input("Server(1) or Client(0): ")))
-
-if is_server:
-    server = NetworkManagerServer(IP, PORT)
+    def close(self):
+        self.send("close")
+        self.client_socket.close()
 
 
-    async def test():
-        while True:
-            for i in range(1, len(server.clients)):
-                data = await server.read(i)
-                print(f"Data from client {i}: {data}")
-                out = input("Responder: ")
-                server.send(out, i)
+# Test
+# IP = "localhost"
+# PORT = 25765
+#
+# is_server = bool(int(input("Server(1) or Client(0): ")))
+#
+# if is_server:
+#     server = NetworkManagerServer(IP, PORT)
+#
+#     while len(server.clients) == 1:
+#         pass
+#
+#     while True:
+#         data = server.read(1)
+#         print(data)
+#         response = input("Response: ")
+#         server.send(response, 1)
+#
+# else:
+#     client = NetworkManagerClient(IP, PORT)
+#
+#     while True:
+#         response = input("Data: ")
+#         client.send(response)
+#         data = client.read()
+#         print(data)
 
-    asyncio.run(test())
-
-
-else:
-    client = NetworkManagerClient(IP, PORT)
-
-
-    async def test():
-        while True:
-            data = input("Data: ")
-            print(data)
-            client.send(data)
-            print(await client.read())
-
-    asyncio.run(test())
