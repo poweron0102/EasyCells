@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="IPv6">
-      <change afterPath="$PROJECT_DIR$/src/Levels/net_pong1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Levels/net_pong2.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add exemple menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Levels/net_pong1.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/net_pong1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733659639281</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Add exemple menu">
+      <option name="closed" value="true" />
+      <created>1733675115373</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1733675115373</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -279,6 +283,7 @@
     <MESSAGE value="Rpcs working" />
     <MESSAGE value="NetworkTransform.py" />
     <MESSAGE value="IPv6" />
-    <option name="LAST_COMMIT_MESSAGE" value="IPv6" />
+    <MESSAGE value="Add exemple menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add exemple menu" />
   </component>
 </project>

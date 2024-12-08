@@ -26,7 +26,7 @@ def init(game: Game):
     port_text_box = game.CreateItem().AddComponent(
         TextInput(
             Vec2(0, 100),
-            "localhost",
+            "5000",
             pg.image.load("Assets/Ui/Panel/panel-007.png"),
             active_panel=pg.image.load("Assets/Ui/Panel/panel-008.png"),
             alignment=UiAlignment.CENTER
