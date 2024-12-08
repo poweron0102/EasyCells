@@ -10,6 +10,7 @@ from UiComponents.UiComponent import UiComponent, panel_maker, UiAlignment
 from scheduler import Tick
 
 pg.font.init()
+pg.scrap.init()
 
 
 class TextInput(UiComponent):
@@ -81,26 +82,37 @@ class TextInput(UiComponent):
                 self.on_inactive()
 
         if self.is_active and self.write_tick.on:
-            for event in Game.events:
-                if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_RETURN:
-                        if self.on_enter.__code__.co_argcount == 1:
-                            self.on_enter(self.text)
+            if pg.key.get_mods() & pg.KMOD_CTRL:
+                for event in Game.events:
+                    if event.type == pg.KEYDOWN:
+                        if event.key == pg.K_v:
+                            self.text += pg.scrap.get(pg.SCRAP_TEXT)[:-1].decode("utf-8")
+                            if self.on_write.__code__.co_argcount == 1:
+                                self.on_write(self.text)
+                            else:
+                                self.on_write()
+                            self.write_tick.reset()
+            else:
+                for event in Game.events:
+                    if event.type == pg.KEYDOWN:
+                        if event.key == pg.K_RETURN:
+                            if self.on_enter.__code__.co_argcount == 1:
+                                self.on_enter(self.text)
+                            else:
+                                self.on_enter()
+
+                        elif event.key == pg.K_BACKSPACE:
+                            self.text = self.text[:-1]
+
                         else:
-                            self.on_enter()
+                            self.text += event.unicode
 
-                    elif event.key == pg.K_BACKSPACE:
-                        self.text = self.text[:-1]
+                        if self.on_write.__code__.co_argcount == 1:
+                            self.on_write(self.text)
+                        else:
+                            self.on_write()
 
-                    else:
-                        self.text += event.unicode
-
-                    if self.on_write.__code__.co_argcount == 1:
-                        self.on_write(self.text)
-                    else:
-                        self.on_write()
-
-                    self.write_tick.reset()
+                        self.write_tick.reset()
 
             text_surface = self.font.render(self.text, True, self.active_font_color)
             active_panel = self.active_panel.copy()
