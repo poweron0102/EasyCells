@@ -122,20 +122,31 @@ class NetworkComponent(Component):
 class NetworkManager(Component):
     instance: "NetworkManager" = None
 
-    def __init__(self, ip: str, port: int, is_server: bool, ip_version: int = 4):
+    def __init__(
+            self,
+            ip: str,
+            port: int,
+            is_server: bool,
+            ip_version: int = 4,
+            connect_callback: Callable[[int], None] = lambda x: None,
+    ):
         self.ip = ip
         self.port = port
         self.is_server = is_server
         NetworkManager.instance = self
 
         if is_server:
-            self.network_server = NetworkServer(ip, port, ip_version)
+            self.network_server = NetworkServer(ip, port, ip_version, connect_callback)
             self.id = 0
             self.loop = self.server_loop
         else:
-            self.network_client = NetworkClient(ip, port, ip_version)
-            self.id = self.network_client.id
+            self.network_client = NetworkClient(ip, port, ip_version, self.client_callback)
             self.loop = self.client_loop
+            self.connect_callback = connect_callback
+
+    def client_callback(self, client_id: int):
+        self.id = client_id
+        self.connect_callback(client_id)
 
     def init(self):
         self.item.destroy_on_load = False

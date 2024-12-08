@@ -1,13 +1,18 @@
 import socket
+from typing import Callable, Any
+
 import select
 import pickle
 import threading
+
+from scheduler import Scheduler
 
 SIZE_SIZE = 4
 
 
 class NetworkServer:
-    def __init__(self, ip: str, port: int, ip_version: int = 4, on_connect: callable = lambda: None):
+    def __init__(self, ip: str, port: int, ip_version: int = 4,
+                 connect_callback: Callable[[int], None] = lambda x: None):
         self.ip = ip
         self.port = port
         self.clients: list[socket.socket | None] = [None]
@@ -19,7 +24,7 @@ class NetworkServer:
             raise ValueError("Invalid IP version")
         self.server_socket.bind((self.ip, self.port))
         self.server_socket.listen()
-        self.on_connect = on_connect
+        self.connect_callback = connect_callback
         print(f"Server running on {(self.ip, self.port)}")
 
         self.accept_thread = threading.Thread(target=self.accept_clients)
@@ -33,10 +38,11 @@ class NetworkServer:
             print(f"Connection established with {addr}, id: {len(self.clients)}")
             self.clients.append(client_socket)
 
+            client_id = len(self.clients) - 1
             # Send the client their ID
-            self.send(len(self.clients) - 1, len(self.clients) - 1)
+            self.send(client_id, client_id)
 
-            self.on_connect()
+            Scheduler.instance.add(0.1, lambda: self.connect_callback(client_id))
 
     def send(self, data: object, client_id: int):
         data = pickle.dumps(data)
@@ -45,7 +51,7 @@ class NetworkServer:
         self.clients[client_id].sendall(size)
         self.clients[client_id].sendall(data)
 
-    def read(self, client_id: int) -> None | object:
+    def read(self, client_id: int) -> None | Any:
         client_socket: socket.socket = self.clients[client_id]
 
         # Use select to check if data is available
@@ -70,7 +76,7 @@ class NetworkServer:
         data = client_socket.recv(size)
         return pickle.loads(data)
 
-    def block_read(self, client_id: int) -> object:
+    def block_read(self, client_id: int) -> Any:
         client_socket: socket.socket = self.clients[client_id]
 
         # Read the size from the available data
@@ -100,9 +106,11 @@ class NetworkServer:
 
 
 class NetworkClient:
-    def __init__(self, ip: str, port: int, ip_version: int = 4):
+    def __init__(self, ip: str, port: int, ip_version: int = 4,
+                 connect_callback: Callable[[int], None] = lambda x: None):
         self.ip = ip
         self.port = port
+        self.connect_callback = connect_callback
 
         if ip_version == 6:
             self.server_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
@@ -111,11 +119,19 @@ class NetworkClient:
         else:
             raise ValueError("Invalid IP version")
 
+        self.id: int | None = None
+
+        self.connect_thread = threading.Thread(target=self.connect)
+        self.connect_thread.daemon = True
+        self.connect_thread.start()
+
+    def connect(self):
         self.server_socket.connect((self.ip, self.port))
 
         # Get the client ID from the server
-        self.id = self.block_read()
+        self.id = int(self.block_read())
         print(f"Connected to server with id {self.id}")
+        Scheduler.instance.add(0.1, lambda: self.connect_callback(self.id))
 
     def send(self, data: object):
         data = pickle.dumps(data)
@@ -124,7 +140,7 @@ class NetworkClient:
         self.server_socket.sendall(size)
         self.server_socket.sendall(data)
 
-    def read(self) -> None | object:
+    def read(self) -> None | Any:
         # Peek into the buffer to check the available data
 
         # Use select to check if data is available
@@ -148,7 +164,7 @@ class NetworkClient:
         data = self.server_socket.recv(size)
         return pickle.loads(data)
 
-    def block_read(self) -> object:
+    def block_read(self) -> Any:
         # Read the size from the available data
         size = int.from_bytes(self.server_socket.recv(SIZE_SIZE), "big")
 

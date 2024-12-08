@@ -43,7 +43,7 @@ class Game:
         self.scheduler = Scheduler(self)
         self.item_list: list[Item] = []
         self.to_init: list[Callable] = []
-        self.current_level = "net_1"  # "test_ui"
+        self.current_level = "net_pong1"  # "test_ui"
         self.new_game(self.current_level, supress=True)
         # pg.mouse.set_visible
 
