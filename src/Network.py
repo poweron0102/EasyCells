@@ -7,11 +7,16 @@ SIZE_SIZE = 4
 
 
 class NetworkServer:
-    def __init__(self, ip: str, port: int, on_connect: callable = lambda: None):
+    def __init__(self, ip: str, port: int, ip_version: int = 4, on_connect: callable = lambda: None):
         self.ip = ip
         self.port = port
         self.clients: list[socket.socket | None] = [None]
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if ip_version == 6:
+            self.server_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+        elif ip_version == 4:
+            self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        else:
+            raise ValueError("Invalid IP version")
         self.server_socket.bind((self.ip, self.port))
         self.server_socket.listen()
         self.on_connect = on_connect
@@ -95,10 +100,17 @@ class NetworkServer:
 
 
 class NetworkClient:
-    def __init__(self, ip: str, port: int):
+    def __init__(self, ip: str, port: int, ip_version: int = 4):
         self.ip = ip
         self.port = port
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        if ip_version == 6:
+            self.server_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+        elif ip_version == 4:
+            self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        else:
+            raise ValueError("Invalid IP version")
+
         self.server_socket.connect((self.ip, self.port))
 
         # Get the client ID from the server

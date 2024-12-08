@@ -18,7 +18,7 @@ def init(game: Game):
     else:
         is_server = False
 
-    game.CreateItem().AddComponent(NetworkManager(ip, port, is_server))
+    game.CreateItem().AddComponent(NetworkManager(ip, port, is_server, 6))
 
     print('Conectando ao servidor...')
     game.scheduler.add(1, lambda: game.new_game('net_2'))

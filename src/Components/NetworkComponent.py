@@ -122,18 +122,18 @@ class NetworkComponent(Component):
 class NetworkManager(Component):
     instance: "NetworkManager" = None
 
-    def __init__(self, ip: str, port: int, is_server: bool):
+    def __init__(self, ip: str, port: int, is_server: bool, ip_version: int = 4):
         self.ip = ip
         self.port = port
         self.is_server = is_server
         NetworkManager.instance = self
 
         if is_server:
-            self.network_server = NetworkServer(ip, port)
+            self.network_server = NetworkServer(ip, port, ip_version)
             self.id = 0
             self.loop = self.server_loop
         else:
-            self.network_client = NetworkClient(ip, port)
+            self.network_client = NetworkClient(ip, port, ip_version)
             self.id = self.network_client.id
             self.loop = self.client_loop
 
