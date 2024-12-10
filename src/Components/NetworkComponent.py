@@ -1,6 +1,6 @@
 from enum import Enum
 from functools import wraps
-from typing import Callable
+from typing import Callable, Any
 
 from Components.Component import Component
 from Network import NetworkServer, NetworkClient
@@ -38,6 +38,13 @@ class NetworkComponent(Component):
         self.identifier = identifier
         self.owner = owner
         NetworkComponent.NetworkComponents[identifier] = self
+
+        if NetworkManager.instance.is_server:
+            NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_server
+            NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_server
+        else:
+            NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_client
+            NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_client
 
     def init(self):
         self.register_rpcs()
@@ -118,9 +125,57 @@ class NetworkComponent(Component):
             data = ("RpcT", (func_name, self.identifier, args))
             NetworkManager.instance.network_client.send(data)
 
+    @staticmethod
+    def rpc_handler_server(client_id: int, func_name: str, obj_identifier: int, args: tuple):
+        func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
+        requer_owner = func._rpc_metadata.get("require_owner", True)
+
+        if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
+            print("This RPC requires ownership.")
+            return
+
+        func(*args)
+
+    @staticmethod
+    def rpc_handler_client(func_name: str, obj_identifier: int, args: tuple):
+        func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
+        func(*args)
+
+    @staticmethod
+    def rpct_handler_server(client_id: int, func_name: str, obj_identifier: int, args: tuple):
+        func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
+        requer_owner = func._rpc_metadata.get("require_owner", True)
+
+        if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
+            print("This RPC requires ownership.")
+            return
+
+        send_to = func._rpc_metadata.get("send_to", SendTo.ALL)
+
+        if send_to == SendTo.ALL:
+            NetworkManager.instance.network_server.broadcast(("Rpc", (func_name, obj_identifier, args)))
+            func(*args)
+        elif send_to == SendTo.CLIENTS:
+            NetworkManager.instance.network_server.broadcast(("Rpc", (func_name, obj_identifier, args)))
+        elif send_to == SendTo.OWNER:
+            NetworkManager.instance.network_server.send(
+                ("Rpc", (func_name, obj_identifier, args)),
+                NetworkComponent.NetworkComponents[obj_identifier].owner
+            )
+        elif send_to == SendTo.NOT_ME:
+            for i in range(1, len(NetworkManager.instance.network_server.clients)):
+                if i != client_id:
+                    NetworkManager.instance.network_server.send(("Rpc", (func_name, obj_identifier, args)), i)
+            func(*args)
+
+    @staticmethod
+    def rpct_handler_client(func_name: str, obj_identifier: int, args: tuple):
+        print("Received RPCT and I'm a client, this should not happen.")
+
 
 class NetworkManager(Component):
-    instance: "NetworkManager" = None
+    instance: 'NetworkManager' = None
+    on_data_received: dict[str, Callable] = {}
 
     def __init__(
             self,
@@ -155,65 +210,22 @@ class NetworkManager(Component):
         for i in range(1, len(self.network_server.clients)):
             data = self.network_server.read(i)
             if data:
-                self.handle_server(data, i)
+                self.handle_data(data, i)
 
     def client_loop(self):
         data = self.network_client.read()
         if data:
             self.handle_client(data)
 
-    @staticmethod
-    def handle_server(data: object, client_id: int):
-        if isinstance(data, tuple):
-            operation, data = data
+    def handle_data(self, data: Any, client_id: int):
+        operation, data = data
 
-            if operation == "Rpc":
-                func_name, obj_identifier, args = data
-                func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
-                requer_owner = func._rpc_metadata.get("require_owner", True)
-
-                if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
-                    print("This RPC requires ownership.")
-                    return
-
-                func(*args)
-
-            elif operation == "RpcT":
-                func_name, obj_identifier, args = data
-                func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
-                requer_owner = func._rpc_metadata.get("require_owner", True)
-
-                if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
-                    print("This RPC requires ownership.")
-                    return
-
-                send_to = func._rpc_metadata.get("send_to", SendTo.ALL)
-
-                if send_to == SendTo.ALL:
-                    NetworkManager.instance.network_server.broadcast(("Rpc", (func_name, obj_identifier, args)))
-                    func(*args)
-                elif send_to == SendTo.CLIENTS:
-                    NetworkManager.instance.network_server.broadcast(("Rpc", (func_name, obj_identifier, args)))
-                elif send_to == SendTo.OWNER:
-                    NetworkManager.instance.network_server.send(
-                        ("Rpc", (func_name, obj_identifier, args)),
-                        NetworkComponent.NetworkComponents[obj_identifier].owner
-                    )
-                elif send_to == SendTo.NOT_ME:
-                    for i in range(1, len(NetworkManager.instance.network_server.clients)):
-                        if i != client_id:
-                            NetworkManager.instance.network_server.send(("Rpc", (func_name, obj_identifier, args)), i)
-                    func(*args)
+        if operation in self.on_data_received:
+            NetworkManager.on_data_received[operation](client_id, *data)
 
     @staticmethod
     def handle_client(data: object):
-        if isinstance(data, tuple):
-            operation, data = data
+        operation, data = data
 
-            if operation == "Rpc":
-                func_name, obj_identifier, args = data
-                func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
-                func(*args)
-
-            elif operation == "RpcT":
-                print("Received RPCT and I'm a client, this should not happen.")
+        if operation in NetworkManager.on_data_received:
+            NetworkManager.on_data_received[operation](*data)

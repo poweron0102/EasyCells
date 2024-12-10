@@ -1,5 +1,7 @@
 from Components.NetworkComponent import NetworkComponent, SendTo, Rpc, NetworkManager
 
+import struct
+
 
 class NetworkTransform(NetworkComponent):
     def __init__(
@@ -21,6 +23,8 @@ class NetworkTransform(NetworkComponent):
         self.sync_angle = sync_angle
         self.sync_scale = sync_scale
 
+        self.last_sent = b""
+
     def init(self):
         super().init()
         self.game.scheduler.add_generator(self.sync())
@@ -29,42 +33,46 @@ class NetworkTransform(NetworkComponent):
         if self.owner == NetworkManager.instance.id:
             while True:
                 data = self.serialize()
-                self.sync_transform(data)
+                if data != self.last_sent:
+                    self.last_sent = data
+                    self.sync_transform(data)
                 yield self.sync_frequency
 
     @Rpc(send_to=SendTo.NOT_ME, require_owner=True)
-    def sync_transform(self, data: list[float]):
+    def sync_transform(self, data: bytes):
         self.deserialize(data)
 
-    def serialize(self) -> list[float]:
-        data: list[float] = []
+    def serialize(self) -> bytes:
+        data: bytes = b""
+
         if self.sync_x:
-            data.append(self.transform.x)
+            data += struct.pack("f", self.transform.x)
         if self.sync_y:
-            data.append(self.transform.y)
+            data += struct.pack("f", self.transform.y)
         if self.sync_z:
-            data.append(self.transform.z)
+            data += struct.pack("f", self.transform.z)
         if self.sync_angle:
-            data.append(self.transform.angle)
+            data += struct.pack("f", self.transform.angle)
         if self.sync_scale:
-            data.append(self.transform.scale)
+            data += struct.pack("f", self.transform.scale)
 
         return data
 
-    def deserialize(self, data: list[float]):
+    def deserialize(self, data: bytes):
         index = 0
+
         if self.sync_x:
-            self.transform.x = data[index]
-            index += 1
+            self.transform.x = struct.unpack("f", data[index:index + 4])[0]
+            index += 4
         if self.sync_y:
-            self.transform.y = data[index]
-            index += 1
+            self.transform.y = struct.unpack("f", data[index:index + 4])[0]
+            index += 4
         if self.sync_z:
-            self.transform.z = data[index]
-            index += 1
+            self.transform.z = struct.unpack("f", data[index:index + 4])[0]
+            index += 4
         if self.sync_angle:
-            self.transform.angle = data[index]
-            index += 1
+            self.transform.angle = struct.unpack("f", data[index:index + 4])[0]
+            index += 4
         if self.sync_scale:
-            self.transform.scale = data[index]
-            index += 1
+            self.transform.scale = struct.unpack("f", data[index:index + 4])[0]
+            index += 4

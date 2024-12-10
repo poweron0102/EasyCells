@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add 'Ctrl + V' support for TextInput.py">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="somethings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Sprite.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Sprite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserComponents/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkComponent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NetworkTransform.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkTransform.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,7 +268,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733700278984</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="somethings">
+      <option name="closed" value="true" />
+      <created>1733791753174</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1733791753174</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -303,6 +312,7 @@
     <MESSAGE value="Add exemple menu" />
     <MESSAGE value="error with port name" />
     <MESSAGE value="Add 'Ctrl + V' support for TextInput.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add 'Ctrl + V' support for TextInput.py" />
+    <MESSAGE value="somethings" />
+    <option name="LAST_COMMIT_MESSAGE" value="somethings" />
   </component>
 </project>

@@ -42,16 +42,17 @@ class NetworkServer:
             # Send the client their ID
             self.send(client_id, client_id)
 
-            Scheduler.instance.add(0.1, lambda: self.connect_callback(client_id))
+            Scheduler.instance.add(0, lambda: self.connect_callback(client_id))
 
     def send(self, data: object, client_id: int):
         data = pickle.dumps(data)
         size = len(data).to_bytes(SIZE_SIZE, "big")
+        print(f"Data size: {len(data)}")  # Debug
 
         self.clients[client_id].sendall(size)
         self.clients[client_id].sendall(data)
 
-    def read(self, client_id: int) -> None | Any:
+    def read(self, client_id: int) -> Any:
         client_socket: socket.socket = self.clients[client_id]
 
         # Use select to check if data is available
@@ -131,7 +132,7 @@ class NetworkClient:
         # Get the client ID from the server
         self.id = int(self.block_read())
         print(f"Connected to server with id {self.id}")
-        Scheduler.instance.add(0.1, lambda: self.connect_callback(self.id))
+        Scheduler.instance.add(0, lambda: self.connect_callback(self.id))
 
     def send(self, data: object):
         data = pickle.dumps(data)
