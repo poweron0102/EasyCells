@@ -15,7 +15,7 @@ def init(game: Game):
 
     ip_text_box = game.CreateItem().AddComponent(
         TextInput(
-            Vec2(0, 200),
+            Vec2(0, 150),
             "localhost",
             pg.image.load("Assets/Ui/Panel/panel-007.png"),
             active_panel=pg.image.load("Assets/Ui/Panel/panel-008.png"),
@@ -25,7 +25,7 @@ def init(game: Game):
 
     port_text_box = game.CreateItem().AddComponent(
         TextInput(
-            Vec2(0, 100),
+            Vec2(0, 50),
             "5000",
             pg.image.load("Assets/Ui/Panel/panel-007.png"),
             active_panel=pg.image.load("Assets/Ui/Panel/panel-008.png"),
@@ -47,7 +47,7 @@ def init(game: Game):
 
     server_btn = game.CreateItem()
     server_btn.AddComponent(Button(
-        Vec2(0, 0),
+        Vec2(0, -50),
         "Start server",
         pg.image.load("Assets/Ui/Panel/panel-000.png"),
         on_click=start_server,
@@ -69,7 +69,7 @@ def init(game: Game):
 
     client_btn = game.CreateItem()
     client_btn.AddComponent(Button(
-        Vec2(0, -100),
+        Vec2(0, -150),
         "Start client",
         pg.image.load("Assets/Ui/Panel/panel-000.png"),
         on_click=start_client,

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="error with port name">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add 'Ctrl + V' support for TextInput.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UiComponents/TextInput.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UiComponents/TextInput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Sprite.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Sprite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserComponents/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -258,7 +259,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733698804323</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Add 'Ctrl + V' support for TextInput.py">
+      <option name="closed" value="true" />
+      <created>1733700278984</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1733700278984</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -293,6 +302,7 @@
     <MESSAGE value="IPv6" />
     <MESSAGE value="Add exemple menu" />
     <MESSAGE value="error with port name" />
-    <option name="LAST_COMMIT_MESSAGE" value="error with port name" />
+    <MESSAGE value="Add 'Ctrl + V' support for TextInput.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add 'Ctrl + V' support for TextInput.py" />
   </component>
 </project>

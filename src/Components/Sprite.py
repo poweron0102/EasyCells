@@ -1,7 +1,5 @@
 import math
 
-import pygame as pg
-
 from Components.Camera import Drawable
 from Components.Component import Transform
 
@@ -43,8 +41,12 @@ class Sprite(Drawable):
     index: int = 0
     size: tuple[int, int] = (0, 0)
 
-    def __init__(self, image_path: str, size: tuple[int, int] = None):
-        self.image = pg.image.load(f"Assets/{image_path}").convert_alpha()
+    def __init__(self, image_path: str | pg.Surface, size: tuple[int, int] = None):
+        if isinstance(image_path, pg.Surface):
+            self.image = image_path
+        else:
+            self.image = pg.image.load(f"Assets/{image_path}").convert_alpha()
+
         self.size = size if size else self.image.get_size()
 
         self.horizontal_flip = False
