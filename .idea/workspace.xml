@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="somethings">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkComponent.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Added more flexibility for NetworkManager and transforms with byts">
       <change beforePath="$PROJECT_DIR$/src/Components/NetworkTransform.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkTransform.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +273,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733791753174</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Added more flexibility for NetworkManager and transforms with byts">
+      <option name="closed" value="true" />
+      <created>1733795565184</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1733795565184</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -313,6 +318,7 @@
     <MESSAGE value="error with port name" />
     <MESSAGE value="Add 'Ctrl + V' support for TextInput.py" />
     <MESSAGE value="somethings" />
-    <option name="LAST_COMMIT_MESSAGE" value="somethings" />
+    <MESSAGE value="Added more flexibility for NetworkManager and transforms with byts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more flexibility for NetworkManager and transforms with byts" />
   </component>
 </project>

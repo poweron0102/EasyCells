@@ -1,6 +1,6 @@
 from Components.NetworkComponent import NetworkComponent, SendTo, Rpc, NetworkManager
 
-import struct
+from struct import pack, unpack
 
 
 class NetworkTransform(NetworkComponent):
@@ -46,15 +46,15 @@ class NetworkTransform(NetworkComponent):
         data: bytes = b""
 
         if self.sync_x:
-            data += struct.pack("f", self.transform.x)
+            data += pack("f", self.transform.x)
         if self.sync_y:
-            data += struct.pack("f", self.transform.y)
+            data += pack("f", self.transform.y)
         if self.sync_z:
-            data += struct.pack("f", self.transform.z)
+            data += pack("f", self.transform.z)
         if self.sync_angle:
-            data += struct.pack("f", self.transform.angle)
+            data += pack("f", self.transform.angle)
         if self.sync_scale:
-            data += struct.pack("f", self.transform.scale)
+            data += pack("f", self.transform.scale)
 
         return data
 
@@ -62,17 +62,17 @@ class NetworkTransform(NetworkComponent):
         index = 0
 
         if self.sync_x:
-            self.transform.x = struct.unpack("f", data[index:index + 4])[0]
+            self.transform.x = unpack("f", data[index:index + 4])[0]
             index += 4
         if self.sync_y:
-            self.transform.y = struct.unpack("f", data[index:index + 4])[0]
+            self.transform.y = unpack("f", data[index:index + 4])[0]
             index += 4
         if self.sync_z:
-            self.transform.z = struct.unpack("f", data[index:index + 4])[0]
+            self.transform.z = unpack("f", data[index:index + 4])[0]
             index += 4
         if self.sync_angle:
-            self.transform.angle = struct.unpack("f", data[index:index + 4])[0]
+            self.transform.angle = unpack("f", data[index:index + 4])[0]
             index += 4
         if self.sync_scale:
-            self.transform.scale = struct.unpack("f", data[index:index + 4])[0]
+            self.transform.scale = unpack("f", data[index:index + 4])[0]
             index += 4
