@@ -1,4 +1,5 @@
 import math
+from typing import Callable
 
 import pygame as pg
 
@@ -13,12 +14,25 @@ class TileMap(Component):
         self.matrix = matrix
         self.size = (len(matrix[0]), len(matrix))
 
+        self.on_tile_change: list[Callable[[int, int, int], None]] = []
+
+    def get_tile(self, x: int, y: int) -> int:
+        return self.matrix[y][x]
+
+    def set_tile(self, x: int, y: int, value: int):
+        self.matrix[y][x] = value
+        for callback in self.on_tile_change:
+            callback(x, y, value)
+
 
 class TileMapRenderer(Drawable):
     tile_map: TileMap
 
-    def __init__(self, tile_set: str, tile_size: int):
-        self.tile_set = pg.image.load(f"Assets/{tile_set}").convert_alpha()
+    def __init__(self, tile_set: str | pg.Surface, tile_size: int):
+        if isinstance(tile_set, str):
+            self.tile_set = pg.image.load(f"Assets/{tile_set}").convert_alpha()
+        else:
+            self.tile_set = tile_set
         self.tile_size = tile_size
 
         size = self.tile_set.get_size()

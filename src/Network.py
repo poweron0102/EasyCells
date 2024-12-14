@@ -141,7 +141,7 @@ class NetworkClient:
         self.server_socket.sendall(size)
         self.server_socket.sendall(data)
 
-    def read(self) -> None | Any:
+    def read(self) -> Any:
         # Peek into the buffer to check the available data
 
         # Use select to check if data is available
