@@ -16,6 +16,7 @@ Dependencies:
     - numba
     - scipy
     - pyfmodex
+    - midvoxio, matplotlib
 """
 
 

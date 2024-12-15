@@ -1,49 +1,11 @@
 from random import randint
 
 from Components.Camera import Camera
-from Components.TileMap import TileMap
+from Components.Spritestacks import SpriteStacks, voxel2img
 from Components.TileMapIsometricRender import TileMapIsometricRenderer, TileMap3D
+from UserComponents.Player import Player
 from main import Game
 from scheduler import Scheduler
-
-# mat = [
-#     [
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#         [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
-#     ],
-#     [
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 48, 0, 0, 0, 0, 48, 0, 0, 48, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 48, 0, 0, 0, 48, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 48, 0, 0, 0, 0, 0, 0, 0, 48, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     ]
-# ]
 
 iso_map: TileMapIsometricRenderer
 
@@ -51,11 +13,20 @@ iso_map: TileMapIsometricRenderer
 def init(game: Game):
     global iso_map
 
-    game.CreateItem().AddComponent(Camera())
+    #img = voxel2img("Assets/chr_knight.vox")  # teapot.vox  chr_knight.vox monu3.vox
+
+    cam = game.CreateItem()
+    cam.AddComponent(Camera())
 
     mapa = game.CreateItem()
-    mapa.AddComponent(TileMap3D.load_from_csv("IsoMap1"))
+    mapa.AddComponent(TileMap3D.load_from_csv("IsoMap2"))
     iso_map = mapa.AddComponent(TileMapIsometricRenderer("iso_tile_export.png", (32, 32)))
+
+    player = game.CreateItem()
+    #player.AddComponent(Sprite("player32.png", (32, 32)))
+    player.AddComponent(SpriteStacks(*voxel2img("Assets/SpaceShips/DualStriker.vox"), 1))
+    player.AddComponent(Player(iso_map))
+    player.transform.scale = 5
 
     def ale():
         x = randint(0, 14)

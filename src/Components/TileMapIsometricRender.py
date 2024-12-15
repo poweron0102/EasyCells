@@ -7,6 +7,7 @@ import pygame as pg
 
 from Components.Camera import Drawable, Camera
 from Components.Component import Transform, Component
+from Components.Sprite import Sprite
 from Geometry import Vec2
 
 
@@ -37,14 +38,14 @@ class TileMap3D(Component):
             mat1: list[list[int]] = [[-1 for _ in range(len(mat0[0]))] for _ in range(len(mat0))]
             for i in range(index, len(mat0) - index):
                 for j in range(index, len(mat0[i]) - index):
-                    mat1[i][j] = mat0[i-index][j-index]
+                    mat1[i][j] = mat0[i - index][j - index]
 
             mat[index] = mat1
 
         return TileMap3D(mat)
 
 
-class TileMapIsometricRenderer(Drawable):
+class TileMapIsometricRenderer(Component):
     tile_map: TileMap3D
 
     def __init__(self, tile_set: str | pg.Surface, tile_size: tuple[int, int]):
@@ -58,14 +59,10 @@ class TileMapIsometricRenderer(Drawable):
         size = self.tile_set.get_size()
         self.word_position = Transform()
         self.matrix_size = (size[0] // tile_size[0], size[1] // tile_size[1])
-        Camera.instance.to_draw.append(self)
-        self.image = None
+        self.sprites: list[Sprite] = []
 
     def init(self):
         self.tile_map = self.GetComponent(TileMap3D)
-        self.tile_map.on_tile_change.append(
-            lambda x, y, z, value: self.update_image()
-        )
         self.update_image()
 
     def int2coord(self, value: int) -> tuple[int, int]:
@@ -80,62 +77,48 @@ class TileMapIsometricRenderer(Drawable):
             (x * self.tile_size[0], y * self.tile_size[1], self.tile_size[0], self.tile_size[1])
         )
 
-    def get_tile_word_position(self, pos: Vec2[float]) -> tuple[int, int, int] | None:
-        pass  # TODO
+    def get_tile_word_position(self, word_x: float, word_y: float, z_index: int) -> tuple[float, float] | None:
+        # Calculate hy (same as in update_image)
+        hy = (sum(self.tile_map.size) * self.tile_size[1] // 4 + self.tile_size[1] // 2) // 4
+
+        # Reverse the transformation
+        adjusted_y = word_y + hy + z_index * self.tile_size[1] / 2
+
+        # Calculate x + y and x - y
+        sum_x_y = (adjusted_y * 4) / self.tile_size[1]
+        diff_x_y = (word_x * 2) / self.tile_size[0]
+
+        # Solve for x and y
+        x_index = (sum_x_y + diff_x_y) / 2
+        y_index = (sum_x_y - diff_x_y) / 2
+
+        return x_index, y_index
 
     def world_to_isometric(self, x: float, y: float, z: float) -> tuple[int, int]:
         pass  # TODO
 
-    def loop(self):
-        self.word_position = Transform.Global
+    def get_draw_order(self, x: float, y: float, z: float) -> float:
+        return -0.01 * (x + y * self.tile_map.size[0] + z * self.tile_map.size[0] * self.tile_map.size[1])
 
     def update_image(self):
-        size = (
-            sum(self.tile_map.size) * self.tile_size[0] // 2,
-            sum(self.tile_map.size) * self.tile_size[1] // 4 + self.tile_size[1] // 2
-        )
+        hy = (sum(self.tile_map.size) * self.tile_size[1] // 4 + self.tile_size[1] // 2) // 4
 
-        self.image = pg.Surface(
-            size,
-            pg.SRCALPHA
-        )
-
-        hx = self.image.get_size()[0] // 2 - self.tile_size[0] // 2
-
+        draw_ord = 0.01
         for z in range(self.tile_map.size[2]):
             for y in range(self.tile_map.size[1]):
                 for x in range(self.tile_map.size[0]):
                     tile = self.tile_map.get_tile(x, y, z)
+                    draw_ord -= 0.01
+                    # print(f"x: {x}, y: {y}, z: {z}, draw_ord: {draw_ord}, draw_ord_from func: {self.get_draw_order(x, y, z)}")
                     if tile == -1:
                         continue
-                    self.image.blit(
-                        self.get_tile(*self.int2coord(tile)),
-                        (
-                            hx + (x - y) * self.tile_size[0] // 2,
-                            (x + y) * self.tile_size[1] // 4 - z * self.tile_size[1] // 2
-                        )
+
+                    sprite = self.item.CreateChild().AddComponent(Sprite(
+                        self.get_tile(*self.int2coord(tile))
+                    ))
+                    sprite.transform.position = Vec2(
+                        (x - y) * self.tile_size[0] // 2,
+                        ((x + y) * self.tile_size[1] // 4 - z * self.tile_size[1] // 2) - hy
                     )
+                    sprite.transform.z = draw_ord
 
-    def draw(self, cam_x: float, cam_y: float, scale: float):
-        position = self.word_position * scale
-        position.scale *= scale
-
-        image = self.image.copy()
-
-        # Get size and apply nearest neighbor scaling
-        original_size = image.get_size()
-        new_size = (int(original_size[0] * position.scale), int(original_size[1] * position.scale))
-        image = pg.transform.scale(image, new_size)
-
-        # Rotate base_image
-        image = pg.transform.rotate(image, -math.degrees(position.angle))
-
-        # Draw base_image
-        size = image.get_size()
-        self.game.screen.blit(
-            image,
-            (
-                position.x - cam_x - size[0] // 2,
-                position.y - cam_y - size[1] // 2
-            )
-        )
