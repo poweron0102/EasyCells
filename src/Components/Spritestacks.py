@@ -1,3 +1,4 @@
+import math
 from time import sleep
 
 import pygame as pg
@@ -6,6 +7,7 @@ from midvoxio.voxio import vox_to_arr
 
 from Components.Camera import Drawable
 from Components.Component import Transform
+from Geometry import Vec2
 
 
 def spritestacks_from_img(image: pg.Surface, size: tuple[int, int], angle: float) -> list[pg.Surface]:
@@ -14,7 +16,10 @@ def spritestacks_from_img(image: pg.Surface, size: tuple[int, int], angle: float
         for x in range(image.get_width() // size[0])
     ]
 
-    size = (size[0] * 1.5, size[1] * 1.5)
+    # Calculate the diagonal size for the rotation bounding box
+    diagonal = math.ceil(math.sqrt(size[0] ** 2 + size[1] ** 2))
+    size = (diagonal, diagonal + len(layers_orig))
+
     result: list[pg.Surface] = []
     a = 0.0
     while a < 360.0:
@@ -23,8 +28,10 @@ def spritestacks_from_img(image: pg.Surface, size: tuple[int, int], angle: float
             rotated = pg.transform.rotate(layer, -a)
             layer_r.blit(
                 rotated,
-                (size[0] // 2 - rotated.get_width() // 2,
-                 size[1] - rotated.get_height() // 2 - index - len(layers_orig) // 2)
+                (
+                    size[0] // 2 - rotated.get_width() // 2,
+                    (size[1] - rotated.get_height() // 2 - size[1] // 2) - index + ((len(layers_orig)) / 2)
+                )
             )
         result.append(layer_r)
         a += angle
@@ -71,14 +78,17 @@ class SpriteStacks(Drawable):
     def image(self) -> pg.Surface:
         return self.images[int(self.transform.angle_deg // self.angle)]
 
-    def __init__(self, image_path: str | pg.Surface, size: tuple[int, int] = None, angle: float = 15.0):
+    def image_at(self, angle_deg: float) -> pg.Surface:
+        return self.images[int(angle_deg // self.angle)]
+
+    def __init__(self, image_path: str | pg.Surface, size: tuple[int, int] = None, angle_deg: float = 15.0):
         if isinstance(image_path, pg.Surface):
             image = image_path
         else:
             image = pg.image.load(f"Assets/{image_path}").convert_alpha()
 
-        self.images = spritestacks_from_img(image, size, angle)
-        self.angle = angle
+        self.images = spritestacks_from_img(image, size, angle_deg)
+        self.angle = angle_deg
 
         self.word_position = Transform()
 
@@ -106,6 +116,11 @@ class SpriteStacks(Drawable):
             return  # Skip drawing if out of bounds
 
         # Apply nearest neighbor scaling
+        # image = pg.transform.scale(
+        #     self.image_at(self.word_position.angle_deg - Transform.Global.angle_deg),
+        #     scaled_size
+        # )
+
         image = pg.transform.scale(self.image, scaled_size)
 
         # Draw the image

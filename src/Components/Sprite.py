@@ -107,3 +107,37 @@ class Sprite(Drawable):
             )
         )
 
+
+class SimpleSprite(Sprite):
+    """
+    A Sprite with that don't rotate, scale, flip, or be animated.
+    """
+
+    def draw(self, cam_x: float, cam_y: float, scale: float):
+        # Calculate the sprite's position and scaled size
+        position = self.word_position * scale
+        position.scale *= scale
+
+        # Calculate the sprite's bounding box on the screen
+        left = position.x - self.size[0] // 2
+        right = position.x + self.size[0] // 2
+        top = position.y - self.size[1] // 2
+        bottom = position.y + self.size[1] // 2
+
+        # Get the screen dimensions (viewport)
+        screen_width, screen_height = self.game.screen.get_size()
+
+        # Check if the sprite is completely outside the viewport
+        if right < cam_x or left > cam_x + screen_width or bottom < cam_y or top > cam_y + screen_height:
+            return  # Skip drawing if out of bounds
+
+        # Draw the image
+        self.game.screen.blit(
+            self.image,
+            (
+                position.x - cam_x - self.size[0] // 2,
+                position.y - cam_y - self.size[1] // 2
+            )
+        )
+
+

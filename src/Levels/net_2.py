@@ -23,4 +23,5 @@ def init(game: Game):
 
 
 def loop(game: Game):
-    pass
+    if NetworkManager.instance.is_server:
+        NetworkTransform.test_rpc()

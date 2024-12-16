@@ -1,11 +1,9 @@
-import math
-from typing import Callable
 import os
 from functools import cache
+from typing import Callable
 
 import pygame as pg
 
-from Components.Camera import Drawable, Camera
 from Components.Component import Transform, Component
 from Components.Sprite import Sprite
 from Geometry import Vec2

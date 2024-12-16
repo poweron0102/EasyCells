@@ -47,7 +47,7 @@ class NetworkServer:
     def send(self, data: object, client_id: int):
         data = pickle.dumps(data)
         size = len(data).to_bytes(SIZE_SIZE, "big")
-        print(f"Data size: {len(data)}")  # Debug
+        # print(f"Data size: {len(data)}")  # Debug
 
         self.clients[client_id].sendall(size)
         self.clients[client_id].sendall(data)

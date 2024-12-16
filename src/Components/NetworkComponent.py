@@ -1,3 +1,4 @@
+import inspect
 from enum import Enum
 from functools import wraps
 from typing import Callable, Any
@@ -23,20 +24,48 @@ def Rpc(send_to: SendTo = SendTo.ALL, require_owner: bool = True):
         # Attach metadata to the function
         wrapper._rpc_metadata = {
             "send_to": send_to,
-            "require_owner": require_owner
+            "require_owner": require_owner,
+            "is_static": isinstance(func, staticmethod),
         }
+        if isinstance(func, staticmethod):
+            print(
+                f"RPC function '{func.__name__}' already registered.\n"
+                "Two RPC functions cannot have the same name.\n"
+                "Evem if they are in different classes."
+            )
+            NetworkComponent.Rpcs[func.__name__] = func
+
+            def new_func(*args, attr_name=func.__name__):
+                return NetworkComponent.instance.invoke_rpc(attr_name, *args)
+
+            return new_func
+
         return wrapper
 
     return decorator
 
 
 class NetworkComponent(Component):
+    instance: 'NetworkComponent'
     Rpcs: dict[str, Callable] = {}
     NetworkComponents: dict[int, "NetworkComponent"] = {}
+
+    @staticmethod
+    def GetFunction(name: str, identifier: int = None):
+        if f"{name}:{identifier}" in NetworkComponent.Rpcs:
+            return NetworkComponent.Rpcs[f"{name}:{identifier}"]
+        elif name in NetworkComponent.Rpcs:
+            return NetworkComponent.Rpcs[name]
+        else:
+            return None
 
     def __init__(self, identifier: int, owner: int):
         self.identifier = identifier
         self.owner = owner
+
+        if identifier is None or owner is None:
+            return
+
         NetworkComponent.NetworkComponents[identifier] = self
 
         if NetworkManager.instance.is_server:
@@ -56,25 +85,32 @@ class NetworkComponent(Component):
         for attr_name in dir(self):
             attr = getattr(self, attr_name)
             if callable(attr) and hasattr(attr, "_rpc_metadata"):
-                NetworkComponent.Rpcs[f"{attr_name}:{self.identifier}"] = attr
 
-                # Use default argument to bind the current value of attr_name2
                 def new_func(*args, attr_name=attr_name):
                     return self.invoke_rpc(attr_name, *args)
 
-                setattr(self, attr_name, new_func)
+                if attr._rpc_metadata["is_static"]:
+                    continue
+                else:
+                    NetworkComponent.Rpcs[f"{attr_name}:{self.identifier}"] = attr
+                    setattr(self, attr_name, new_func)
 
     def invoke_rpc(self, func_name: str, *args):
         """
         Call an RPC function locally or send the call to the network manager.
         """
-        if f"{func_name}:{self.identifier}" in NetworkComponent.Rpcs:
-            func = NetworkComponent.Rpcs[f"{func_name}:{self.identifier}"]
+        method = f"{func_name}:{self.identifier}" in NetworkComponent.Rpcs
+        static_method = func_name in NetworkComponent.Rpcs
+        if method or static_method:
+            if method:
+                func = NetworkComponent.Rpcs[f"{func_name}:{self.identifier}"]
+            else:
+                func = NetworkComponent.Rpcs[func_name]
             metadata = getattr(func, "_rpc_metadata", {})
             send_to = metadata.get("send_to", SendTo.ALL)
             require_owner = metadata.get("require_owner", True)
 
-            if require_owner and not NetworkManager.instance.is_server and self.owner != NetworkManager.instance.id:
+            if require_owner and not NetworkManager.instance.is_server and (self.owner != NetworkManager.instance.id or self.owner is None):
                 raise PermissionError("This RPC requires ownership.")
 
             # Determine where to send the RPC
@@ -89,11 +125,11 @@ class NetworkComponent(Component):
             elif send_to == SendTo.NOT_ME:
                 self.send_rpc_to_not_me(func_name, *args)
         else:
-            raise ValueError(f"RPC function '{func_name}:{self.identifier}' not registered.")
+            raise ValueError(f"RPC function '{func_name}:{self.identifier}' or '{func_name}' not registered.")
 
     def send_rpc_to_server(self, func_name: str, *args):
         if NetworkManager.instance.is_server:
-            NetworkComponent.Rpcs[f"{func_name}:{self.identifier}"](*args)
+            NetworkComponent.GetFunction(func_name, self.identifier)(*args)
         else:
             data = ("Rpc", (func_name, self.identifier, args))
             NetworkManager.instance.network_client.send(data)
@@ -116,7 +152,7 @@ class NetworkComponent(Component):
     def send_rpc_to_all(self, func_name: str, *args):
         self.send_rpc_to_clients(func_name, *args)
         if NetworkManager.instance.is_server:
-            NetworkComponent.Rpcs[f"{func_name}:{self.identifier}"](*args)
+            NetworkComponent.GetFunction(func_name, self.identifier)(*args)
 
     def send_rpc_to_not_me(self, func_name: str, *args):
         if NetworkManager.instance.is_server:
@@ -127,7 +163,7 @@ class NetworkComponent(Component):
 
     @staticmethod
     def rpc_handler_server(client_id: int, func_name: str, obj_identifier: int, args: tuple):
-        func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
+        func = NetworkComponent.GetFunction(func_name, obj_identifier)
         requer_owner = func._rpc_metadata.get("require_owner", True)
 
         if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
@@ -138,12 +174,12 @@ class NetworkComponent(Component):
 
     @staticmethod
     def rpc_handler_client(func_name: str, obj_identifier: int, args: tuple):
-        func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
+        func = NetworkComponent.GetFunction(func_name, obj_identifier)
         func(*args)
 
     @staticmethod
     def rpct_handler_server(client_id: int, func_name: str, obj_identifier: int, args: tuple):
-        func = NetworkComponent.Rpcs[f"{func_name}:{obj_identifier}"]
+        func = NetworkComponent.GetFunction(func_name, obj_identifier)
         requer_owner = func._rpc_metadata.get("require_owner", True)
 
         if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
@@ -171,6 +207,8 @@ class NetworkComponent(Component):
     @staticmethod
     def rpct_handler_client(func_name: str, obj_identifier: int, args: tuple):
         print("Received RPCT and I'm a client, this should not happen.")
+
+    ping_time: float
 
 
 class NetworkManager(Component):
@@ -229,3 +267,7 @@ class NetworkManager(Component):
 
         if operation in NetworkManager.on_data_received:
             NetworkManager.on_data_received[operation](*data)
+
+
+network_component_instance = NetworkComponent(None, None)
+NetworkComponent.instance = network_component_instance
