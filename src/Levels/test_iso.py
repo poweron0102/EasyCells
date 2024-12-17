@@ -4,7 +4,7 @@ from Components.Camera import Camera
 from Components.Spritestacks import SpriteStacks, voxel2img
 from Components.TileMapIsometricRender import TileMapIsometricRenderer, TileMap3D
 from UserComponents.Player import Player
-from main import Game
+from Game import Game
 from scheduler import Scheduler
 
 iso_map: TileMapIsometricRenderer

@@ -5,7 +5,7 @@ from Geometry import Vec2
 from UiComponents.Button import Button
 from UiComponents.TextInput import TextInput
 from UiComponents.UiComponent import UiComponent, UiAlignment
-from main import Game
+from Game import Game
 
 
 def init(game: Game):

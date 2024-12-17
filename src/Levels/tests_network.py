@@ -1,8 +1,7 @@
 # Example usage
-import traceback
 
 from Components.NetworkComponent import NetworkComponent, SendTo, Rpc, NetworkManager
-from main import Game
+from Game import Game
 
 
 class ExampleComponent(NetworkComponent):

@@ -7,7 +7,7 @@ from Geometry import Vec2
 from NewGame import NewGame
 
 if TYPE_CHECKING:
-    from main import Game
+    from Game import Game
 
 
 class Item:

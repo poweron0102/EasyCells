@@ -1,4 +1,3 @@
-import inspect
 from enum import Enum
 from functools import wraps
 from typing import Callable, Any
@@ -33,7 +32,7 @@ def Rpc(send_to: SendTo = SendTo.ALL, require_owner: bool = True):
                 "Two RPC functions cannot have the same name.\n"
                 "Evem if they are in different classes."
             )
-            NetworkComponent.Rpcs[func.__name__] = func
+            NetworkComponent.Rpcs[func.__name__] = wrapper
 
             def new_func(*args, attr_name=func.__name__):
                 return NetworkComponent.instance.invoke_rpc(attr_name, *args)
@@ -67,13 +66,6 @@ class NetworkComponent(Component):
             return
 
         NetworkComponent.NetworkComponents[identifier] = self
-
-        if NetworkManager.instance.is_server:
-            NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_server
-            NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_server
-        else:
-            NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_client
-            NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_client
 
     def init(self):
         self.register_rpcs()
@@ -110,7 +102,7 @@ class NetworkComponent(Component):
             send_to = metadata.get("send_to", SendTo.ALL)
             require_owner = metadata.get("require_owner", True)
 
-            if require_owner and not NetworkManager.instance.is_server and (self.owner != NetworkManager.instance.id or self.owner is None):
+            if require_owner and not NetworkManager.instance.is_server and (self.owner != NetworkManager.instance.id and self.owner is not None):
                 raise PermissionError("This RPC requires ownership.")
 
             # Determine where to send the RPC
@@ -175,12 +167,17 @@ class NetworkComponent(Component):
     @staticmethod
     def rpc_handler_client(func_name: str, obj_identifier: int, args: tuple):
         func = NetworkComponent.GetFunction(func_name, obj_identifier)
-        func(*args)
+        if func is not None:
+            func(*args)
+        else:
+            pass
+            # print((func_name, obj_identifier, args))
 
     @staticmethod
     def rpct_handler_server(client_id: int, func_name: str, obj_identifier: int, args: tuple):
         func = NetworkComponent.GetFunction(func_name, obj_identifier)
         requer_owner = func._rpc_metadata.get("require_owner", True)
+        is_static = func._rpc_metadata.get("is_static", False)
 
         if requer_owner and NetworkComponent.NetworkComponents[obj_identifier].owner != client_id:
             print("This RPC requires ownership.")
@@ -221,25 +218,37 @@ class NetworkManager(Component):
             port: int,
             is_server: bool,
             ip_version: int = 4,
-            connect_callback: Callable[[int], None] = lambda x: None,
+            connect_callback: Callable[[int], None] = None,
     ):
         self.ip = ip
         self.port = port
         self.is_server = is_server
         NetworkManager.instance = self
 
+        self.connect_callbacks: list[Callable[[int], None]] = []
+        if connect_callback is not None:
+            self.connect_callbacks.append(connect_callback)
+
         if is_server:
-            self.network_server = NetworkServer(ip, port, ip_version, connect_callback)
+            self.network_server = NetworkServer(ip, port, ip_version, self.server_callback)
             self.id = 0
             self.loop = self.server_loop
+            NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_server
+            NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_server
         else:
             self.network_client = NetworkClient(ip, port, ip_version, self.client_callback)
             self.loop = self.client_loop
-            self.connect_callback = connect_callback
+            NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_client
+            NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_client
 
     def client_callback(self, client_id: int):
         self.id = client_id
-        self.connect_callback(client_id)
+        for call in self.connect_callbacks:
+            call(client_id)
+
+    def server_callback(self, client_id: int):
+        for call in self.connect_callbacks:
+            call(client_id)
 
     def init(self):
         self.item.destroy_on_load = False
@@ -259,14 +268,13 @@ class NetworkManager(Component):
         operation, data = data
 
         if operation in self.on_data_received:
-            NetworkManager.on_data_received[operation](client_id, *data)
+            self.on_data_received[operation](client_id, *data)
 
-    @staticmethod
-    def handle_client(data: object):
+    def handle_client(self, data: object):
         operation, data = data
 
         if operation in NetworkManager.on_data_received:
-            NetworkManager.on_data_received[operation](*data)
+            self.on_data_received[operation](*data)
 
 
 network_component_instance = NetworkComponent(None, None)

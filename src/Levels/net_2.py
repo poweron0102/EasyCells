@@ -3,7 +3,7 @@ from Components.NetworkComponent import NetworkManager
 from Components.NetworkTransform import NetworkTransform
 from Components.Sprite import Sprite
 from UserComponents.Player import Player
-from main import Game
+from Game import Game
 
 
 def init(game: Game):
@@ -23,5 +23,4 @@ def init(game: Game):
 
 
 def loop(game: Game):
-    if NetworkManager.instance.is_server:
-        NetworkTransform.test_rpc()
+    pas

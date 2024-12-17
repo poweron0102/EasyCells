@@ -12,21 +12,28 @@ def lerp(a: Vec2 | float, b: Vec2 | float, t: float) -> Vec2:
 class SlowCamera(Component):
     word_border_size: Vec2[float]
 
-    def __init__(self, speed: float, target: Item):
+    def __init__(self, speed: float):
+        self.target: Item | None = None
         self.speed = speed
-        self.target = target
 
     def init(self):
         self.game.scheduler.add_generator(self.follow())
 
     def follow(self):
+        from UserComponents.SpaceShip import SpaceShip
+
+        while not hasattr(SpaceShip, "player"):
+            yield
+
+        self.target = SpaceShip.player.item
+
         word_rect = pg.Rect(
             -SlowCamera.word_border_size.x / 2,
             -SlowCamera.word_border_size.y / 2,
             SlowCamera.word_border_size.x,
             SlowCamera.word_border_size.y
         )
-        from UserComponents.SpaceShip import SpaceShip
+
         while True:
             self.transform.position = (
                     self.target.transform.position -

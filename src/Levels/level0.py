@@ -11,7 +11,7 @@ from Components.Sprite import Sprite
 from Components.TileMap import TileMapRenderer, TileMap
 from Components.TileMapCollider import TileMapCollider
 from Geometry import Vec2
-from main import Game
+from Game import Game
 
 player: Item
 player_rg: Rigidbody

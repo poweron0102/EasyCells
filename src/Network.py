@@ -61,7 +61,10 @@ class NetworkServer:
             return None  # No data available yet
 
         # Peek into the buffer to check the available data
-        available_data = client_socket.recv(SIZE_SIZE, socket.MSG_PEEK)
+        try:
+            available_data = client_socket.recv(SIZE_SIZE, socket.MSG_PEEK)
+        except ConnectionResetError:
+            exit(1)
         if len(available_data) < SIZE_SIZE:
             return None  # Header size not fully available
 
@@ -132,7 +135,7 @@ class NetworkClient:
         # Get the client ID from the server
         self.id = int(self.block_read())
         print(f"Connected to server with id {self.id}")
-        Scheduler.instance.add(0, lambda: self.connect_callback(self.id))
+        self.connect_callback(self.id)
 
     def send(self, data: object):
         data = pickle.dumps(data)

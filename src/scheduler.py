@@ -2,7 +2,7 @@ import traceback
 from typing import Generator, Callable
 
 from NewGame import NewGame
-from main import Game
+from Game import Game
 
 
 class Scheduler:
