@@ -34,7 +34,11 @@ def init(game: Game):
     if NetworkManager.instance.is_server:
         NetworkManager.instance.connect_callbacks.append(SpaceShip.instantiate_all)
 
-    SpaceShip.instantiate(SpaceShip.player_model, NetworkManager.instance.id, random.randint(0, sys.maxsize))
+    SpaceShip.SpaceShip_instantiate(
+        SpaceShip.player_model,
+        NetworkManager.instance.id,
+        random.randint(0, sys.maxsize)
+    )
 
 
 def loop(game: Game):
