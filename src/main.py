@@ -13,5 +13,5 @@ Dependencies:
 from Game import Game
 
 if __name__ == '__main__':
-    GAME = Game("net_pong1")  # space_selector level0
+    GAME = Game("space_selector")  # space_selector level0 net_pong1
     GAME.run()

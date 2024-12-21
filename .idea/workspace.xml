@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Tiro">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="NetworkVariable">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Levels/level0.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/level0.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Levels/net_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/net_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserComponents/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserComponents/Shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Shot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserComponents/Life.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Life.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
@@ -337,7 +333,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734569551478</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="NetworkVariable">
+      <option name="closed" value="true" />
+      <created>1734817982799</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1734817982799</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -352,7 +356,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add ray_cast 2d &#10;Add collision (Not working yet)&#10;Add debug camera functions" />
     <MESSAGE value="Fix load new level problem.&#10;collision (Not working yet)" />
     <MESSAGE value="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)" />
     <MESSAGE value="Fix low resolution with rotated images&#10;collision (Not working yet)" />
@@ -377,7 +380,8 @@
     <MESSAGE value="Added TileMapIsometricRenderer with mult obj. Added SpriteStacks" />
     <MESSAGE value="A lot" />
     <MESSAGE value="Tiro" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tiro" />
+    <MESSAGE value="NetworkVariable" />
+    <option name="LAST_COMMIT_MESSAGE" value="NetworkVariable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -385,11 +389,6 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/Levels/net_1.py</url>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/UserComponents/Player.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

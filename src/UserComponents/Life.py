@@ -18,6 +18,6 @@ class Life(UiComponent):
     def loop(self):
         super().loop()
         self.image = pg.Surface((bar_width, bar_height), pg.SRCALPHA)
-        pg.draw.rect(self.image, (0, 255, 0), (0, 0, bar_width * self.ship.life / self.ship.max_life, bar_height))
+        pg.draw.rect(self.image, (0, 255, 0), (0, 0, bar_width * self.ship.life.value / self.ship.max_life, bar_height))
         pg.draw.rect(self.image, (138, 138, 138), (0, 0, bar_width, bar_height), 1)
         self.image = pg.transform.rotate(self.image, -Transform.Global.angle_deg)

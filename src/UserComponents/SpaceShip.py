@@ -5,7 +5,7 @@ import sys
 import pygame as pg
 
 from Components.Collider import Collider
-from Components.NetworkComponent import NetworkComponent, NetworkManager, Rpc, SendTo
+from Components.NetworkComponent import NetworkComponent, NetworkManager, Rpc, SendTo, NetworkVariable
 from Components.NetworkTransform import NetworkTransform
 from Components.RectCollider import RectCollider
 from Components.Spritestacks import SpriteStacks
@@ -31,23 +31,11 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
 
     spawned_ships: list[tuple[str, int, int]] = []
 
-    _life: float
-
-    @property
-    def life(self):
-        return self._life
-
-    @Rpc(SendTo.ALL, require_owner=True)
-    @life.setter
-    def life(self, value):
-        print("Setting life to", value)
-        self._life = value
-
     def __init__(self, identifier: int, owner: int, collider: Collider):
         super().__init__(identifier, owner)
 
         self.max_life = 100
-        self.life = self.max_life
+        self.life = NetworkVariable(self.max_life, identifier, owner)
         self.shot_cooldown = Tick(SHOT_COOLDOWN)
         self.collider = collider
 
@@ -105,7 +93,7 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         if pg.key.get_pressed()[pg.K_s]:
             self.speed -= ACCELERATION * self.game.delta_time / 2 if self.speed > 0 else 0.0
 
-        if self.life <= 0:
+        if self.life.value <= 0:
             self.speed = 0
 
         self.transform.position += Vec2.from_angle(self.transform.angle - math.pi / 2) * (
@@ -122,6 +110,6 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         for shot in Shot.shots:
             if shot.owner != self.owner:
                 if self.collider.check_collision_global(shot.collider):
-                    self.life -= 10 * self.game.delta_time
+                    self.life.value -= 10 * self.game.delta_time
 
         # print(self.speed)
