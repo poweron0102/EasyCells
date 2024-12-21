@@ -327,7 +327,6 @@ class NetworkVariable[T]:
 
     @staticmethod
     def handle_variable_server(client_id: int, identifier: int, value: T):
-        print(f"Received variable {identifier} with value {value}")
         if NetworkVariable.variables[identifier].require_owner:
             if NetworkVariable.variables[identifier].owner != client_id:
                 print("This variable requires ownership.")
@@ -340,7 +339,6 @@ class NetworkVariable[T]:
 
     @staticmethod
     def handle_variable_client(identifier: int, value: T):
-        print(f"Received variable {identifier} with value {value}")
         NetworkVariable.variables[identifier]._value = value
 
     @staticmethod
