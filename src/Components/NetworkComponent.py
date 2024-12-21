@@ -102,7 +102,8 @@ class NetworkComponent(Component):
             send_to = metadata.get("send_to", SendTo.ALL)
             require_owner = metadata.get("require_owner", True)
 
-            if require_owner and not NetworkManager.instance.is_server and (self.owner != NetworkManager.instance.id and self.owner is not None):
+            if require_owner and not NetworkManager.instance.is_server and (
+                    self.owner != NetworkManager.instance.id and self.owner is not None):
                 raise PermissionError("This RPC requires ownership.")
 
             # Determine where to send the RPC
@@ -235,11 +236,14 @@ class NetworkManager(Component):
             self.loop = self.server_loop
             NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_server
             NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_server
+            NetworkManager.on_data_received["VarS"] = NetworkVariable.handle_variable_server
+            NetworkManager.on_data_received["VarG"] = NetworkVariable.handle_variable_get_server
         else:
             self.network_client = NetworkClient(ip, port, ip_version, self.client_callback)
             self.loop = self.client_loop
             NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_client
             NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_client
+            NetworkManager.on_data_received["VarS"] = NetworkVariable.handle_variable_client
 
     def client_callback(self, client_id: int):
         self.id = client_id
@@ -275,6 +279,77 @@ class NetworkManager(Component):
 
         if operation in NetworkManager.on_data_received:
             self.on_data_received[operation](*data)
+
+
+class NetworkVariable[T]:
+    variables: dict[int, 'NetworkVariable'] = {}
+
+    _value: T
+
+    def __init__(self, value: T, identifier: int, owner: int, require_owner: bool = True):
+        """
+        A variable that can be synchronized over the network.
+        """
+
+        self.identifier = identifier
+        self.owner = owner
+
+        self.require_owner = require_owner
+
+        NetworkVariable.variables[identifier] = self
+
+        self.value = value
+
+        if not NetworkManager.instance.is_server:
+            NetworkManager.instance.network_client.send(
+                ("VarG", (identifier,))
+            )
+
+    @property
+    def value(self) -> T:
+        return self._value
+
+    def set_Server(self, value: T):
+        self._value = value
+        for i in range(1, len(NetworkManager.instance.network_server.clients)):
+            NetworkManager.instance.network_server.send(("VarS", (self.identifier, value)), i)
+
+    def set_Client(self, value: T):
+        self._value = value
+        NetworkManager.instance.network_client.send(("VarS", (self.identifier, value)))
+
+    @value.setter
+    def value(self, value):
+        if NetworkManager.instance.is_server:
+            self.set_Server(value)
+        else:
+            self.set_Client(value)
+
+    @staticmethod
+    def handle_variable_server(client_id: int, identifier: int, value: T):
+        print(f"Received variable {identifier} with value {value}")
+        if NetworkVariable.variables[identifier].require_owner:
+            if NetworkVariable.variables[identifier].owner != client_id:
+                print("This variable requires ownership.")
+                return
+        NetworkVariable.variables[identifier]._value = value
+
+        for i in range(1, len(NetworkManager.instance.network_server.clients)):
+            if i != client_id:
+                NetworkManager.instance.network_server.send(("VarS", (identifier, value)), i)
+
+    @staticmethod
+    def handle_variable_client(identifier: int, value: T):
+        print(f"Received variable {identifier} with value {value}")
+        NetworkVariable.variables[identifier]._value = value
+
+    @staticmethod
+    def handle_variable_get_server(client_id: int, identifier: int):
+        NetworkManager.instance.network_server.send(
+            ("VarS", (identifier, NetworkVariable.variables[identifier].value)
+             ),
+            client_id
+        )
 
 
 network_component_instance = NetworkComponent(None, None)

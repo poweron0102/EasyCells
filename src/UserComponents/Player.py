@@ -1,11 +1,6 @@
-import math
-
 import pygame as pg
 
-from Components.Camera import Camera
-from Components.Component import Component, Transform
-from Components.NetworkComponent import NetworkComponent
-from Components.TileMapIsometricRender import TileMapIsometricRenderer
+from Components.Component import Component
 from Geometry import Vec2
 
 

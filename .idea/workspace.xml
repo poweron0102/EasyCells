@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="A lot">
-      <change afterPath="$PROJECT_DIR$/src/UserComponents/Life.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UserComponents/Shot.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Tiro">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Levels/space_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/space_game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkComponent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Levels/level0.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/level0.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Levels/net_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/net_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserComponents/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserComponents/Shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Shot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,20 +38,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Component.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.NetworkManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.TextureHelper.executor&quot;: &quot;Run&quot;,
-    &quot;Python.builder.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells/src/UiComponents&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Component.executor": "Run",
+    "Python.Main.executor": "Run",
+    "Python.NetworkManager.executor": "Run",
+    "Python.TextureHelper.executor": "Run",
+    "Python.builder.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells/src/UiComponents",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\src\UiComponents" />
@@ -326,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734401142007</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Tiro">
+      <option name="closed" value="true" />
+      <created>1734569551478</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1734569551478</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -341,7 +352,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="rotating Sprite.py fix" />
     <MESSAGE value="Add ray_cast 2d &#10;Add collision (Not working yet)&#10;Add debug camera functions" />
     <MESSAGE value="Fix load new level problem.&#10;collision (Not working yet)" />
     <MESSAGE value="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)" />
@@ -366,7 +376,8 @@
     <MESSAGE value="Added TileMapIsometricRenderer" />
     <MESSAGE value="Added TileMapIsometricRenderer with mult obj. Added SpriteStacks" />
     <MESSAGE value="A lot" />
-    <option name="LAST_COMMIT_MESSAGE" value="A lot" />
+    <MESSAGE value="Tiro" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tiro" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -374,6 +385,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/Levels/net_1.py</url>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/UserComponents/Player.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

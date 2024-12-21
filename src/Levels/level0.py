@@ -53,7 +53,7 @@ def init(game: Game):
         )
     )
     player_collider = player.AddComponent(RectCollider(pg.Rect(0, 0, 32, 32), debug=True, mask=0))
-    player_rg = player.AddComponent(Rigidbody(gravity=1, mask=1))
+    #player_rg = player.AddComponent(Rigidbody(gravity=1, mask=1))
     # player_rg.on_collision.append(lambda c: print("Collided with", c))
     player.transform.z = -1
 
@@ -83,7 +83,7 @@ def init(game: Game):
 
 def loop(game: Game):
     # print("Is player colliding with tile map? ", player_collider.check_collision_global(tile_map_collider))
-    print(player.transform)
+    #print(player.transform)
 
     # test ray_cast
     player_word = player.GetComponent(Collider).word_position
@@ -99,6 +99,9 @@ def loop(game: Game):
     if pg.mouse.get_pressed()[0]:
         Camera.instance.draw_debug_line(origem, Camera.get_global_mouse_position(), pg.Color("green"), 4)
 
+    if player_collider.check_collision_global(tile_map_collider):
+        print("Collided with tile map")
+
     # player controls
     player_velocity: Vec2[float] = Vec2(0, 0)
     if pg.key.get_pressed()[pg.K_w]:
@@ -111,10 +114,13 @@ def loop(game: Game):
         player_velocity.x = 1
 
     player.GetComponent(Sprite).horizontal_flip = player_velocity.x < 0
+
+
     if player_velocity != Vec2(0, 0):
-        player_rg.velocity = player_velocity.normalize() * 4
-    else:
-        player_rg.velocity = player_velocity
+        # player_rg.velocity = player_velocity.normalize() * 4
+        player.transform.position += player_velocity.normalize() * (100 * game.delta_time)
+    # else:
+    #     player_rg.velocity = player_velocity
 
     # player animations
     if pg.key.get_pressed()[pg.K_1]:

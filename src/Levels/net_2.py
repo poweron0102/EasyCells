@@ -1,12 +1,15 @@
 from Components.Camera import Camera
-from Components.NetworkComponent import NetworkManager
+from Components.NetworkComponent import NetworkManager, NetworkVariable
 from Components.NetworkTransform import NetworkTransform
 from Components.Sprite import Sprite
 from UserComponents.Player import Player
 from Game import Game
 
+player_comp: Player
+
 
 def init(game: Game):
+    global player_comp
     game.CreateItem().AddComponent(Camera())
 
     player1 = game.CreateItem()
@@ -19,8 +22,8 @@ def init(game: Game):
 
     player = player1 if NetworkManager.instance.is_server else player2
 
-    player.AddComponent(Player())
+    player_comp = player.AddComponent(Player())
 
 
 def loop(game: Game):
-    pas
+    pass

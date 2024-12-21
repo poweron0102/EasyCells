@@ -4,8 +4,10 @@ import sys
 
 import pygame as pg
 
+from Components.Collider import Collider
 from Components.NetworkComponent import NetworkComponent, NetworkManager, Rpc, SendTo
 from Components.NetworkTransform import NetworkTransform
+from Components.RectCollider import RectCollider
 from Components.Spritestacks import SpriteStacks
 from Game import Game
 from Geometry import Vec2
@@ -29,12 +31,25 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
 
     spawned_ships: list[tuple[str, int, int]] = []
 
-    def __init__(self, identifier: int, owner: int):
+    _life: float
+
+    @property
+    def life(self):
+        return self._life
+
+    @Rpc(SendTo.ALL, require_owner=True)
+    @life.setter
+    def life(self, value):
+        print("Setting life to", value)
+        self._life = value
+
+    def __init__(self, identifier: int, owner: int, collider: Collider):
         super().__init__(identifier, owner)
 
         self.max_life = 100
         self.life = self.max_life
         self.shot_cooldown = Tick(SHOT_COOLDOWN)
+        self.collider = collider
 
         self.speed = MAX_SPEED / 2
         if NetworkManager.instance.id == owner:
@@ -52,8 +67,12 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         game = Game.instance
 
         ship = game.CreateItem()
-        ship_comp = ship.AddComponent(SpaceShip(identifier, owner))
-        ship.AddComponent(SpriteStacks(*SpaceShip.models[player_model], 1))
+
+        img, size = SpaceShip.models[player_model]
+        coll = ship.AddComponent(RectCollider(pg.Rect(0, 0, size[0], size[1]), debug=True))
+
+        ship_comp = ship.AddComponent(SpaceShip(identifier, owner, coll))
+        ship.AddComponent(SpriteStacks(img, size, 1))
         ship.AddComponent(NetworkTransform(identifier, owner, sync_angle=True))
 
         ship.transform.x = (-SlowCamera.word_border_size.x / 2) + random.random() * SlowCamera.word_border_size.x
@@ -61,7 +80,6 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
 
         life = ship.CreateChild()
         life.AddComponent(Life(ship_comp))
-
         print(f"Instantiated player: {owner} with model: {player_model} and identifier: {identifier}")
 
     @staticmethod
@@ -70,8 +88,10 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
             print("instantiate_all:", client_id)
             for ship in SpaceShip.spawned_ships:
                 NetworkManager.instance.network_server.send(
-                    ("Rpc", ("SpaceShip_instantiate", None, ship)), client_id
+                    ("Rpc", ("SpaceShip_instantiate", None, ship)),
+                    client_id
                 )
+
         Scheduler.instance.add(3, d)
 
     def player_loop(self):
@@ -94,8 +114,14 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         if pg.key.get_pressed()[pg.K_SPACE] and self.shot_cooldown():
             Shot.Shot_instantiate(
                 random.randint(0, sys.maxsize),
+                self.owner,
                 Vec2.from_angle(self.transform.angle - math.pi / 2),
                 self.transform.position
             )
+
+        for shot in Shot.shots:
+            if shot.owner != self.owner:
+                if self.collider.check_collision_global(shot.collider):
+                    self.life -= 10 * self.game.delta_time
 
         # print(self.speed)
