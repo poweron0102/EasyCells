@@ -1,20 +1,16 @@
-import os
+import random
 import random
 import sys
 
 import pygame as pg
 
 from Components.Camera import Camera
-from Components.Component import Item
 from Components.NetworkComponent import NetworkManager
-from Components.Sprite import Sprite, SimpleSprite
-from Components.Spritestacks import voxel2img, SpriteStacks
+from Components.Sprite import SimpleSprite
+from Game import Game
 from Geometry import Vec2
-from UiComponents.Button import Button
-from UiComponents.UiComponent import panel_maker, UiAlignment
 from UserComponents.SlowCamera import SlowCamera
 from UserComponents.SpaceShip import SpaceShip
-from Game import Game
 
 
 def init(game: Game):

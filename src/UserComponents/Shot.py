@@ -19,7 +19,7 @@ class Shot(NetworkComponent):
         self.start = start
         self.collider = collider
 
-        self.speed = 200.0
+        self.speed = 600.0
 
         Shot.shots.add(self)
 

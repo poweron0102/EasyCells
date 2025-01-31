@@ -1,6 +1,9 @@
+import ipaddress
 from enum import Enum
 from functools import wraps
 from typing import Callable, Any
+
+from numpy.compat import unicode
 
 from Components.Component import Component
 from Network import NetworkServer, NetworkClient
@@ -218,7 +221,7 @@ class NetworkManager(Component):
             ip: str,
             port: int,
             is_server: bool,
-            ip_version: int = 4,
+            ip_version: int = None,
             connect_callback: Callable[[int], None] = None,
     ):
         self.ip = ip
@@ -229,6 +232,12 @@ class NetworkManager(Component):
         self.connect_callbacks: list[Callable[[int], None]] = []
         if connect_callback is not None:
             self.connect_callbacks.append(connect_callback)
+
+        if ip_version is None:
+            if ip == "localhost":
+                ip_version = 4
+            else:
+                ip_version = ipaddress.ip_address(unicode(ip)).version
 
         if is_server:
             self.network_server = NetworkServer(ip, port, ip_version, self.server_callback)

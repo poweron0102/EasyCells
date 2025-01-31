@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="NetworkVariable">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="NetworkVariable 3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserComponents/Life.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Life.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NetworkComponent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Levels/space_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/space_game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Levels/space_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/space_selector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserComponents/Shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/Shot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,20 +35,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Component.executor": "Run",
-    "Python.Main.executor": "Run",
-    "Python.NetworkManager.executor": "Run",
-    "Python.TextureHelper.executor": "Run",
-    "Python.builder.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells/src/UiComponents",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Component.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.NetworkManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TextureHelper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.builder.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells/src/UiComponents&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\src\UiComponents" />
@@ -341,7 +342,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734817982799</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="NetworkVariable 2">
+      <option name="closed" value="true" />
+      <created>1734818466242</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1734818466242</updated>
+    </task>
+    <task id="LOCAL-00032" summary="NetworkVariable 3">
+      <option name="closed" value="true" />
+      <created>1734818511507</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1734818511507</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -356,8 +373,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix load new level problem.&#10;collision (Not working yet)" />
-    <MESSAGE value="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)" />
     <MESSAGE value="Fix low resolution with rotated images&#10;collision (Not working yet)" />
     <MESSAGE value="collision (working but really bad)" />
     <MESSAGE value="a lot" />
@@ -381,7 +396,9 @@
     <MESSAGE value="A lot" />
     <MESSAGE value="Tiro" />
     <MESSAGE value="NetworkVariable" />
-    <option name="LAST_COMMIT_MESSAGE" value="NetworkVariable" />
+    <MESSAGE value="NetworkVariable 2" />
+    <MESSAGE value="NetworkVariable 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="NetworkVariable 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
