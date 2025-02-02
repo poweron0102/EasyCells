@@ -143,7 +143,7 @@ def init(game: Game):
                 ip_text_box.text if ip_text_box.text != "" else "localhost",
                 int(port_text_box.text) if port_text_box.text != "" else 5000,
                 False,
-                lambda x: game.scheduler.add(1, lambda: game.new_game('space_game'))  # 'net_2' 'net_pong2'
+                lambda x: game.scheduler.add(1, lambda: game.new_game('space_game')),  # 'net_2' 'net_pong2'
             )
         )
 

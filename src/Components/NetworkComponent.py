@@ -219,8 +219,8 @@ class NetworkManager(Component):
             ip: str,
             port: int,
             is_server: bool,
-            ip_version: int = None,
             connect_callback: Callable[[int], None] = None,
+            ip_version: int = None,
     ):
         self.ip = ip
         self.port = port
