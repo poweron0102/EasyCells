@@ -15,9 +15,23 @@ class Game:
     level: ModuleType
     events: list[Event]
 
+    _game_name: str
+
+    @property
+    def game_name(self) -> str:
+        return self._game_name
+
+    @game_name.setter
+    def game_name(self, value: str):
+        self._game_name = value
+        if not self.show_fps:
+            pg.display.set_caption(value)
+
     def __init__(
             self,
             start_level: str,
+            game_name: str,
+            show_fps: bool = False,
             screen: pg.Surface | None = None,
     ):
         Game.instance = self
@@ -31,6 +45,9 @@ class Game:
             self.screen: pg.Surface = screen
 
         Game.events = pg.event.get()
+
+        self.show_fps = show_fps
+        self.game_name = game_name
 
         self.clock = pg.time.Clock()
         self.time = pg.time.get_ticks()
@@ -79,7 +96,8 @@ class Game:
         self.delta_time = (self.time - self.last_time) / 1000.0
         self.run_time += self.delta_time
 
-        pg.display.set_caption(f'Game name   FPS: {self.clock.get_fps():.0f}')
+        if self.show_fps:
+            pg.display.set_caption(f'{self.game_name}   FPS: {self.clock.get_fps():.0f}')
 
     def run(self):
         while True:
