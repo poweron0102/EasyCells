@@ -76,19 +76,22 @@ def init(game: Game):
 
     ip_text_box = game.CreateItem().AddComponent(
         TextInput(
-            Vec2(-275, -225),
+            Vec2(-225, -225),
             "localhost",
             pg.image.load("Assets/Ui/Panel/panel-007.png"),
             active_panel=pg.image.load("Assets/Ui/Panel/panel-008.png"),
-            alignment=UiAlignment.CENTER
+            size=Vec2(300, 50),
+            alignment=UiAlignment.CENTER,
+            font_size=21
         )
     )
 
     port_text_box = game.CreateItem().AddComponent(
         TextInput(
-            Vec2(-50, -225),
+            Vec2(0, -225),
             "5000",
             pg.image.load("Assets/Ui/Panel/panel-007.png"),
+            size=Vec2(100, 50),
             active_panel=pg.image.load("Assets/Ui/Panel/panel-008.png"),
             alignment=UiAlignment.CENTER
         )

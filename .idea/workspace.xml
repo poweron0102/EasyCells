@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="NetworkVariable 3">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add ships">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/CamoStellarJet.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/DualStriker.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/InfraredFurtive.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/MeteorSlicer.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/MicroRecon.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/RedFighter.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/Transtellar.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/UltravioletIntruder.vox" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assets/SpaceShips/Nova pasta/Warship.vox" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Levels/space_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Levels/space_selector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserComponents/SpaceShip.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -372,7 +364,23 @@
       <option name="project" value="LOCAL" />
       <updated>1738526014068</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Erro fix">
+      <option name="closed" value="true" />
+      <created>1738528056583</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1738528056583</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Add ships">
+      <option name="closed" value="true" />
+      <created>1738528245286</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1738528245286</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -390,8 +398,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix low resolution with rotated images&#10;collision (Not working yet)" />
-    <MESSAGE value="collision (working but really bad)" />
     <MESSAGE value="a lot" />
     <MESSAGE value="melhora comentário" />
     <MESSAGE value="TextureHelper.py" />
@@ -415,7 +421,9 @@
     <MESSAGE value="NetworkVariable" />
     <MESSAGE value="NetworkVariable 2" />
     <MESSAGE value="NetworkVariable 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="NetworkVariable 3" />
+    <MESSAGE value="Erro fix" />
+    <MESSAGE value="Add ships" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add ships" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

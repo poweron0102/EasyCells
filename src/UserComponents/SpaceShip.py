@@ -57,7 +57,7 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         ship = game.CreateItem()
 
         img, size = SpaceShip.models[player_model]
-        coll = ship.AddComponent(RectCollider(pg.Rect(0, 0, size[0], size[1]), debug=True))
+        coll = ship.AddComponent(RectCollider(pg.Rect(0, 0, size[0], size[1]), debug=False))
 
         ship_comp = ship.AddComponent(SpaceShip(identifier, owner, coll))
         ship.AddComponent(SpriteStacks(img, size, 1))
