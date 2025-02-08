@@ -40,7 +40,7 @@ Example of a basic Level:
 
 ```python
 from EasyCells import Game
-from EasyCells.Components import Sprite
+from EasyCells.Components import Sprite, Camera
 
 # Initialize Level objects
 def init(game: Game):
@@ -60,7 +60,7 @@ def loop(game: Game):
 EasyCells supports Remote Procedure Calls (RPC) to synchronize actions between the server and clients. Use the `@Rpc` decorator to mark functions that will be called remotely. See the example below with explanations for each `SendTo` option:
 
 ```python
-from EasyCells.NetworkComponents import Rpc, NetworkComponent
+from EasyCells.NetworkComponents import Rpc, NetworkComponent, SendTo
 
 class MyNetworkComponent(NetworkComponent):
     @Rpc(SendTo.ALL)
