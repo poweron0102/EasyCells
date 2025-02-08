@@ -17,14 +17,6 @@ your_game/
 └── main.py           # Entry point 
 ```
 
-## Installation
-
-Install the required dependencies with:
-
-```sh
-pip install pygame-ce numpy numba scipy pyfmodex midvoxio matplotlib
-```
-
 ## Initializing the Game
 
 The `Game` class should be created in `main.py`:
