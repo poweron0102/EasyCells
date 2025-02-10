@@ -9,7 +9,7 @@ from pygame.event import Event
 from EasyCells.NewGame import NewGame
 
 if TYPE_CHECKING:
-    from Components.Component import Item
+    from EasyCells.Components import Item
 
 ItemClass: type
 

@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="EasyCells",
-    version="0.1.5",
+    version="0.1.6",
     author="poweron",
     author_email="nathanpinheiro99@gmail.com",
     description="Uma biblioteca para criação de jogos e interfaces gráficas.",

@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Fix bugs on exemple">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add to game">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EasyCells/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +48,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells",
+    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells/Games/Spaceship",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -88,7 +90,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Spaceship" type="PythonConfigurationType" factoryName="Python">
+    <configuration name="Spaceship" type="PythonConfigurationType" factoryName="Python" singleton="false">
       <module name="EasyCells" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -444,7 +446,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739057401914</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Add to game">
+      <option name="closed" value="true" />
+      <created>1739059394201</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1739059394201</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -462,7 +472,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update libe from changes on Meduzze" />
     <MESSAGE value="TextInput.py" />
     <MESSAGE value="async NetworkManager.py" />
     <MESSAGE value="sync NetworkManager.py" />
@@ -487,7 +496,8 @@
     <MESSAGE value="Fix ipv6 big size to TextInput." />
     <MESSAGE value="Remove how to install" />
     <MESSAGE value="Fix bugs on exemple" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix bugs on exemple" />
+    <MESSAGE value="Add to game" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add to game" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -503,6 +513,10 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/EasyCells/NetworkComponents/__init__.py</url>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Games/Spaceship/UserComponents/SlowCamera.py</url>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

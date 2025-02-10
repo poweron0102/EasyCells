@@ -30,11 +30,12 @@ def Rpc(send_to: SendTo = SendTo.ALL, require_owner: bool = True):
             "is_static": isinstance(func, staticmethod),
         }
         if isinstance(func, staticmethod):
-            print(
-                f"RPC function '{func.__name__}' already registered.\n"
-                "Two RPC functions cannot have the same name.\n"
-                "Evem if they are in different classes."
-            )
+            if func.__name__ in NetworkComponent.Rpcs:
+                print(
+                    f"RPC function '{func.__name__}' already registered.\n"
+                    "Two RPC functions cannot have the same name.\n"
+                    "Evem if they are in different classes."
+                )
             NetworkComponent.Rpcs[func.__name__] = wrapper
 
             def new_func(*args, attr_name=func.__name__):
@@ -122,6 +123,18 @@ class NetworkComponent(Component):
                 self.send_rpc_to_not_me(func_name, *args)
         else:
             raise ValueError(f"RPC function '{func_name}:{self.identifier}' or '{func_name}' not registered.")
+
+    def CallRpc_on_client_id(self, func_name: str, client_id: int, *args):
+        """
+        Call an RPC function on a specific client.
+        Only works on the server.
+        """
+        if not NetworkManager.instance.is_server:
+            return
+        NetworkManager.instance.network_server.send(
+            ("Rpc", (func_name, self.identifier, args)),
+            client_id
+        )
 
     def send_rpc_to_server(self, func_name: str, *args):
         if NetworkManager.instance.is_server:
