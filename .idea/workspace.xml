@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Add to game">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Create `CallRpc_on_client_id` function.">
+      <change beforePath="$PROJECT_DIR$/.idea/EasyCells.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EasyCells.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,21 +36,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Component.executor": "Run",
-    "Python.Main.executor": "Run",
-    "Python.NetworkManager.executor": "Run",
-    "Python.Spaceship.executor": "Run",
-    "Python.TextureHelper.executor": "Run",
-    "Python.builder.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells/Games/Spaceship",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Component.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.NetworkManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Spaceship.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TextureHelper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.builder.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells/Games/Spaceship&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\EasyCells" />
@@ -454,7 +453,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739059394201</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Create `CallRpc_on_client_id` function.">
+      <option name="closed" value="true" />
+      <created>1739219799096</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1739219799096</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -472,7 +479,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="TextInput.py" />
     <MESSAGE value="async NetworkManager.py" />
     <MESSAGE value="sync NetworkManager.py" />
     <MESSAGE value="testes" />
@@ -497,7 +503,8 @@
     <MESSAGE value="Remove how to install" />
     <MESSAGE value="Fix bugs on exemple" />
     <MESSAGE value="Add to game" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add to game" />
+    <MESSAGE value="Create `CallRpc_on_client_id` function." />
+    <option name="LAST_COMMIT_MESSAGE" value="Create `CallRpc_on_client_id` function." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -513,10 +520,6 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/EasyCells/NetworkComponents/__init__.py</url>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Games/Spaceship/UserComponents/SlowCamera.py</url>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

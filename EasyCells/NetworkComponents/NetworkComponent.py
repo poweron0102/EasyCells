@@ -124,15 +124,17 @@ class NetworkComponent(Component):
         else:
             raise ValueError(f"RPC function '{func_name}:{self.identifier}' or '{func_name}' not registered.")
 
-    def CallRpc_on_client_id(self, func_name: str, client_id: int, *args):
+    @staticmethod
+    def CallRpc_on_client_id(func_name: str, identifier: int, client_id: int, *args):
         """
         Call an RPC function on a specific client.
         Only works on the server.
+        if the identifier is None, this RPC needs to be a static method.
         """
-        if not NetworkManager.instance.is_server:
-            return
+        # if not NetworkManager.instance.is_server:
+        #     return
         NetworkManager.instance.network_server.send(
-            ("Rpc", (func_name, self.identifier, args)),
+            ("Rpc", (func_name, identifier, args)),
             client_id
         )
 
