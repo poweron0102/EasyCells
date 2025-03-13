@@ -61,13 +61,14 @@ class Item:
         current_global = Transform.Global
 
         for component in list(self.components.keys()):
-            try:
-                self.components[component].loop()
-            except (KeyboardInterrupt, SystemExit, NewGame) as e:
-                raise e
-            except Exception as e:
-                print(f"Error in {self.components[component]}:\n    {e}")
-                traceback.print_exc()
+            if self.components[component].enable:
+                try:
+                    self.components[component].loop()
+                except (KeyboardInterrupt, SystemExit, NewGame) as e:
+                    raise e
+                except Exception as e:
+                    print(f"Error in {self.components[component]}:\n    {e}")
+                    traceback.print_exc()
 
         for child in list(self.children):
             Transform.Global = current_global
@@ -96,6 +97,7 @@ class Item:
 
 class Component:
     item: Item
+    enable: bool = True
 
     # debug: bool = False  # Debug mode
 
