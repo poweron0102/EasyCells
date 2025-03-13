@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Balanceamento">
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Component.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Component.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="add enable para components">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Levels/space_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/space_game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -457,7 +459,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741902137938</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="add enable para components">
+      <option name="closed" value="true" />
+      <created>1741902572430</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1741902572430</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -475,7 +485,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="testes" />
     <MESSAGE value="Rpcs working" />
     <MESSAGE value="NetworkTransform.py" />
     <MESSAGE value="IPv6" />
@@ -500,7 +509,8 @@
     <MESSAGE value="Create `CallRpc_on_client_id` function." />
     <MESSAGE value="Add funcionalidade de multiplas cameras" />
     <MESSAGE value="Balanceamento" />
-    <option name="LAST_COMMIT_MESSAGE" value="Balanceamento" />
+    <MESSAGE value="add enable para components" />
+    <option name="LAST_COMMIT_MESSAGE" value="add enable para components" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

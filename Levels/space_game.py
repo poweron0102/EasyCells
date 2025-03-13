@@ -3,7 +3,7 @@ import sys
 
 import pygame as pg
 
-from EasyCells import Game, Vec2
+from EasyCells import Game, Vec2, Tick
 from EasyCells.Components import Camera
 from EasyCells.Components.Sprite import SimpleSprite
 from EasyCells.NetworkComponents import NetworkManager
@@ -13,6 +13,8 @@ from UserComponents.SpaceShip import SpaceShip
 
 # Configs
 scale_factor = 2
+
+map_display: UiComponent
 
 
 def init(game: Game):
@@ -52,7 +54,8 @@ def init(game: Game):
     mine_background.add_camera(SpaceShip.mini_map_camera)
     game.scheduler.add(0, mine_background.remove_main_camera)
 
-    mine_map.AddComponent(UiComponent(
+    global map_display
+    map_display = mine_map.AddComponent(UiComponent(
         Vec2(map_size[0] / 2 + 10, -(map_size[1] / 2 + 10)),
         mini_map_suf,
         -200,
@@ -68,5 +71,9 @@ def init(game: Game):
     )
 
 
+mini_map_tick: Tick = Tick(0.5)
+
+
 def loop(game: Game):
-    pass
+    if pg.key.get_pressed()[pg.K_m] and mini_map_tick():
+        map_display.enable = not map_display.enable

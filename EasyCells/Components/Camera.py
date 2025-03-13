@@ -105,7 +105,8 @@ class Camera(Component):
             self._screen.fill(self.fill_color)
 
         for drawable in self.to_draw:
-            drawable.draw(cam_x, cam_y, scale, self)
+            if drawable.enable:
+                drawable.draw(cam_x, cam_y, scale, self)
 
         for function in self.debug_draws:
             function(cam_x, cam_y, scale, self)
