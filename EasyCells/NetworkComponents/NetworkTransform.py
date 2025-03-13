@@ -76,3 +76,4 @@ class NetworkTransform(NetworkComponent):
         if self.sync_scale:
             self.transform.scale = unpack("f", data[index:index + 4])[0]
             index += 4
+

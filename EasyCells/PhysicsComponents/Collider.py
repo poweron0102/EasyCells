@@ -93,12 +93,12 @@ class Collider(Component):
     def loop_debug(self):
         self.word_position = Transform.Global
         # print(f"collider: {self.__class__}\n   \033[92m    Word position: {self.word_position} \033[0m")
-        Camera.instance.debug_draws.append(self.draw)
+        Camera.instance().debug_draws.append(self.draw)
 
     def loop_no_debug(self):
         self.word_position = Transform.Global
 
-    def draw(self, cam_x: float, cam_y: float, scale: float):
+    def draw(self, cam_x: float, cam_y: float, scale: float, camera: Camera):
         """
         for debug only
         """

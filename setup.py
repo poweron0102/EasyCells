@@ -18,7 +18,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.12",  # Versão mínima do Python
+    python_requires=">=3.12",
     install_requires=[         # Dependências do projeto
         "pygame-ce>=2.5.2",
         "numpy>=2.1",          # Para PhysicsComponents

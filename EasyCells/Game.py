@@ -15,7 +15,14 @@ ItemClass: type
 
 
 class Game:
-    instance: 'Game'
+    instances: dict[int, 'Game'] = {}
+    instances_count: int = 0
+    current_instance: int = 0
+
+    @staticmethod
+    def instance() -> 'Game':
+        return Game.instances[Game.current_instance]
+
     level: ModuleType
     events: list[Event]
 
@@ -38,13 +45,16 @@ class Game:
             show_fps: bool = False,
             screen: pg.Surface | None = None,
     ):
-        Game.instance = self
         # imports: -=-=-=-=-
         global ItemClass
         from EasyCells.scheduler import Scheduler
         from EasyCells.Components import Item
         ItemClass = Item
         # imports: -=-=-=-=-
+
+        self.my_instance = Game.instances_count
+        Game.instances[self.my_instance] = self
+        Game.instances_count += 1
 
         if screen is None:
             self.screen: pg.Surface = pg.display.set_mode((800, 600), pg.RESIZABLE)  # (1280, 720)
@@ -124,6 +134,9 @@ class Game:
                 pass
 
     def run_once(self):
+        previous_instance: int = Game.current_instance
+        Game.current_instance = self.my_instance
+
         self.update()
         try:
             for function in self.to_init:
@@ -138,3 +151,5 @@ class Game:
             self.scheduler.update()
         except NewGame:
             pass
+
+        Game.current_instance = previous_instance

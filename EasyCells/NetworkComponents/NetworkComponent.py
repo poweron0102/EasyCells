@@ -125,7 +125,7 @@ class NetworkComponent(Component):
             raise ValueError(f"RPC function '{func_name}:{self.identifier}' or '{func_name}' not registered.")
 
     @staticmethod
-    def CallRpc_on_client_id(func_name: str, identifier: int, client_id: int, *args):
+    def CallRpc_on_client_id(func_name: str, identifier: int | None, client_id: int, *args):
         """
         Call an RPC function on a specific client.
         Only works on the server.
@@ -260,14 +260,14 @@ class NetworkManager(Component):
             self.loop = self.server_loop
             NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_server
             NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_server
-            NetworkManager.on_data_received["VarS"] = NetworkVariable.handle_variable_server
+            NetworkManager.on_data_received["VarS"] = NetworkVariable.handle_variable_set_server
             NetworkManager.on_data_received["VarG"] = NetworkVariable.handle_variable_get_server
         else:
             self.network_client = NetworkClient(ip, port, ip_version, self.client_callback)
             self.loop = self.client_loop
             NetworkManager.on_data_received["Rpc"] = NetworkComponent.rpc_handler_client
             NetworkManager.on_data_received["RpcT"] = NetworkComponent.rpct_handler_client
-            NetworkManager.on_data_received["VarS"] = NetworkVariable.handle_variable_client
+            NetworkManager.on_data_received["VarS"] = NetworkVariable.handle_variable_set_client
 
     def client_callback(self, client_id: int):
         self.id = client_id
@@ -350,7 +350,7 @@ class NetworkVariable[T]:
             self.set_Client(value)
 
     @staticmethod
-    def handle_variable_server(client_id: int, identifier: int, value: T):
+    def handle_variable_set_server(client_id: int, identifier: int, value: T):
         if NetworkVariable.variables[identifier].require_owner:
             if NetworkVariable.variables[identifier].owner != client_id:
                 print("This variable requires ownership.")
@@ -362,7 +362,7 @@ class NetworkVariable[T]:
                 NetworkManager.instance.network_server.send(("VarS", (identifier, value)), i)
 
     @staticmethod
-    def handle_variable_client(identifier: int, value: T):
+    def handle_variable_set_client(identifier: int, value: T):
         NetworkVariable.variables[identifier]._value = value
 
     @staticmethod

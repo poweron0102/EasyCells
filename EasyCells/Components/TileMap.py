@@ -29,6 +29,7 @@ class TileMapRenderer(Drawable):
     tile_map: TileMap
 
     def __init__(self, tile_set: str | pg.Surface, tile_size: int):
+        super().__init__()
         if isinstance(tile_set, str):
             self.tile_set = pg.image.load(f"Assets/{tile_set}").convert_alpha()
         else:
@@ -38,7 +39,7 @@ class TileMapRenderer(Drawable):
         size = self.tile_set.get_size()
         self.word_position = Transform()
         self.matrix_size = (size[0] // tile_size, size[1] // tile_size)
-        Camera.instance.to_draw.append(self)
+        Camera.instance().to_draw.append(self)
 
     def init(self):
         self.tile_map = self.GetComponent(TileMap)
@@ -64,7 +65,7 @@ class TileMapRenderer(Drawable):
     def loop(self):
         self.word_position = Transform.Global
 
-    def draw(self, cam_x: float, cam_y: float, scale: float):
+    def draw(self, cam_x: float, cam_y: float, scale: float, camera: Camera):
         position = self.word_position * scale
         position.scale *= scale
 
@@ -89,7 +90,7 @@ class TileMapRenderer(Drawable):
 
         # Draw base_image
         size = image.get_size()
-        self.game.screen.blit(
+        camera.screen.blit(
             image,
             (
                 position.x - cam_x - size[0] // 2,

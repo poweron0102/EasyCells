@@ -5,9 +5,176 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Create `CallRpc_on_client_id` function.">
-      <change beforePath="$PROJECT_DIR$/.idea/EasyCells.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EasyCells.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/CamoStellarJet.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/DualStriker.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/InfraredFurtive.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/MeteorSlicer.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/MicroRecon.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/RedFighter.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/Transtellar.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/UltravioletIntruder.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/SpaceShips/Warship.vox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-006.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-007.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-010.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-012.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-013.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-014.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-015.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-016.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-017.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-018.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-019.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-020.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-022.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-023.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-026.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-027.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-028.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-029.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-030.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Border/panel-border-031.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider Fade/divider-fade-000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider Fade/divider-fade-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider Fade/divider-fade-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider Fade/divider-fade-003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider Fade/divider-fade-004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider Fade/divider-fade-005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider/divider-000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider/divider-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider/divider-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider/divider-003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider/divider-004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Divider/divider-005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-006.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-007.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-010.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-012.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-013.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-014.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-015.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-016.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-017.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-018.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-019.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-020.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-022.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-023.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-026.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-027.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-028.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-029.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-030.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Panel/panel-031.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-006.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-007.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-010.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-012.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-013.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-014.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-015.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-016.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-017.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-018.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-019.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-020.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-022.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-023.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-026.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-027.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-028.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-029.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-030.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent border/panel-transparent-border-031.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-006.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-007.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-010.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-012.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-013.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-014.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-015.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-016.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-017.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-018.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-019.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-020.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-022.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-023.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-026.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-027.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-028.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-029.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-030.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Ui/Transparent center/panel-transparent-center-031.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/space.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Levels/space_game.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Levels/space_selector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lost and found/TextureHelper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lost and found/checkerboard.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserComponents/Life.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserComponents/Shot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserComponents/SlowCamera.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserComponents/SpaceShip.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Sprite.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Sprite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Spritestacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Spritestacks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Components/TileMap.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/TileMap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkTransform.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkTransform.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Collider.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Collider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/UiComponents/UiComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/UiComponents/UiComponent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +214,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells/Games/Spaceship&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells/main.py&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
@@ -65,8 +233,8 @@
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\src\UiComponents" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Spaceship">
-    <configuration name="Main" type="PythonConfigurationType" factoryName="Python">
+  <component name="RunManager">
+    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" singleton="false">
       <module name="EasyCells" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -76,11 +244,11 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="SDK_NAME" value="Python 3.12 (EasyCells)" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\EasyCells\src" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\EasyCells" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -89,33 +257,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Spaceship" type="PythonConfigurationType" factoryName="Python" singleton="false">
-      <module name="EasyCells" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.12 (EasyCells)" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\EasyCells\Games\Spaceship" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Games/Spaceship/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Python.Main" />
-      <item itemvalue="Python.Spaceship" />
-    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -461,7 +602,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739219799096</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Create `CallRpc_on_client_id` function.">
+      <option name="closed" value="true" />
+      <created>1741531169805</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1741531169805</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -518,8 +667,9 @@
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/EasyCells/NetworkComponents/__init__.py</url>
-          <option name="timeStamp" value="10" />
+          <url>file://$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py</url>
+          <line>355</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -3,6 +3,7 @@ import math
 import pygame as pg
 from midvoxio.voxio import vox_to_arr
 
+from . import Camera
 from .Camera import Drawable
 from .Component import Transform
 
@@ -21,6 +22,7 @@ class SpriteStacks(Drawable):
         return self.images[int(angle_deg // self.angle)]
 
     def __init__(self, image_path: str | pg.Surface, size: tuple[int, int] = None, angle_deg: float = 15.0):
+        super().__init__()
         if isinstance(image_path, pg.Surface):
             image = image_path
         else:
@@ -34,7 +36,7 @@ class SpriteStacks(Drawable):
     def loop(self):
         self.word_position = Transform.Global
 
-    def draw(self, cam_x: float, cam_y: float, scale: float):
+    def draw(self, cam_x: float, cam_y: float, scale: float, camera: Camera):
         # Calculate the sprite's position and scaled size
         position = self.word_position * scale
         position.scale *= scale
@@ -48,7 +50,7 @@ class SpriteStacks(Drawable):
         bottom = position.y + scaled_size[1] // 2
 
         # Get the screen dimensions (viewport)
-        screen_width, screen_height = self.game.screen.get_size()
+        screen_width, screen_height = camera.screen.get_size()
 
         # Check if the sprite is completely outside the viewport
         if right < cam_x or left > cam_x + screen_width or bottom < cam_y or top > cam_y + screen_height:
@@ -64,7 +66,7 @@ class SpriteStacks(Drawable):
 
         # Draw the image
         size = image.get_size()
-        self.game.screen.blit(
+        camera.screen.blit(
             image,
             (
                 position.x - cam_x - size[0] // 2,

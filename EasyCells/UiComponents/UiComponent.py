@@ -1,6 +1,7 @@
 import pygame as pg
 from enum import Enum
 
+from ..Components import Camera
 from ..Components.Camera import Drawable
 from ..Components.Component import Transform
 from ..Geometry import Vec2
@@ -69,13 +70,9 @@ class UiComponent(Drawable):
         self._draw_on_screen_space = value
         self.draw = self.draw_screen_space if value else self.draw_world_space
 
-    def __init__(
-            self,
-            position: Vec2[float],
-            image: pg.Surface,
-            z: int = -101,
-            alignment: UiAlignment = UiAlignment.TOP_LEFT,
-    ):
+    def __init__(self, position: Vec2[float], image: pg.Surface, z: int = -101,
+                 alignment: UiAlignment = UiAlignment.TOP_LEFT):
+        super().__init__()
         self.word_position = Transform()
         self.image = image
         self.position = position
@@ -104,9 +101,9 @@ class UiComponent(Drawable):
         elif self.alignment == UiAlignment.GAME_SPACE:
             return Vec2(0, 0)
 
-    def draw_screen_space(self, cam_x: float, cam_y: float, scale: float):
+    def draw_screen_space(self, cam_x: float, cam_y: float, scale: float, camera: Camera):
         position = self.transform.position + self.calculate_screen_offset()
-        self.game.screen.blit(
+        camera.screen.blit(
             self.image,
             (
                 position.x - self.image.get_width() // 2,
@@ -114,7 +111,7 @@ class UiComponent(Drawable):
             )
         )
 
-    def draw_world_space(self, cam_x: float, cam_y: float, scale: float):
+    def draw_world_space(self, cam_x: float, cam_y: float, scale: float, camera: Camera):
         position = self.word_position * scale
         position.scale *= scale
 
@@ -125,7 +122,7 @@ class UiComponent(Drawable):
 
         # Draw base_image
         size = image.get_size()
-        self.game.screen.blit(
+        camera.screen.blit(
             image,
             (
                 position.x - cam_x - size[0] // 2,
