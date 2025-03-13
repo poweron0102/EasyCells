@@ -39,7 +39,7 @@ class Shot(NetworkComponent):
 
         shot = game.CreateItem()
 
-        coll = shot.AddComponent(RectCollider(pg.Rect(0, 0, 8, 8), debug=True, mask=owner))
+        coll = shot.AddComponent(RectCollider(pg.Rect(0, 0, 8, 8), debug=False, mask=owner))
 
         shot.AddComponent(Shot(identifier, owner, direction, start, coll))
 

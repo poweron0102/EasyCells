@@ -18,6 +18,7 @@ MAX_SPEED = 400.0  # 400.0
 ACCELERATION = 100.0
 DECELERATION = 40.0
 SHOT_COOLDOWN = 0.5
+DANO = 250.0
 
 
 class SpaceShip(NetworkComponent):  # NetworkComponent Component
@@ -124,6 +125,22 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         self.transform.position += Vec2.from_angle(self.transform.angle - math.pi / 2) * (
                 self.speed * self.game.delta_time)
 
+        # Check if the ship is out of the map
+        map_rect = pg.Rect(
+            -SlowCamera.word_border_size.x / 2,
+            -SlowCamera.word_border_size.y / 2,
+            SlowCamera.word_border_size.x,
+            SlowCamera.word_border_size.y
+        )
+        if self.transform.x < map_rect.left:
+            self.transform.x += map_rect.width
+        if self.transform.x > map_rect.right:
+            self.transform.x -= map_rect.width
+        if self.transform.y < map_rect.top:
+            self.transform.y += map_rect.height
+        if self.transform.y > map_rect.bottom:
+            self.transform.y -= map_rect.height
+
         if pg.key.get_pressed()[pg.K_SPACE] and self.shot_cooldown():
             Shot.Shot_instantiate(
                 random.randint(0, sys.maxsize),
@@ -135,7 +152,7 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         for shot in Shot.shots:
             if shot.owner != self.owner:
                 if self.collider.check_collision_global(shot.collider):
-                    self.life.value -= 10 * self.game.delta_time
+                    self.life.value -= DANO * self.game.delta_time
 
         # print(self.speed)
         # print(self.transform.position)
