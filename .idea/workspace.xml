@@ -4,52 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="add enable para components">
-      <change beforePath="$PROJECT_DIR$/.idea/EasyCells.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EasyCells.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="moved">
+      <change afterPath="$PROJECT_DIR$/main.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Animator.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Animator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Component.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/EmptyComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/EmptyComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Sprite.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Sprite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Spritestacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Spritestacks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/TileMap.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/TileMap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/TileMapIsometricRender.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/TileMapIsometricRender.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Components/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Geometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkTransform.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkTransform.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/NewGame.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NewGame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Collider.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Collider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/RectCollider.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/RectCollider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Rigidbody.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Rigidbody.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/TileMapCollider.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/TileMapCollider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/UiComponents/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/UiComponents/Button.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/UiComponents/TextInput.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/UiComponents/TextInput.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/UiComponents/UiComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/UiComponents/UiComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/UiComponents/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/UiComponents/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Levels/space_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/space_game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Levels/space_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/space_selector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lost and found/TextureHelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lost and found/TextureHelper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README_pt.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_pt.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/Life.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/Life.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/Shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/Shot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/SlowCamera.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/SlowCamera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/SpaceShip.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,18 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "poweron0102"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;poweron0102&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/poweron0102/EasyCells.git",
-    "accountId": "5186d812-d7bf-42f1-868b-3f447d356f4c"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/poweron0102/EasyCells.git&quot;,
+    &quot;accountId&quot;: &quot;5186d812-d7bf-42f1-868b-3f447d356f4c&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -90,23 +47,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Component.executor": "Run",
-    "Python.Main.executor": "Run",
-    "Python.NetworkManager.executor": "Run",
-    "Python.Spaceship.executor": "Run",
-    "Python.TextureHelper.executor": "Run",
-    "Python.builder.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Nathan Pinheiro/Documents/GitHub/EasyCells",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Component.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.NetworkManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Spaceship.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TextureHelper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.builder.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Nathan Pinheiro/Documents/GitHub/EasyCells&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\EasyCells" />
@@ -132,7 +89,7 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="SDK_NAME" value="Python 3.13" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\Nathan Pinheiro\Documents\EasyCells-master" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Nathan Pinheiro\Documents\GitHub\EasyCells" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -522,7 +479,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741902572430</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="moved">
+      <option name="closed" value="true" />
+      <created>1744226671527</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1744226671527</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -540,7 +505,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Rpcs working" />
     <MESSAGE value="NetworkTransform.py" />
     <MESSAGE value="IPv6" />
     <MESSAGE value="Add exemple menu" />
@@ -565,7 +529,8 @@
     <MESSAGE value="Add funcionalidade de multiplas cameras" />
     <MESSAGE value="Balanceamento" />
     <MESSAGE value="add enable para components" />
-    <option name="LAST_COMMIT_MESSAGE" value="add enable para components" />
+    <MESSAGE value="moved" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

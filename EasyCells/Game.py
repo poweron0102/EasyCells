@@ -43,6 +43,8 @@ class Game:
             start_level: str | ModuleType,
             game_name: str,
             show_fps: bool = False,
+            screen_resolution: tuple[int, int] = (800, 600),
+            screen_flag: int = 0,
             screen: pg.Surface | None = None,
     ):
         # imports: -=-=-=-=-
@@ -57,7 +59,7 @@ class Game:
         Game.instances_count += 1
 
         if screen is None:
-            self.screen: pg.Surface = pg.display.set_mode((800, 600), pg.RESIZABLE)  # (1280, 720)
+            self.screen: pg.Surface = pg.display.set_mode(screen_resolution, screen_flag)
         else:
             self.screen: pg.Surface = screen
 
