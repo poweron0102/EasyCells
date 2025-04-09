@@ -40,7 +40,7 @@ class Game:
 
     def __init__(
             self,
-            start_level: str,
+            start_level: str | ModuleType,
             game_name: str,
             show_fps: bool = False,
             screen: pg.Surface | None = None,
@@ -74,13 +74,20 @@ class Game:
         self.scheduler = Scheduler(self)
         self.item_list: list[Item] = []
         self.to_init: list[Callable] = []
-        self.current_level = start_level
-        self.new_game(self.current_level, supress=True)
+        self.new_game(start_level, supress=True)
         # pg.mouse.set_visible
 
-    def new_game(self, level: str, supress=False):
-        self.level = import_module(f".{level}", "Levels")
-        self.current_level = level
+        self.current_level = "Level_name"
+
+    def new_game(self, level: str | ModuleType, supress=False):
+        if type(level) == ModuleType:
+            self.level = level
+            self.current_level = level.__name__
+        else:
+            self.level = import_module(f".{level}", "Levels")
+            self.current_level = level
+
+
         self.run_time = 0
 
         for item in list(self.item_list):

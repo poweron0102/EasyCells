@@ -10,6 +10,8 @@ from pygame import MOUSEWHEEL
 
 from UserComponents.SpaceShip import SpaceShip
 
+import Levels.space_game
+
 ships: Item
 ships_sprite_stacks: list[SpriteStacks] = []
 ship_selected: bool = False
@@ -106,7 +108,7 @@ def init(game: Game):
             return
         print("Starting server")
         SpaceShip.player_name = name_text_box.text if name_text_box.text != "" else "Player"
-        game.scheduler.add(1, lambda: game.new_game('space_game'))
+        game.scheduler.add(1, lambda: game.new_game(Levels.space_game))
         game.CreateItem().AddComponent(
             NetworkManager(
                 ip_text_box.text if ip_text_box.text != "" else "localhost",
@@ -139,7 +141,7 @@ def init(game: Game):
                 ip_text_box.text if ip_text_box.text != "" else "localhost",
                 int(port_text_box.text) if port_text_box.text != "" else 5000,
                 False,
-                connect_callback=lambda x: game.scheduler.add(1, lambda: game.new_game('space_game'))
+                connect_callback=lambda x: game.scheduler.add(1, lambda: game.new_game(Levels.space_game))
             )
         )
 

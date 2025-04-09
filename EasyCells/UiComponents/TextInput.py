@@ -10,7 +10,6 @@ from .UiComponent import UiComponent, panel_maker, UiAlignment
 from ..scheduler import Tick
 
 pg.font.init()
-pg.scrap.init()
 
 
 class TextInput(UiComponent):
