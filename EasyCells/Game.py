@@ -1,3 +1,4 @@
+import asyncio
 import sys
 from importlib import import_module
 from types import ModuleType
@@ -12,6 +13,8 @@ if TYPE_CHECKING:
     from EasyCells.Components import Item
 
 ItemClass: type
+
+pg.init()
 
 
 class Game:
@@ -141,6 +144,26 @@ class Game:
                 self.scheduler.update()
             except NewGame:
                 pass
+
+    async def run_async(self):
+        while True:
+            self.update()
+            try:
+                for function in self.to_init:
+                    function()
+                self.to_init.clear()
+
+                for item in list(self.item_list):
+                    item.update()
+
+                self.level.loop(self)
+
+                self.scheduler.update()
+            except NewGame:
+                pass
+
+            await asyncio.sleep(0)
+
 
     def run_once(self):
         previous_instance: int = Game.current_instance

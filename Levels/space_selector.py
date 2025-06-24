@@ -31,7 +31,8 @@ def init(game: Game):
     ships.transform.x = -game.screen.get_width() // 2 + base_size // 2 + 25
 
     models: dict[str, tuple[pg.Surface, tuple[int, int]]] = {}
-    for i, file in enumerate(sorted(os.listdir("Assets/SpaceShips"))):
+    i = 0
+    for file in sorted(os.listdir("Assets/SpaceShips")):
         if not file.endswith(".vox"):
             continue
 
@@ -39,7 +40,12 @@ def init(game: Game):
         ship.AddComponent(Sprite(base_panel))
         ship.transform.position = Vec2(i * (base_size + 25), 0)
 
-        ship_img, size = SpriteStacks.voxel2img(f"Assets/SpaceShips/{file}")
+        if f"Assets/SpaceShips/{file[:-4]}.png" in os.listdir("Assets/SpaceShips"):
+            ship_img = pg.image.load(f"Assets/SpaceShips/{file[:-4]}.png").convert_alpha()
+            size = ship_img.get_size()
+        else:
+            ship_img, size = SpriteStacks.voxel2img(f"Assets/SpaceShips/{file}")
+            pg.image.save(ship_img, f"Assets/SpaceShips/{file[:-4]}.png")
         models[file] = ship_img, size
         ship_sprite_stacks = ship.CreateChild().AddComponent(SpriteStacks(ship_img, size, 1))
 
@@ -68,15 +74,19 @@ def init(game: Game):
             alignment=UiAlignment.GAME_SPACE
         ))
 
+        i += 1
+
     SpaceShip.models = models
 
     # Network -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
     ip_text_box = game.CreateItem().AddComponent(
         TextInput(
-            Vec2(-275, -225),
+            Vec2(-350, -225),
             "localhost",
             pg.image.load("Assets/Ui/Panel/panel-007.png"),
+            size=Vec2(350, 50),
+            font_size=25,
             active_panel=pg.image.load("Assets/Ui/Panel/panel-008.png"),
             alignment=UiAlignment.CENTER
         )
@@ -111,10 +121,10 @@ def init(game: Game):
         game.scheduler.add(1, lambda: game.new_game(Levels.space_game))
         game.CreateItem().AddComponent(
             NetworkManager(
-                ip_text_box.text if ip_text_box.text != "" else "localhost",
+                ip_text_box.text.strip() if ip_text_box.text != "" else "localhost",
                 int(port_text_box.text) if port_text_box.text != "" else 5000,
                 True,
-                #lambda x: game.scheduler.add(1, lambda: game.new_game('space_game'))
+                # lambda x: game.scheduler.add(1, lambda: game.new_game('space_game'))
             )
         )
 
@@ -135,7 +145,7 @@ def init(game: Game):
             return
         print("Starting client")
         SpaceShip.player_name = name_text_box.text if name_text_box.text != "" else "Player"
-        #game.scheduler.add(1, lambda: game.new_game('space_game'))
+        # game.scheduler.add(1, lambda: game.new_game('space_game'))
         game.CreateItem().AddComponent(
             NetworkManager(
                 ip_text_box.text if ip_text_box.text != "" else "localhost",

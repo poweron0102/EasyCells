@@ -5,7 +5,8 @@ from EasyCells.Components import Sprite
 from EasyCells.NetworkComponents import Rpc, SendTo, NetworkComponent
 from EasyCells.PhysicsComponents import RectCollider, Collider
 
-
+pg.mixer.init()
+_shot_sound = pg.mixer.Sound('Assets/Audio/shot.wav')
 class Shot(NetworkComponent):
     shots: set['Shot'] = set()
 
@@ -42,6 +43,7 @@ class Shot(NetworkComponent):
         coll = shot.AddComponent(RectCollider(pg.Rect(0, 0, 8, 8), debug=False, mask=owner))
 
         shot.AddComponent(Shot(identifier, owner, direction, start, coll))
+        _shot_sound.play()
 
         img = pg.Surface((8, 8))
         img.fill((255, 255, 255))

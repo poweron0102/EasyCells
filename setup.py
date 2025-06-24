@@ -27,5 +27,6 @@ setup(
         "pyfmodex>=0.7.2",     # Para FMOD
         "midvoxio>=0.1.6",     # Para SpriteStacks
         "matplotlib>=3.10",    # Para SpriteStacks
+        "pygame_gui>=0.6.13",   # Para GUI
     ],
 )

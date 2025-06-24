@@ -2,7 +2,7 @@ import pygame as pg
 import math
 
 from EasyCells import Vec2
-from EasyCells.Components import Component, Item
+from EasyCells.Components import Component
 
 
 def lerp(a: Vec2 | float, b: Vec2 | float, t: float) -> Vec2:
@@ -13,7 +13,6 @@ class SlowCamera(Component):
     word_border_size: Vec2[float]
 
     def __init__(self, speed: float):
-        self.target: Item | None = None
         self.speed = speed
 
     def init(self):
@@ -25,7 +24,6 @@ class SlowCamera(Component):
         while not hasattr(SpaceShip, "player"):
             yield
 
-        self.target = SpaceShip.player.item
         print("Camera following player")
 
         word_rect = pg.Rect(
@@ -37,8 +35,8 @@ class SlowCamera(Component):
 
         while True:
             self.transform.position = (
-                    self.target.transform.position -
-                    Vec2.from_angle(self.target.transform.angle + math.pi / 2) * (SpaceShip.player.speed / 1.5)
+                    SpaceShip.player.item.transform.position -
+                    Vec2.from_angle(SpaceShip.player.item.transform.angle + math.pi / 2) * (SpaceShip.player.speed / 1.5)
             )
 
             cam_rect = pg.Rect(
