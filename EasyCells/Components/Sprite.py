@@ -83,6 +83,7 @@ class Sprite(Drawable):
             return  # Skip drawing if out of bounds
 
         # Crop base_image without losing alpha channel
+        self.draw_image.fill((0, 0, 0, 0))
         self.draw_image.blit(
             self.image,
             (0, 0),

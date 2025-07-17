@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 import pygame as pg
@@ -11,47 +11,44 @@ from ..Geometry import Vec2
 
 class Polygon:
     def __init__(self, vertices: List[List[float]] | np.ndarray):
-        if type(vertices) is list:
+        if isinstance(vertices, list):
             self.vertices = np.array(vertices, dtype=np.float64)
         else:
             self.vertices = vertices
 
     def get_edges(self) -> np.ndarray:
         """
-        Retorna as arestas do polígono como uma lista de vetores
+        Returns the edges of the polygon as an array of vectors.
         """
-        edges = []
-        for i in range(len(self.vertices)):
-            v1 = self.vertices[i]
-            v2 = self.vertices[(i + 1) % len(self.vertices)]
-            edges.append(v2 - v1)
-        return np.array(edges)
+        # Creates edges by subtracting each vertex from the next one.
+        # np.roll shifts elements along an axis.
+        return np.roll(self.vertices, shift=-1, axis=0) - self.vertices
 
     def get_normals(self):
         """
-        Retorna os vetores normais das arestas do polígono
+        Returns the normal vectors of the polygon's edges.
         """
         edges = self.get_edges()
-        normals = np.zeros(edges.shape)
-        for i in range(len(edges)):
-            edge = edges[i]
-            # Vetor perpendicular: (-y, x)
-            normals[i] = np.array([-edge[1], edge[0]])
-            # Normalizando o vetor
-            normals[i] /= np.linalg.norm(normals[i])
+        # For an edge (x, y), the perpendicular is (-y, x)
+        normals = np.empty_like(edges)
+        normals[:, 0] = -edges[:, 1]
+        normals[:, 1] = edges[:, 0]
+        # Normalize each normal vector
+        norms = np.linalg.norm(normals, axis=1, keepdims=True)
+        # Avoid division by zero for zero-length edges (which create zero-length normals)
+        np.divide(normals, norms, out=normals, where=norms > 1e-9)
         return normals
 
     def apply_transform(self, transform: Transform) -> 'Polygon':
         """
-        Aplica uma transformação ao polígono
+        Applies a transformation to the polygon.
         """
-        new_vertices = np.zeros(self.vertices.shape, dtype=np.float64)
-        for i in range(len(self.vertices)):
-            x, y = self.vertices[i]
-            new_x = x * np.cos(transform.angle) - y * np.sin(transform.angle)
-            new_y = x * np.sin(transform.angle) + y * np.cos(transform.angle)
-            new_vertices[i] = np.array([new_x, new_y]) * transform.scale + np.array([transform.x, transform.y])
+        c, s = np.cos(transform.angle), np.sin(transform.angle)
+        # Transposed rotation matrix for operating on row vectors [x, y]
+        rotation_matrix_T = np.array([[c, s], [-s, c]])
 
+        # Rotate, then scale, then translate.
+        new_vertices = (self.vertices @ rotation_matrix_T) * transform.scale + np.array([transform.x, transform.y])
         return Polygon(new_vertices)
 
 
@@ -73,8 +70,8 @@ class Collider(Component):
 
     def __init__(self, polygons: List[Polygon], mask: int = 1, debug: bool = False):
         """
-        Polygons: lista de objetos Polygon
-        mask: máscara de colisão (bitwise)
+        polygons: list of Polygon objects
+        mask: collision mask (bitwise)
         """
         self.word_position = Transform()
         self.polygons: List[Polygon] = polygons
@@ -92,7 +89,6 @@ class Collider(Component):
 
     def loop_debug(self):
         self.word_position = Transform.Global
-        # print(f"collider: {self.__class__}\n   \033[92m    Word position: {self.word_position} \033[0m")
         Camera.instance().debug_draws.append(self.draw)
 
     def loop_no_debug(self):
@@ -100,7 +96,7 @@ class Collider(Component):
 
     def draw(self, cam_x: float, cam_y: float, scale: float, camera: Camera):
         """
-        for debug only
+        For debug only
         """
         position = self.word_position * scale
         position.scale *= scale
@@ -114,25 +110,24 @@ class Collider(Component):
                 3
             )
 
-    def check_collision_global(self, other) -> bool:
+    def check_collision_global(self, other: 'Collider') -> Tuple[bool, np.ndarray | None]:
+        """
+        Checks for collision and returns the collision status and the MTV.
+        Returns: (bool, mtv_vector or None)
+        """
         for polygon in self.polygons:
-            polygon = polygon.apply_transform(self.word_position)
+            p1_transformed = polygon.apply_transform(self.word_position)
             for other_polygon in other.polygons:
-                other_polygon = other_polygon.apply_transform(other.word_position)
-                if _sat_collision(polygon.vertices, other_polygon.vertices):
-                    return True
-        return False
+                p2_transformed = other_polygon.apply_transform(other.word_position)
 
-    def check_collision(self, other) -> bool:
-        for polygon in self.polygons:
-            for other_polygon in other.polygons:
-                if _sat_collision(polygon.vertices, other_polygon.vertices):
-                    return True
-        return False
+                colliding, mtv = _sat_collision(p1_transformed.vertices, p2_transformed.vertices)
+                if colliding:
+                    return True, mtv
+        return False, None
 
     def compile_numba_functions(self):
         """
-        Compila as funções numba para melhorar a desempenho
+        Compiles numba functions to improve performance.
         """
         if Collider.compiled:
             return
@@ -141,18 +136,14 @@ class Collider(Component):
         _ray_polygon_intersection_numba(
             np.array([0, 0], dtype=np.float64),
             np.array([1, 1], dtype=np.float64),
-            np.array([
-                [0, 0],
-                [1, 1],
-                [2, 2],
-                [4, 4]
-            ], dtype=np.float64),
+            np.array([[0, 0], [1, 1], [2, 2], [4, 4]], dtype=np.float64),
             10
         )
 
         print("Collider functions compiled")
         Collider.compiled = True
 
+    # ... (rest of the class methods like bounding_box, ray_cast, etc. remain the same) ...
     def bounding_box(self) -> pg.Rect:
         """
         Retorna o menor retângulo que contém o collider
@@ -297,7 +288,7 @@ def _ray_polygon_intersection_numba(origin: np.ndarray, direction: np.ndarray, v
 @njit()
 def project_polygon(vertices, axis):
     """
-    Projeta os vértices de um polígono sobre um eixo
+    Projects the vertices of a polygon onto an axis.
     """
     min_proj = np.inf
     max_proj = -np.inf
@@ -311,36 +302,57 @@ def project_polygon(vertices, axis):
 @njit()
 def _sat_collision(vertices_a, vertices_b):
     """
-    Usa o Separating Axis Theorem (SAT) para verificar colisão entre dois polígonos convexos
+    Uses the Separating Axis Theorem (SAT) to check for collision between two convex polygons.
+    If a collision occurs, it returns True and the Minimum Translation Vector (MTV).
+    Otherwise, it returns False and None.
     """
+    min_overlap = np.inf
+    mtv_axis = None
+
+    # Get all axes to test (normals of both polygons)
+    axes = []
     for i in range(len(vertices_a)):
-        # Calcula as arestas e os vetores normais
-        v1A = vertices_a[i]
-        v2A = vertices_a[(i + 1) % len(vertices_a)]
-        edgeA = v2A - v1A
-        axisA = np.array([-edgeA[1], edgeA[0]])
-        axisA /= np.linalg.norm(axisA)
-
-        # Projeta os dois polígonos sobre o eixo normal
-        minA, maxA = project_polygon(vertices_a, axisA)
-        minB, maxB = project_polygon(vertices_b, axisA)
-
-        if maxA < minB or maxB < minA:
-            return False  # Separação detectada
+        v1 = vertices_a[i]
+        v2 = vertices_a[(i + 1) % len(vertices_a)]
+        edge = v2 - v1
+        axis = np.array([-edge[1], edge[0]])
+        norm = np.linalg.norm(axis)
+        if norm > 0:
+            axes.append(axis / norm)
 
     for i in range(len(vertices_b)):
-        v1B = vertices_b[i]
-        v2B = vertices_b[(i + 1) % len(vertices_b)]
-        edgeB = v2B - v1B
-        axisB = np.array([-edgeB[1], edgeB[0]])
-        axisB /= np.linalg.norm(axisB)
+        v1 = vertices_b[i]
+        v2 = vertices_b[(i + 1) % len(vertices_b)]
+        edge = v2 - v1
+        axis = np.array([-edge[1], edge[0]])
+        norm = np.linalg.norm(axis)
+        if norm > 0:
+            axes.append(axis / norm)
 
-        minA, maxA = project_polygon(vertices_a, axisB)
-        minB, maxB = project_polygon(vertices_b, axisB)
+    # Test all axes
+    for i in range(len(axes)):
+        axis = axes[i]
+        minA, maxA = project_polygon(vertices_a, axis)
+        minB, maxB = project_polygon(vertices_b, axis)
 
+        # Check for separation
         if maxA < minB or maxB < minA:
-            return False  # Separação detectada
+            return False, None  # Separation detected
 
-    return True  # Colisão detectada
+        # Calculate overlap
+        overlap = min(maxA, maxB) - max(minA, minB)
+        if overlap < min_overlap:
+            min_overlap = overlap
+            mtv_axis = axis
 
-# Teste
+    # If we are here, a collision occurred.
+    # The MTV is the axis with the minimum overlap, scaled by that overlap.
+
+    center_a = np.sum(vertices_a, axis=0) / vertices_a.shape[0]
+    center_b = np.sum(vertices_b, axis=0) / vertices_b.shape[0]
+    direction = center_b - center_a
+    if np.dot(direction, mtv_axis) < 0:
+        mtv_axis = -mtv_axis
+
+    mtv = mtv_axis * min_overlap
+    return True, mtv

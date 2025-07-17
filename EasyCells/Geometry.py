@@ -60,3 +60,6 @@ class Vec2[T]:
     def distance(self, param: 'Vec2[T]') -> float:
         return math.sqrt((self.x - param.x) ** 2 + (self.y - param.y) ** 2)
 
+    def magnitude(self) -> float:
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+

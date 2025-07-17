@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Minemap, on and off">
-      <change afterPath="$PROJECT_DIR$/EasyCells/GuiWarper/GuiComponent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lost and found/test.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lost and found/web.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/UiComponents/TextInput.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/UiComponents/TextInput.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Levels/space_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/space_selector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/Shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/Shot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/SlowCamera.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/SlowCamera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/SpaceShip.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/main.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Comite de final da DJUFF DJAM 2025." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -517,7 +503,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741903268738</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Comite de final da DJUFF DJAM 2025.">
+      <option name="closed" value="true" />
+      <created>1750805788950</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1750805788950</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -535,7 +529,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="NetworkTransform.py" />
     <MESSAGE value="IPv6" />
     <MESSAGE value="Add exemple menu" />
     <MESSAGE value="error with port name" />
@@ -560,7 +553,8 @@
     <MESSAGE value="Balanceamento" />
     <MESSAGE value="add enable para components" />
     <MESSAGE value="Minemap, on and off" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minemap, on and off" />
+    <MESSAGE value="Comite de final da DJUFF DJAM 2025." />
+    <option name="LAST_COMMIT_MESSAGE" value="Comite de final da DJUFF DJAM 2025." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
