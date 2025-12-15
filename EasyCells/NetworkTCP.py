@@ -10,7 +10,7 @@ from .scheduler import Scheduler
 SIZE_SIZE = 4
 
 
-class NetworkServer:
+class NetworkServerTCP:
     def __init__(self, ip: str, port: int, ip_version: int = 4,
                  connect_callback: Callable[[int], None] = lambda x: None):
         self.ip = ip
@@ -109,7 +109,7 @@ class NetworkServer:
             self.clients.pop(client_id)
 
 
-class NetworkClient:
+class NetworkClientTCP:
     def __init__(self, ip: str, port: int, ip_version: int = 4,
                  connect_callback: Callable[[int], None] = lambda x: None):
         self.ip = ip

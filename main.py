@@ -18,7 +18,7 @@ import Levels.test_rigidbody
 import Levels.space_selector
 
 if __name__ == '__main__':
-    #GAME = Game(Levels.space_selector, "Spaceship", True, (1280, 720))
-    GAME = Game(Levels.test_rigidbody, "Spaceship", True, (600, 400))
+    GAME = Game(Levels.space_selector, "Spaceship", True, (1280, 720))
+    #GAME = Game(Levels.test_rigidbody, "Spaceship", True, (600, 400))
     GAME.run()
     # asyncio.run(GAME.run_async())
