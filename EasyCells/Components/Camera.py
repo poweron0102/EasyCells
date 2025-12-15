@@ -84,7 +84,7 @@ class Camera(Component):
             self.size = self.screen.get_size()
 
     def on_destroy(self):
-        if Camera.instances[Game.current_instance] == self:
+        if Game.current_instance in Camera.instances and Camera.instances[Game.current_instance] == self:
             del Camera.instances[Game.current_instance]
 
         self.on_destroy = lambda: None
@@ -115,26 +115,12 @@ class Camera(Component):
 
     @staticmethod
     def draw_debug_line(start: Vec2[float], end: Vec2[float], color: pg.Color, width: int = 1):
-        """
-        This function needs be called on the loop method of a component to work
-        It uses locale coordinates from the current loop function of the component
-        """
-        misc = [start, end, Transform.Global.clone()]
-
         def draw(cam_x: float, cam_y: float, scale: float, camera: 'Camera'):
-            start = misc[0].to_tuple
-            end = misc[1].to_tuple
-            position = misc[2] * scale
-            position.scale *= scale
-
-            start = position.apply_transform(start)
-            end = position.apply_transform(end)
-
             pg.draw.line(
                 Camera.instance().screen,
                 color,
-                start - pg.Vector2(cam_x, cam_y),
-                end - pg.Vector2(cam_x, cam_y),
+                (start - Vec2(cam_x, cam_y)).to_tuple,
+                (end - Vec2(cam_x, cam_y)).to_tuple,
                 width
             )
 
@@ -142,10 +128,6 @@ class Camera(Component):
 
     @staticmethod
     def draw_debug_ray(start: Vec2[float], angle: float, length: float, color: pg.Color, width: int = 1):
-        """
-        This function needs be called on the loop method of a component to work
-        It uses locale coordinates from the current loop function of the component
-        """
         Camera.draw_debug_line(
             start,
             Vec2(start.x + length * math.cos(angle), start.y + length * math.sin(angle)),

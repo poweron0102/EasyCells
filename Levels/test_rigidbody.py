@@ -27,7 +27,7 @@ def init(game: Game):
     player.transform.z = 1  # Render player above other objects
 
     # Attach camera to player
-    # camera = player.AddComponent(Camera())
+    #camera = player.AddComponent(Camera())
 
     camera_item = game.CreateItem()
     camera = camera_item.AddComponent(Camera())
@@ -52,16 +52,16 @@ def init(game: Game):
         angular_drag=0.9,
         use_gravity=True,
         gravity_scale=1.0,
-        restitution=0.1,  # Low bounciness
+        restitution=100000,  # bounciness
         is_kinematic=False,
     ))
 
     # --- Movable Box Setup ---
     caixa = game.CreateItem()
     caixa.AddComponent(Sprite("player24.png", (24, 24))).index = 1
-    caixa.transform.position = Vec2(80, -128)
+    caixa.transform.position = Vec2(80, -100)
     caixa.AddComponent(RectCollider(pg.Rect(0, 0, 24, 24), debug=True))
-    caixa_rg = caixa.AddComponent(Rigidbody(mass=75, drag=0.2, restitution=0.4))
+    caixa_rg = caixa.AddComponent(Rigidbody(mass=200, drag=0.2, restitution=100000, use_gravity=True, is_kinematic=False))
 
     # --- TileMap Setup (as a static environment) ---
     tile_map = game.CreateItem()
@@ -85,7 +85,7 @@ def loop(game: Game):
     # --- Player Controls ---
     # Instead of setting velocity, we apply forces for smoother, physics-based movement.
     move_force = 800.0  # The amount of force to apply for movement
-    jump_impulse = 250.0  # An instant force for jumping
+    jump_impulse = 340.0  # An instant force for jumping
 
     # Horizontal Movement
     move_direction = 0
@@ -99,10 +99,12 @@ def loop(game: Game):
 
     # Rotate Map
     if pg.key.get_pressed()[pg.K_q]:
-        tile_map.transform.angle += 1 * game.delta_time
+        tile_map.transform.angle += 0.5 * game.delta_time
     if pg.key.get_pressed()[pg.K_e]:
-        tile_map.transform.angle -= 1 * game.delta_time
+        tile_map.transform.angle -= 0.5 * game.delta_time
 
+    if pg.key.get_pressed()[pg.K_r]:
+        game.new_game("test_rigidbody")  # Restart the game
 
 
     # Jumping (example)
@@ -116,8 +118,9 @@ def loop(game: Game):
     # --- Player Animations ---
     animator = player.GetComponent(Animator)
     # Check if moving horizontally
-    if abs(player_rg.velocity.x) > 10:  # Use a small threshold
-        animator.current_animation = "run"
+    if abs(player_rg.velocity.x) > 10:
+        if animator.current_animation != "run":
+            animator.current_animation = "run"
     else:
         animator.current_animation = "idle"
 
@@ -127,6 +130,7 @@ def loop(game: Game):
     direction = (mouse_pos - player_pos).normalize()
 
     # Draw a line from player to mouse
+    # print(f"Player Position: {player_pos}, Mouse Position: {mouse_pos}, Direction: {direction}")
     Camera.instance().draw_debug_line(player_pos, mouse_pos, pg.Color("green"))
 
     # Perform the raycast

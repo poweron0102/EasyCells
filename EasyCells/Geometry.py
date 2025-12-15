@@ -28,6 +28,9 @@ class Vec2[T]:
     def __div__(self, other: T):
         return Vec2(self.x / other, self.y / other)
 
+    def __truediv__(self, other: T):
+        return Vec2(self.x / other, self.y / other)
+
     def __neg__(self):
         return Vec2(-self.x, -self.y)
 

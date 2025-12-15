@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Comite de final da DJUFF DJAM 2025." />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Rigidbody.py funcionando muito bem!">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lost and found/scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/EasyCells.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EasyCells.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Components/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Components/Camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/Geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/Geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Rigidbody.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/PhysicsComponents/Rigidbody.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Levels/test_rigidbody.py" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/test_rigidbody.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +37,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;poweron0102&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/poweron0102/EasyCells.git&quot;,
+    &quot;accountId&quot;: &quot;8a63064c-2470-443c-9112-901e85ed3ac4&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -28,37 +56,46 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2lrL7ad5Ot0LEx0BcF5ChQq82Jw" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.Component.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Network.executor&quot;: &quot;Run&quot;,
-    &quot;Python.NetworkManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.NetworkTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Spaceship.executor&quot;: &quot;Run&quot;,
-    &quot;Python.TextureHelper.executor&quot;: &quot;Run&quot;,
-    &quot;Python.builder.executor&quot;: &quot;Run&quot;,
-    &quot;Python.web.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/EasyCells&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.Component.executor": "Run",
+    "Python.Main.executor": "Run",
+    "Python.Network.executor": "Run",
+    "Python.NetworkManager.executor": "Run",
+    "Python.NetworkTest.executor": "Run",
+    "Python.Spaceship.executor": "Run",
+    "Python.TextureHelper.executor": "Run",
+    "Python.builder.executor": "Run",
+    "Python.web.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/natha/PycharmProjects/EasyCells/Lost and found",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\natha\PycharmProjects\EasyCells\Lost and found" />
+      <recent name="C:\Users\natha\PycharmProjects\EasyCells\src\Assets" />
       <recent name="C:\Users\natha\PycharmProjects\EasyCells" />
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\src\UiComponents" />
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\src" />
-      <recent name="C:\Users\natha\PycharmProjects\EasyCells\src\levels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\EasyCells\EasyCells\NetworkComponents" />
@@ -77,11 +114,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.12 (EasyCells)" />
+      <option name="SDK_NAME" value="Python 3.14 (.venv)" />
       <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\EasyCells" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -105,6 +143,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/EasyCells/NetworkTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -122,7 +161,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-09665e90c3a7-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15026.15" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-PY-252.28238.29" />
+        <option value="bundled-python-sdk-a101402ee41c-968fe969f28a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.28238.29" />
       </set>
     </attachedChunks>
   </component>
@@ -134,6 +174,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1725933082271</updated>
+      <workItem from="1752681899061" duration="40989000" />
+      <workItem from="1753912110816" duration="4841000" />
+      <workItem from="1755215511987" duration="2648000" />
+      <workItem from="1757104249466" duration="811000" />
+      <workItem from="1760805949406" duration="415000" />
+      <workItem from="1760806887582" duration="2203000" />
+      <workItem from="1760830419527" duration="14000" />
+      <workItem from="1760878447747" duration="746000" />
+      <workItem from="1765659270592" duration="2721000" />
+      <workItem from="1765828734240" duration="837000" />
     </task>
     <task id="LOCAL-00001" summary="base0">
       <option name="closed" value="true" />
@@ -511,8 +561,19 @@
       <option name="project" value="LOCAL" />
       <updated>1750805788950</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Rigidbody.py funcionando muito bem!">
+      <option name="closed" value="true" />
+      <created>1752711282978</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1752711282978</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.spec" />
@@ -529,7 +590,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="IPv6" />
     <MESSAGE value="Add exemple menu" />
     <MESSAGE value="error with port name" />
     <MESSAGE value="Add 'Ctrl + V' support for TextInput.py" />
@@ -554,7 +614,8 @@
     <MESSAGE value="add enable para components" />
     <MESSAGE value="Minemap, on and off" />
     <MESSAGE value="Comite de final da DJUFF DJAM 2025." />
-    <option name="LAST_COMMIT_MESSAGE" value="Comite de final da DJUFF DJAM 2025." />
+    <MESSAGE value="Rigidbody.py funcionando muito bem!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rigidbody.py funcionando muito bem!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -569,10 +630,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py</url>
-          <line>355</line>
+          <line>353</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/EasyCells$Main.coverage" NAME="Main Coverage Results" MODIFIED="1765829648976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\natha\PycharmProjects\EasyCells" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

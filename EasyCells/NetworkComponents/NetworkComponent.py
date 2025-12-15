@@ -3,8 +3,6 @@ from enum import Enum
 from functools import wraps
 from typing import Callable, Any
 
-from numpy.compat import unicode
-
 from EasyCells.Components.Component import Component
 from EasyCells.Network import NetworkServer, NetworkClient
 
@@ -252,7 +250,7 @@ class NetworkManager(Component):
             if ip == "localhost":
                 ip_version = 4
             else:
-                ip_version = ipaddress.ip_address(unicode(ip)).version
+                ip_version = ipaddress.ip_address(ip).version
 
         if is_server:
             self.network_server = NetworkServer(ip, port, ip_version, self.server_callback)

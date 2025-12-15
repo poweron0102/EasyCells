@@ -15,6 +15,7 @@ Dependencies:
 from EasyCells import Game
 
 import Levels.test_rigidbody
+import Levels.space_selector
 
 if __name__ == '__main__':
     #GAME = Game(Levels.space_selector, "Spaceship", True, (1280, 720))
