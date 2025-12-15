@@ -196,6 +196,7 @@ class NetworkVariable[T]:
                 # Servidor validando escrita de um cliente
                 if self.require_owner and sender_id != self.owner:
                     print(f"Negado: Cliente {sender_id} tentou modificar Variável {self.var_id} sem permissão.")
+                    # Opcional: Forçar rollback no cliente enviando o valor antigo de volta
                     return
 
                 # Atualiza valor no servidor
@@ -221,17 +222,51 @@ class NetworkVariable[T]:
 class NetworkManager(Component):
     instance: 'NetworkManager' = None
 
-    def __init__(self, ip: str, port: int, is_server: bool):
+    def __init__(
+            self,
+            ip: str,
+            port: int,
+            is_server: bool,
+            connect_callback: Callable[[int], None] = None
+    ):
         NetworkManager.instance = self
         self.is_server = is_server
         self.ip = ip
         self.port = port
-        self.my_id = 0 if is_server else -1
+        self.id = 0 if is_server else -1
 
-        if self.is_server:
-            self.server = NetworkServer(ip, port)
+        # Configuração de Callbacks (como no original)
+        self.connect_callbacks: list[Callable[[int], None]] = []
+        if connect_callback is not None:
+            self.connect_callbacks.append(connect_callback)
+
+        # Lógica de Versão de IP (IPv4 vs IPv6)
+        if ip == "localhost":
+            ip_version = 4
         else:
-            self.client = NetworkClient(ip, port)
+            try:
+                ip_version = ipaddress.ip_address(ip).version
+            except ValueError:
+                # Fallback para IPv4 se houver erro ou for um hostname não resolvido aqui
+                ip_version = 4
+
+        # Inicialização do Servidor/Cliente passando os callbacks
+        if self.is_server:
+            # Assumindo assinatura original: (ip, port, ip_version, callback)
+            self.server = NetworkServer(ip, port, ip_version, self.server_callback)
+        else:
+            self.client = NetworkClient(ip, port, ip_version, self.client_callback)
+
+    def client_callback(self, client_id: int):
+        """Chamado quando este cliente se conecta (recebe seu ID)."""
+        self.id = client_id
+        for call in self.connect_callbacks:
+            call(client_id)
+
+    def server_callback(self, client_id: int):
+        """Chamado no servidor quando um novo cliente se conecta."""
+        for call in self.connect_callbacks:
+            call(client_id)
 
     def init(self):
         if hasattr(self.item, "destroy_on_load"):
@@ -258,25 +293,19 @@ class NetworkManager(Component):
         """Roteador central de pacotes."""
         try:
             # Estrutura: (OP_CODE, TARGET_ID, PAYLOAD, ARGS)
-            # Para RPC: PAYLOAD = method_name
-            # Para VAR: PAYLOAD = sub_op (VAR_SET/VAR_GET)
             op_code, target_id, payload, args = data
 
             if op_code == OP_RPC:
                 component = NetworkComponent._active_components.get(target_id)
                 if component:
                     component.handle_incoming_rpc(payload, args, sender_id)
-                else:
-                    # O objeto pode não ter sido criado ainda no cliente
-                    pass
 
             elif op_code == OP_VAR:
                 variable = NetworkVariable._active_variables.get(target_id)
                 if variable:
-                    # payload aqui é o sub_op (SET ou GET)
                     variable.handle_network_update(payload, args, sender_id)
                 else:
-                    print(f"Aviso: Variável {target_id} não encontrada para atualização.")
+                    pass
 
         except ValueError:
             print("Pacote malformado recebido.")
