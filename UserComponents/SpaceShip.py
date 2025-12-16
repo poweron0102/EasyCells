@@ -142,8 +142,8 @@ class SpaceShip(NetworkComponent):  # NetworkComponent Component
         def d():
             print("instantiate_all:", client_id)
             for ship in SpaceShip.spawned_ships:
-                NetworkComponent.CallRpc_on_client_id(
-                    "SpaceShip_instantiate", None, client_id, *ship
+                NetworkManager.instance.call_rpc_on_client(
+                    client_id, SpaceShip.SpaceShip_instantiate, *ship
                 )
 
         Scheduler.instance.add(3, d)

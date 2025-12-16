@@ -1,4 +1,5 @@
 import ipaddress
+from weakref import WeakValueDictionary
 from enum import Enum, auto
 from functools import wraps
 from typing import Callable, Any
@@ -16,6 +17,9 @@ OP_VAR = 2
 VAR_SET = 1
 VAR_GET = 2
 
+# ID reservado para RPCs estáticos/globais
+STATIC_NET_ID = 0
+
 
 class SendTo(Enum):
     ALL = 0  # Envia para todos (incluindo eu, se for Server)
@@ -27,60 +31,112 @@ class SendTo(Enum):
 
 def Rpc(send_to: SendTo = SendTo.ALL, require_owner: bool = True):
     """
-    Decorador simples: Apenas marca o método com metadados.
-    A lógica pesada foi movida para o NetworkComponent.
+    Decorador que suporta métodos de instância (NetworkComponent),
+    métodos estáticos (@staticmethod) e funções livres.
     """
 
     def decorator(func: Callable):
+        # Registra RPC estático se não for método de instância óbvio no momento da definição
+        # (Nota: A distinção real acontece no wrapper, em tempo de execução)
+        if func.__qualname__ != func.__name__:
+            # Pode ser um método de classe, mas garantimos o registro no wrapper dinâmico
+            pass
+
         @wraps(func)
-        def wrapper(self, *args, **kwargs):
-            # Se for uma chamada local (pelo código do jogo), roteia pela rede
-            if not getattr(self, "_is_executing_rpc", False):
-                self.send_rpc(func.__name__, args, send_to)
+        def wrapper(*args, **kwargs):
+            # Tenta identificar se é uma chamada de instância
+            instance = None
+            if args and isinstance(args[0], NetworkComponent):
+                instance = args[0]
 
-                # Se for SendTo.ALL e eu sou o servidor, executo localmente também
-                if NetworkManager.instance.is_server and send_to == SendTo.ALL:
-                    return func(self, *args, **kwargs)
-                return None
+            # --- Caminho de Instância ---
+            if instance:
+                if not getattr(instance, "_is_executing_rpc", False):
+                    # args[1:] remove o 'self' para o envio, pois o receptor recolocará o self dele
+                    instance.send_rpc(func.__name__, args[1:], send_to)
 
-            # Se a flag _is_executing_rpc for True, significa que o NetworkComponent
-            # chamou isso vindo da rede. Executa a lógica real.
-            return func(self, *args, **kwargs)
+                    if NetworkManager.instance.is_server and send_to == SendTo.ALL:
+                        return func(instance, *args[1:], **kwargs)
+                    return None
+
+                # Execução local vinda da rede
+                return func(instance, *args[1:], **kwargs)
+
+            # --- Caminho Estático / Função Livre ---
+            else:
+                # Usa o componente estático global para enviar
+                static_comp = NetworkComponent.get_static_instance()
+
+                # Garante que a função está registrada para recebimento
+                if func.__name__ not in NetworkComponent._static_rpcs:
+                    NetworkComponent._static_rpcs[func.__name__] = func
+
+                # Evita loop infinito se chamado pela própria rede
+                if not getattr(static_comp, "_is_executing_rpc", False):
+                    static_comp.send_rpc(func.__name__, args, send_to)
+
+                    if NetworkManager.instance.is_server and send_to == SendTo.ALL:
+                        return func(*args, **kwargs)
+                    return None
+
+                # Execução local vinda da rede
+                return func(*args, **kwargs)
 
         wrapper._rpc_config = {
             "send_to": send_to,
             "require_owner": require_owner
         }
+
+        # Se for função livre ou estática, registramos o nome logo para lookup reverso
+        # (Otimização para evitar register on-the-fly sempre)
+        NetworkComponent._static_rpcs[func.__name__] = wrapper
+
         return wrapper
 
     return decorator
 
 
 class NetworkComponent(Component):
-    # Registro estático apenas para roteamento de ID -> Instância
+    # Registro estático para roteamento de ID -> Instância
     _active_components: dict[int, "NetworkComponent"] = {}
 
+    # Suporte para RPCs Estáticos
+    _static_instance: "NetworkComponent" = None
+    _static_rpcs: dict[str, Callable] = {}
+
     def __init__(self, identifier: int, owner: int):
-        self.net_id = identifier
+        self.identifier = identifier
         self.owner = owner
         self._is_executing_rpc = False  # Flag de controle de recursão
 
+        if identifier == STATIC_NET_ID:
+            NetworkComponent._static_instance = self
+
     def init(self):
         """Chamado pela engine ao iniciar."""
-        if self.net_id is not None:
-            NetworkComponent._active_components[self.net_id] = self
+        if self.identifier is not None:
+            NetworkComponent._active_components[self.identifier] = self
+
+    @classmethod
+    def get_static_instance(cls):
+        """Lazy initialization do componente estático."""
+        if cls._static_instance is None:
+            cls._static_instance = NetworkComponent(STATIC_NET_ID, 0)
+            # Força registro manual pois o init() normal depende da engine
+            cls._active_components[STATIC_NET_ID] = cls._static_instance
+        return cls._static_instance
 
     def on_destroy(self):
         """Remove o objeto do registro quando ele é destruído."""
-        if self.net_id in NetworkComponent._active_components:
-            del NetworkComponent._active_components[self.net_id]
+        if self.identifier in NetworkComponent._active_components:
+            del NetworkComponent._active_components[self.identifier]
 
         # Sobrescreve para evitar chamadas futuras
         self.on_destroy = lambda: None
 
     def send_rpc(self, method_name: str, args: tuple, send_to: SendTo):
         """Encapsula e envia o pacote."""
-        packet = (OP_RPC, self.net_id, method_name, args)
+        packet = (OP_RPC, self.identifier, method_name, args)
         nm = NetworkManager.instance
 
         if nm.is_server:
@@ -95,28 +151,46 @@ class NetworkComponent(Component):
 
     def handle_incoming_rpc(self, method_name: str, args: tuple, sender_id: int):
         """Recebe o pacote da rede, verifica segurança e executa."""
-        if not hasattr(self, method_name):
-            print(f"Erro: RPC '{method_name}' não encontrado no objeto {self.net_id}")
+
+        method = None
+        config = None
+
+        # Verifica se é este componente é o Manipulador Estático
+        if self.identifier == STATIC_NET_ID:
+            # Procura na lista de RPCs estáticos registrados
+            if method_name in NetworkComponent._static_rpcs:
+                original_func = NetworkComponent._static_rpcs[method_name]
+                method = original_func
+                config = method._rpc_config
+            else:
+                print(f"Erro: RPC Estático '{method_name}' não registrado.")
+                return
+        else:
+            # Comportamento padrão de Instância
+            if not hasattr(self, method_name):
+                print(f"Erro: RPC '{method_name}' não encontrado no objeto {self.identifier}")
+                return
+            method = getattr(self, method_name)
+            if hasattr(method, "_rpc_config"):
+                config = method._rpc_config
+
+        if method is None or config is None:
             return
-
-        method = getattr(self, method_name)
-
-        if not hasattr(method, "_rpc_config"):
-            return
-
-        config = method._rpc_config
 
         # Validação de Dono (Segurança no Server)
         if NetworkManager.instance.is_server and config["require_owner"]:
             if sender_id != self.owner:
-                print(
-                    f"Negado: Cliente {sender_id} tentou chamar RPC protegido no objeto {self.net_id} (Dono: {self.owner})")
+                # Para estáticos, owner geralmente é 0 (Server), então clientes não podem chamar se require_owner=True
+                print(f"Negado: RPC {method_name} no objeto {self.identifier} exige permissão de dono.")
                 return
 
         # Execução Protegida
         try:
             self._is_executing_rpc = True
-            method(*args)
+            if self.identifier == STATIC_NET_ID:
+                method(*args)  # Chama sem self
+            else:
+                method(*args)  # Chama com self embutido (bound method)
         finally:
             self._is_executing_rpc = False
 
@@ -126,7 +200,7 @@ class NetworkComponent(Component):
 
     def _server_relay_rpc(self, method_name: str, args: tuple, send_to: SendTo, sender_id: int):
         """Lógica de retransmissão do servidor (Relay)."""
-        packet = (OP_RPC, self.net_id, method_name, args)
+        packet = (OP_RPC, self.identifier, method_name, args)
         srv = NetworkManager.instance.server
 
         if send_to == SendTo.ALL or send_to == SendTo.CLIENTS:
@@ -144,7 +218,7 @@ class NetworkVariable[T]:
     Variável sincronizada automaticamente pela rede.
     Pode ser usada independentemente de um NetworkComponent, contanto que tenha um ID único.
     """
-    _active_variables: dict[int, 'NetworkVariable'] = {}
+    _active_variables: WeakValueDictionary[int, 'NetworkVariable'] = WeakValueDictionary()
 
     def __init__(self, value: T, identifier: int, owner: int, require_owner: bool = True):
         self.var_id = identifier
@@ -179,11 +253,6 @@ class NetworkVariable[T]:
         else:
             # Cliente: Atualiza local e envia para o servidor (que vai validar e retransmitir)
             nm.client.send(packet)
-
-    def destroy(self):
-        """Remove do registro para evitar memory leaks."""
-        if self.var_id in NetworkVariable._active_variables:
-            del NetworkVariable._active_variables[self.var_id]
 
     def handle_network_update(self, sub_op: int, args: tuple, sender_id: int):
         """Processa pacotes OP_VAR recebidos pelo NetworkManager."""
@@ -287,6 +356,19 @@ class NetworkManager(Component):
     def _client_loop(self):
         while data := self.client.read():
             self.process_packet(data, 0)  # 0 é o ID do servidor
+            
+    def call_rpc_on_client(self, client_id: int, rpc_method: Callable, *args):
+        if not self.is_server:
+            return
+
+        target_id = STATIC_NET_ID
+        method_name = rpc_method.__name__
+
+        if hasattr(rpc_method, "__self__") and isinstance(rpc_method.__self__, NetworkComponent):
+            target_id = rpc_method.__self__.identifier
+
+        packet = (OP_RPC, target_id, method_name, args)
+        self.server.send(packet, client_id)
 
     @staticmethod
     def process_packet(data: tuple, sender_id: int):
