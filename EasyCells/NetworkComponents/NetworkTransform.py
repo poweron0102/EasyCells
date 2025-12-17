@@ -1,4 +1,4 @@
-from .NetworkComponent import NetworkComponent, SendTo, Rpc, NetworkManager
+from .NetworkComponent import NetworkComponent, SendTo, Rpc, NetworkManager, Protocol
 
 from struct import pack, unpack
 
@@ -23,6 +23,7 @@ class NetworkTransform(NetworkComponent):
         self.sync_angle = sync_angle
         self.sync_scale = sync_scale
 
+        self.cont = 0
         self.last_sent = b""
 
     def init(self):
@@ -38,12 +39,15 @@ class NetworkTransform(NetworkComponent):
                     self.sync_transform(data)
                 yield self.sync_frequency
 
-    @Rpc(send_to=SendTo.NOT_ME, require_owner=True)
+    @Rpc(send_to=SendTo.NOT_ME, require_owner=True, protocol=Protocol.UDP)
     def sync_transform(self, data: bytes):
         self.deserialize(data)
 
     def serialize(self) -> bytes:
         data: bytes = b""
+
+        self.cont += 1
+        data += pack("i", self.cont)
 
         if self.sync_x:
             data += pack("f", self.transform.x)
@@ -60,6 +64,14 @@ class NetworkTransform(NetworkComponent):
 
     def deserialize(self, data: bytes):
         index = 0
+
+        cont = unpack("i", data[index:index + 4])[0]
+        index += 4
+
+        if cont < self.cont:
+            return
+
+        self.cont = cont
 
         if self.sync_x:
             self.transform.x = unpack("f", data[index:index + 4])[0]
