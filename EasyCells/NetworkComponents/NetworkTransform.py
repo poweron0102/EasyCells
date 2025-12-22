@@ -34,7 +34,7 @@ class NetworkTransform(NetworkComponent):
         if self.owner == NetworkManager.instance.id:
             while True:
                 data = self.serialize()
-                if data != self.last_sent:
+                if data[4:] != self.last_sent[4:]:
                     self.last_sent = data
                     self.sync_transform(data)
                 yield self.sync_frequency
