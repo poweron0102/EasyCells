@@ -20,8 +20,8 @@ class Button(UiComponent):
             font_color: pg.Color = pg.Color("Black"),
             z: int = -101,
             hover_panel: pg.Surface = None,
-            on_click: Callable = None,
-            on_hover: Callable = None,
+            on_click: Callable = lambda: None,
+            on_hover: Callable = lambda: None,
             font: str = None,
             alignment: UiAlignment = UiAlignment.TOP_LEFT,
     ):
@@ -55,8 +55,8 @@ class Button(UiComponent):
                 )
             )
 
-        self.on_click = on_click if on_click is not None else lambda: None
-        self.on_hover = on_hover if on_hover is not None else lambda: None
+        self.on_click = on_click
+        self.on_hover = on_hover
 
         super().__init__(position, self.base_image, z, alignment)
 

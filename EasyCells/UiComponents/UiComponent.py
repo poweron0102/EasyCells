@@ -87,7 +87,7 @@ class UiComponent(Drawable):
         del self.position
         del self.z
 
-    def calculate_screen_offset(self) -> Vec2:
+    def calculate_screen_offset(self) -> Vec2[float]:
         if self.alignment == UiAlignment.TOP_LEFT:
             return Vec2(0, 0)
         elif self.alignment == UiAlignment.TOP_RIGHT:

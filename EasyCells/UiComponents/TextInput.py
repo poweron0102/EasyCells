@@ -86,7 +86,7 @@ class TextInput(UiComponent):
                 for event in Game.events:
                     if event.type == pg.KEYDOWN:
                         if event.key == pg.K_v:
-                            self.text += pg.scrap.get(pg.SCRAP_TEXT)[:-1].decode("utf-8")
+                            self.text += pg.scrap.get_text()
                             print(f"Ctrl + V: \"{self.text}\"")
                             if self.on_write.__code__.co_argcount == 1:
                                 self.on_write(self.text)
