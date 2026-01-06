@@ -2,7 +2,6 @@ from pygame_gui import UIManager, UI_BUTTON_PRESSED
 import pygame as pg
 
 from EasyCells import Vec2
-from EasyCells.GuiWrapper.GuiComponent import GuiComponent
 from EasyCells.UiComponents import UiComponent, UiAlignment
 
 
@@ -22,14 +21,8 @@ class GuiManager(UiComponent):
             f"Assets/{theme_path}" if theme_path is not None else None,
             enable_live_theme_updates,
         )
-        self.components = []
 
         super().__init__(position, image, z, alignment)
-
-    def add_component(self, component: "GuiComponent"):
-        """Registers a GuiComponent to this manager."""
-        self.components.append(component)
-        component.init(self)
 
     def loop(self):
         # We process events to handle interactions
@@ -43,15 +36,7 @@ class GuiManager(UiComponent):
 
             self.ui_manager.process_events(event)
 
-            # Dispatch pygame_gui specific events to our components
-            if event.type == pg.USEREVENT:
-                for component in self.components:
-                    component.handle_event(event)
-
         self.ui_manager.update(self.game.delta_time)
-
-        for component in self.components:
-            component.update()
 
         self.image.fill((0, 0, 0, 0))
         self.ui_manager.draw_ui(self.image)

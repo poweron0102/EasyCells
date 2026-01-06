@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting">
-      <change afterPath="$PROJECT_DIR$/Assets/themes/theme.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiButton.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiComponent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Levels/GuiTest.py" afterDir="false" />
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/GuiWarper/GuiComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiButton.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiComponent.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Levels/GuiTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/GuiTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,15 +182,7 @@
       <workItem from="1766437890230" duration="3832000" />
       <workItem from="1766593036586" duration="9326000" />
       <workItem from="1767275070612" duration="7000" />
-      <workItem from="1767712764979" duration="1768000" />
-    </task>
-    <task id="LOCAL-00007" summary="collision (working but really bad)">
-      <option name="closed" value="true" />
-      <created>1726884396281</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1726884396281</updated>
+      <workItem from="1767712764979" duration="5555000" />
     </task>
     <task id="LOCAL-00008" summary="a lot">
       <option name="closed" value="true" />
@@ -578,7 +568,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766593358976</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="working">
+      <option name="closed" value="true" />
+      <created>1767714579115</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1767714579116</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -599,7 +597,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="A lot" />
     <MESSAGE value="Tiro" />
     <MESSAGE value="NetworkVariable" />
     <MESSAGE value="NetworkVariable 2" />
@@ -624,7 +621,8 @@
     <MESSAGE value="Add support for TCP and UDP protocols in NetworkComponent and NetworkTransform" />
     <MESSAGE value="Fix NetworkTransform serialization check to ignore initial bytes" />
     <MESSAGE value="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting" />
+    <MESSAGE value="working" />
+    <option name="LAST_COMMIT_MESSAGE" value="working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -641,7 +639,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/EasyCells$Main.coverage" NAME="Main Coverage Results" MODIFIED="1767713480632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\natha\PycharmProjects\EasyCells" />
+    <SUITE FILE_PATH="coverage/EasyCells$Main.coverage" NAME="Main Coverage Results" MODIFIED="1767718129856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\natha\PycharmProjects\EasyCells" />
     <SUITE FILE_PATH="coverage/EasyCells$test.coverage" NAME="test Coverage Results" MODIFIED="1766611635586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="github-copilot-workspace">
