@@ -119,7 +119,7 @@ class Game:
 
         pg.display.flip()
         self.screen.fill((30, 30, 30))  # Cinza
-        self.clock.tick(1000) # Limitando a 30 FPS
+        self.clock.tick(1000)
         self.last_time = self.time
         self.time = pg.time.get_ticks()
         self.delta_time = (self.time - self.last_time) / 1000.0

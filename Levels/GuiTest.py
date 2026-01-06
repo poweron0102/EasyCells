@@ -161,7 +161,7 @@ def loop(game: Game):
     # Nota: O GuiManager já desenha e atualiza a UI, aqui pegamos apenas a lógica de "Gameplay/Menu"7
 
     global frame_c
-    for event in game.events:
+    for event in Game.events:
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             print(f"{frame_c}: Botão Pressionado: {event.ui_element.text}")
 

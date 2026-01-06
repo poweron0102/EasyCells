@@ -1,7 +1,7 @@
 from pygame_gui import UIManager, UI_BUTTON_PRESSED
 import pygame as pg
 
-from EasyCells import Vec2
+from EasyCells import Vec2, Game
 from EasyCells.UiComponents import UiComponent, UiAlignment
 
 
@@ -26,7 +26,11 @@ class GuiManager(UiComponent):
 
     def loop(self):
         # We process events to handle interactions
-        for event in self.game.events:
+        for event in Game.events:
+            # FIX: Previne processamento duplicado se o loop rodar múltiplas vezes no mesmo frame
+            if getattr(event, '_ui_processed', False):
+                continue
+
             # We must offset mouse events because the ui_manager thinks it's at (0,0)
             # but this component might be drawn elsewhere on screen.
             if event.type == pg.MOUSEMOTION:
@@ -35,6 +39,9 @@ class GuiManager(UiComponent):
                 event.pos = (event.pos[0] - self.transform.position.x, event.pos[1] - self.transform.position.y)
 
             self.ui_manager.process_events(event)
+
+            # Marca o evento como processado para evitar duplicidade na digitação
+            event._ui_processed = True
 
         self.ui_manager.update(self.game.delta_time)
 
