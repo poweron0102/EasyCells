@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Enhance NetworkManager with IP version handling and connection callbacks">
+    <list default="true" id="10b3eb48-7671-4867-86e3-d6cf5bfbc8f6" name="Changes" comment="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting">
+      <change afterPath="$PROJECT_DIR$/Assets/themes/theme.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiButton.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiComponent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Levels/GuiTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/NetworkComponents/NetworkComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserComponents/SpaceShip.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserComponents/SpaceShip.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyCells/GuiWarper/GuiComponent.py" beforeDir="false" afterPath="$PROJECT_DIR$/EasyCells/GuiWrapper/GuiManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +63,7 @@
     &quot;Python.Spaceship.executor&quot;: &quot;Run&quot;,
     &quot;Python.TextureHelper.executor&quot;: &quot;Run&quot;,
     &quot;Python.builder.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;Python.web.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -172,39 +177,14 @@
       <workItem from="1760878447747" duration="746000" />
       <workItem from="1765659270592" duration="2721000" />
       <workItem from="1765828734240" duration="13000000" />
-      <workItem from="1765894521767" duration="4078000" />
-    </task>
-    <task id="LOCAL-00003" summary="Add ray_cast 2d &#10;Add collision (Not working yet)&#10;Add debug camera functions">
-      <option name="closed" value="true" />
-      <created>1726611926204</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1726611926204</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Fix load new level problem.&#10;collision (Not working yet)">
-      <option name="closed" value="true" />
-      <created>1726715222697</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1726715222698</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Add camera `get_global_mouse_position` function&#10;collision (Not working yet)">
-      <option name="closed" value="true" />
-      <created>1726716005143</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1726716005143</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Fix low resolution with rotated images&#10;collision (Not working yet)">
-      <option name="closed" value="true" />
-      <created>1726716313605</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1726716313605</updated>
+      <workItem from="1765894521767" duration="4701000" />
+      <workItem from="1765985119044" duration="2388000" />
+      <workItem from="1765997692166" duration="626000" />
+      <workItem from="1766095766531" duration="1093000" />
+      <workItem from="1766437890230" duration="3832000" />
+      <workItem from="1766593036586" duration="9326000" />
+      <workItem from="1767275070612" duration="7000" />
+      <workItem from="1767712764979" duration="1768000" />
     </task>
     <task id="LOCAL-00007" summary="collision (working but really bad)">
       <option name="closed" value="true" />
@@ -566,7 +546,39 @@
       <option name="project" value="LOCAL" />
       <updated>1765839581661</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Network working 100%">
+      <option name="closed" value="true" />
+      <created>1765898695465</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1765898695466</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Add support for TCP and UDP protocols in NetworkComponent and NetworkTransform">
+      <option name="closed" value="true" />
+      <created>1765987501953</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1765987501954</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Fix NetworkTransform serialization check to ignore initial bytes">
+      <option name="closed" value="true" />
+      <created>1766438747203</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1766438747204</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting">
+      <option name="closed" value="true" />
+      <created>1766593358976</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1766593358976</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -587,10 +599,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="somethings" />
-    <MESSAGE value="Added more flexibility for NetworkManager and transforms with byts" />
-    <MESSAGE value="Added TileMapIsometricRenderer" />
-    <MESSAGE value="Added TileMapIsometricRenderer with mult obj. Added SpriteStacks" />
     <MESSAGE value="A lot" />
     <MESSAGE value="Tiro" />
     <MESSAGE value="NetworkVariable" />
@@ -612,7 +620,11 @@
     <MESSAGE value="Refactor Camera instance management and add Scheduler implementation" />
     <MESSAGE value="testando ainda" />
     <MESSAGE value="Enhance NetworkManager with IP version handling and connection callbacks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance NetworkManager with IP version handling and connection callbacks" />
+    <MESSAGE value="Network working 100%" />
+    <MESSAGE value="Add support for TCP and UDP protocols in NetworkComponent and NetworkTransform" />
+    <MESSAGE value="Fix NetworkTransform serialization check to ignore initial bytes" />
+    <MESSAGE value="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor Button and TextInput to use default lambda functions for callbacks; update UiComponent method signature for type hinting" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -629,7 +641,8 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/EasyCells$Main.coverage" NAME="Main Coverage Results" MODIFIED="1765898300658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\natha\PycharmProjects\EasyCells" />
+    <SUITE FILE_PATH="coverage/EasyCells$Main.coverage" NAME="Main Coverage Results" MODIFIED="1767713480632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\natha\PycharmProjects\EasyCells" />
+    <SUITE FILE_PATH="coverage/EasyCells$test.coverage" NAME="test Coverage Results" MODIFIED="1766611635586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

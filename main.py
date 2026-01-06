@@ -16,9 +16,10 @@ from EasyCells import Game
 
 import Levels.test_rigidbody
 import Levels.space_selector
+import Levels.GuiTest as gt
 
 if __name__ == '__main__':
-    GAME = Game(Levels.space_selector, "Spaceship", True, (1280, 720))
+    GAME = Game(gt, "Spaceship", True, (1280, 720))
     #GAME = Game(Levels.test_rigidbody, "Spaceship", True, (600, 400))
     GAME.run()
     # asyncio.run(GAME.run_async())
