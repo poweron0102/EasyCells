@@ -27,7 +27,7 @@ class GuiManager(UiComponent):
     def loop(self):
         # We process events to handle interactions
         for event in Game.events:
-            # FIX: Previne processamento duplicado se o loop rodar múltiplas vezes no mesmo frame
+            # FIX: Previne processamento duplicado
             if getattr(event, '_ui_processed', False):
                 continue
 
@@ -40,7 +40,7 @@ class GuiManager(UiComponent):
 
             self.ui_manager.process_events(event)
 
-            # Marca o evento como processado para evitar duplicidade na digitação
+            # Marca o evento como processado
             event._ui_processed = True
 
         self.ui_manager.update(self.game.delta_time)
