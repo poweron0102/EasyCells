@@ -3,8 +3,6 @@ import pygame as pg
 from EasyCells import Game, Vec2
 from EasyCells.Components import Item, Camera, Animation, Animator, Sprite, TileMap
 from EasyCells.Components.TileMap import TileMapRenderer
-# Assuming your physics components are in a folder like 'EasyCells/PhysicsComponents'
-# and that RectCollider and TileMapCollider are defined elsewhere.
 from EasyCells.PhysicsComponents import Rigidbody, Collider, RectCollider, TileMapCollider
 
 # --- Global variables for easy access in the loop ---
@@ -78,6 +76,15 @@ def init(game: Game):
     # Add a KINEMATIC Rigidbody to make the tilemap a static, unmovable object
     tile_map.AddComponent(Rigidbody(is_kinematic=True, use_gravity=False))
 
+    tile_map2 = game.CreateItem()
+    tile_map2.AddComponent(TileMap([
+        [5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3],
+    ]))
+    tile_map2.AddComponent(TileMapRenderer("RockSet.png", 32))
+    tile_map2.AddComponent(TileMapCollider({3, 4, 5}, 32, debug=True))
+    tile_map2.AddComponent(Rigidbody(is_kinematic=True, use_gravity=False))
+    tile_map2.transform.position = Vec2(0, 180)
+
     Rigidbody.start_physics()
 
 
@@ -141,6 +148,10 @@ def loop(game: Game):
         Camera.instance().draw_debug_line(player_pos, point, pg.Color("red"), 3)
         # Draw the surface normal in blue
         Camera.instance().draw_debug_line(point, point + normal * 25, pg.Color("blue"), 3)
+
+    # Drag box with mouse
+    if pg.mouse.get_pressed()[0] and caixa_rg.collider.is_point_inside(mouse_pos):
+        caixa_rg.add_impulse((mouse_pos - caixa_rg.transform.position) * 1000)
 
     # --- Camera Zoom ---
     if pg.key.get_pressed()[pg.K_z]:

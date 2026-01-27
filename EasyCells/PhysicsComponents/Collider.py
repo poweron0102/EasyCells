@@ -125,6 +125,17 @@ class Collider(Component):
                     return True, mtv
         return False, None
 
+    def is_point_inside(self, point: Vec2) -> bool:
+        """
+        Checks if a point is inside the collider.
+        """
+        point_array = np.array([point.x, point.y], dtype=np.float64)
+        for polygon in self.polygons:
+            poly_transformed = polygon.apply_transform(self.word_position)
+            if _is_point_in_polygon_numba(point_array, poly_transformed.vertices):
+                return True
+        return False
+
     def compile_numba_functions(self):
         """
         Compiles numba functions to improve performance.
@@ -139,6 +150,7 @@ class Collider(Component):
             np.array([[0, 0], [1, 1], [2, 2], [4, 4]], dtype=np.float64),
             10
         )
+        _is_point_in_polygon_numba(np.array([0, 0], dtype=np.float64), self.polygons[0].vertices)
 
         print("Collider functions compiled")
         Collider.compiled = True
@@ -284,6 +296,22 @@ def _ray_polygon_intersection_numba(origin: np.ndarray, direction: np.ndarray, v
 
     return closest_intersection, closest_normal, closest_distance
 
+
+@njit
+def _is_point_in_polygon_numba(point: np.ndarray, vertices: np.ndarray) -> bool:
+    x, y = point
+    n = len(vertices)
+    inside = False
+    j = n - 1
+    for i in range(n):
+        xi, yi = vertices[i]
+        xj, yj = vertices[j]
+
+        if (yi > y) != (yj > y):
+            if x < (xj - xi) * (y - yi) / (yj - yi) + xi:
+                inside = not inside
+        j = i
+    return inside
 
 @njit()
 def project_polygon(vertices, axis):
