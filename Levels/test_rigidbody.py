@@ -151,7 +151,12 @@ def loop(game: Game):
 
     # Drag box with mouse
     if pg.mouse.get_pressed()[0] and caixa_rg.collider.is_point_inside(mouse_pos):
-        caixa_rg.add_impulse((mouse_pos - caixa_rg.transform.position) * 1000)
+        # caixa_rg.add_impulse((mouse_pos - caixa_rg.transform.position) * 1000)
+        caixa_rg.is_kinematic = True
+        caixa_rg.transform.position = mouse_pos
+    else:
+        caixa_rg.is_kinematic = False
+
 
     # --- Camera Zoom ---
     if pg.key.get_pressed()[pg.K_z]:

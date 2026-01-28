@@ -129,18 +129,4 @@ class TextInput(UiComponent):
         if self.text == "":
             self.image = self.empty_panel
 
-    def is_mouse_over(self) -> bool:
-        if self.draw_on_screen_space:
-            position = self.calculate_screen_offset() + self.transform.position
-            return self.image.get_rect(
-                topleft=(
-                    position.x - self.image.get_width() // 2,
-                    position.y - self.image.get_height() // 2
-                )
-            ).collidepoint(pg.mouse.get_pos())
-        else:
-            mouse = Camera.get_global_mouse_position()
-            size = Vec2(*self.image.get_size()) * self.transform.scale
-            top_left = Transform.Global.position - Vec2(size.x // 2, size.y // 2)
 
-            return pg.Rect(top_left.to_tuple, size.to_tuple).collidepoint(mouse.to_tuple)
