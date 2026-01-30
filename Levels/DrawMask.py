@@ -1,5 +1,8 @@
+import math
+import os
+
 from EasyCells import Game, Vec2
-from EasyCells.Components import Camera
+from EasyCells.Components import Camera, SpriteStacks
 from EasyCells.UiComponents import UiAlignment, UiComponent
 import pygame as pg
 
@@ -13,10 +16,11 @@ import random
 
 
 board_surface: pg.Surface
+animal: SpriteStacks
 
 
 def init(game: Game):
-    global board_surface
+    global board_surface, animal
 
     game.CreateItem().AddComponent(Camera())
 
@@ -40,18 +44,30 @@ def init(game: Game):
         alignment=UiAlignment.CENTER
     ))
 
-    for mask in Mask.get_available_mask_files():
-        game.CreateItem().AddComponent(Mask(mask))
+    masks = Mask.get_available_mask_files()
+    for mask in masks:
+        game.CreateItem().AddComponent(Mask(mask, len(masks)))
 
     paints = game.CreateItem().AddComponent(Paints(Vec2(490, 255)))
 
+    animal_name = random.choice(os.listdir("Assets/Animals"))
+    img, size = SpriteStacks.voxel2img(f"Assets/Animals/{animal_name}")
+    size = (size[0] * 3, size[1] * 3)
+    img = pg.transform.scale(img, (img.get_size()[0] * 3, img.get_size()[1] * 3))
+    animal = game.CreateItem().AddComponent(SpriteStacks(img, size,1.0))
+    animal.transform.position = Vec2(575, -310)
+    animal.transform.z = -300
+
 def loop(game: Game):
+    mouse_x, mouse_y = pg.mouse.get_pos()
+
+    # Make the animal look at the mouse
+    animal.transform.angle = (Camera.get_global_mouse_position() - animal.transform.position).to_angle + (math.pi / 2)
 
     if Paints.color is None:
         Mask.static_loop()
 
     elif pg.mouse.get_pressed()[0]:
-        mouse_x, mouse_y = pg.mouse.get_pos()
         mouse_x -= 370
         mouse_y -= 90
 
@@ -61,11 +77,11 @@ def loop(game: Game):
             get_masks_data(Mask.Masks),
             Paints.color,
             20,
-            50
+            5000 * game.delta_time
         )
 
-        print("==========")
-        for l in Mask.Masks: print(l, l.transform.z)
+        # print("==========")
+        # for l in Mask.Masks: print(l, l.transform.z)
 
 
 
