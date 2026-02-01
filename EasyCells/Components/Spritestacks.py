@@ -21,14 +21,14 @@ class SpriteStacks(Drawable):
     def image_at(self, angle_deg: float) -> pg.Surface:
         return self.images[int(angle_deg // self.angle)]
 
-    def __init__(self, image_path: str | pg.Surface, size: tuple[int, int] = None, angle_deg: float = 15.0):
+    def __init__(self, image_path: str | pg.Surface, size: tuple[int, int] = None, angle_deg: float = 15.0, y_gap: int = 1):
         super().__init__()
         if isinstance(image_path, pg.Surface):
             image = image_path
         else:
             image = pg.image.load(f"Assets/{image_path}").convert_alpha()
 
-        self.images = SpriteStacks.spritestacks_from_img(image, size, angle_deg)
+        self.images = SpriteStacks.spritestacks_from_img(image, size, angle_deg, y_gap)
         self.angle = angle_deg
 
         self.word_position = Transform()
@@ -75,7 +75,7 @@ class SpriteStacks(Drawable):
         )
 
     @staticmethod
-    def spritestacks_from_img(image: pg.Surface, size: tuple[int, int], angle: float) -> list[pg.Surface]:
+    def spritestacks_from_img(image: pg.Surface, size: tuple[int, int], angle: float, y_gap: int = 3) -> list[pg.Surface]:
         layers_orig = [
             image.subsurface((x * size[0], 0, size[0], size[1]))
             for x in range(image.get_width() // size[0])
@@ -83,7 +83,7 @@ class SpriteStacks(Drawable):
 
         # Calculate the diagonal size for the rotation bounding box
         diagonal = math.ceil(math.sqrt(size[0] ** 2 + size[1] ** 2))
-        size = (diagonal, diagonal + len(layers_orig))
+        size = (diagonal, diagonal + (len(layers_orig) * y_gap))
 
         result: list[pg.Surface] = []
         a = 0.0
@@ -95,7 +95,7 @@ class SpriteStacks(Drawable):
                     rotated,
                     (
                         size[0] // 2 - rotated.get_width() // 2,
-                        (size[1] - rotated.get_height() // 2 - size[1] // 2) - index + ((len(layers_orig)) / 2)
+                        (size[1] - rotated.get_height() // 2 - size[1] // 2) - (index * y_gap) + ((len(layers_orig)) / 2)
                     )
                 )
             result.append(layer_r)
