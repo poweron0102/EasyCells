@@ -52,11 +52,12 @@ def init(game: Game):
 
     animal_name = random.choice(os.listdir("Assets/Animals"))
     img, size = SpriteStacks.voxel2img(f"Assets/Animals/{animal_name}")
-    size = (size[0] * 3, size[1] * 3)
-    img = pg.transform.scale(img, (img.get_size()[0] * 3, img.get_size()[1] * 3))
-    animal = game.CreateItem().AddComponent(SpriteStacks(img, size,1.0))
-    animal.transform.position = Vec2(575, -310)
+    size = (size[0] * 2, size[1] * 2)
+    img = pg.transform.scale(img, (img.get_size()[0] * 2, img.get_size()[1] * 2))
+    animal = game.CreateItem().AddComponent(SpriteStacks(img, size,1.0, 2))
+    animal.transform.position = Vec2(570, -300)
     animal.transform.z = -300
+    # animal.transform.scale = 3
 
 def loop(game: Game):
     mouse_x, mouse_y = pg.mouse.get_pos()

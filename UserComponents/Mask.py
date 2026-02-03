@@ -12,7 +12,7 @@ class Mask(UiComponent):
 
     def __init__(self, file_name: str, total: int = 3):
 
-        position = start_position + Vec2(len(Mask.Masks) * (610 // total), 0)
+        position = start_position + Vec2(len(Mask.Masks) * (510 // total), 0)
 
         super().__init__(
             position,
